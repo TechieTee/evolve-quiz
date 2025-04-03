@@ -1,5 +1,3 @@
-
-import React from 'react';
 import '../styles/quiz.css'; 
 import '../styles/home.css'; // Additional home page styles
 import BodyQuiz from '../components/bodyQuiz';

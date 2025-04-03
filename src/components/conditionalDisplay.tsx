@@ -1,7 +1,19 @@
 
-import React from 'react';
 
-const ConditionDisplay = ({ conditions, onSelect, selectedCondition }) => {
+
+interface Condition {
+  id: string;
+  title: string;
+  link: string;
+}
+
+interface ConditionDisplayProps {
+  conditions: Condition[];
+  onSelect: (condition: Condition) => void;
+  selectedCondition?: Condition;
+}
+
+const ConditionDisplay: React.FC<ConditionDisplayProps> = ({ conditions, onSelect, selectedCondition }) => {
   return (
     <div className="condition-display">
       <h2>Select a Condition</h2>

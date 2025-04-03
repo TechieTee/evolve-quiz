@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import AreaSelection from './areaSelection';
 import ServiceRecommendations from './serviceRecommendations';
 import ConditionDisplay from './conditionalDisplay';
@@ -14,14 +14,14 @@ interface Area {
 }
 
 interface Condition {
-  id: number;
+  id: string;
   title: string;
   link: string;
   recommended_services: {
-    id: number;
+    id: string;
     title: string;
     link: string;
-    taxonomy: { id: number; name: string }[];
+    taxonomy: { id: string; name: string }[];
   }[];
 }
 
@@ -35,7 +35,7 @@ const BodyQuiz = () => {
   const [areasResponse, setAreasResponse] = useState<AreasResponse>([]);
   const [selectedArea, setSelectedArea] = useState<Area | null>(null);
   const [conditions, setConditions] = useState<Condition[]>([]);
-  const [selectedCondition, setSelectedCondition] = useState<Condition | null>(null);
+  const [selectedCondition, setSelectedCondition] = useState<Condition | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showFrontView, setShowFrontView] = useState(true);
@@ -86,6 +86,7 @@ const BodyQuiz = () => {
 
         const data: Condition[] = await response.json();
         setConditions(data);
+     
         data.forEach(condition => {
           condition.recommended_services.forEach(service => {
             service.taxonomy.forEach(taxonomy => {
@@ -93,10 +94,10 @@ const BodyQuiz = () => {
             });
           });
         });
-        console.log(data, 'Conditions 2');
-        console.log(data, 'Conditions 3');
-        console.log(data, 'Conditions 4');
-        console.log(data, 'Conditions 5');
+        // console.log(data, 'Conditions 2');
+        // console.log(data, 'Conditions 3');
+        // console.log(data, 'Conditions 4');
+        // console.log(data, 'Conditions 5');
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load conditions');
       }
@@ -147,7 +148,7 @@ const BodyQuiz = () => {
       {selectedArea && (
         <ConditionDisplay
           conditions={conditions}
-          onSelect={setSelectedCondition}
+          onSelect={(condition: Condition) => setSelectedCondition(condition)}
           selectedCondition={selectedCondition}
         />
       )}
