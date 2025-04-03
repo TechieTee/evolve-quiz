@@ -1,0 +1,12 @@
+# Dependency directories
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# Logs
+npm-debug.log*
+
+# macOS
+.DS_Store
