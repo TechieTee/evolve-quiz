@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import AreaSelection from './areaSelection';
 import ServiceRecommendations from './serviceRecommendations';
 import ConditionDisplay from './conditionalDisplay';
-import './BodyQuiz.css';
+import './bodyQuiz.css';
 import { Area, AreasResponse, Condition } from '../types/types';
 
 const BodyQuiz = () => {
