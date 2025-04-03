@@ -1,6 +1,6 @@
 # React + TypeScript + Vite
 
-React Setup
+React App Setup
 Vite for speed
 TypeScript for type safety
 Zustand & React Query for state management
