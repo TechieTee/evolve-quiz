@@ -27,9 +27,9 @@ const ConditionDisplay: React.FC<ConditionDisplayProps> = ({
             onClick={() => onSelect(condition)}
           >
             <h3>{condition.title}</h3>
-            <a href={condition.link} target="_blank" rel="noopener noreferrer">
+            {/* <a href={condition.link} target="_blank" rel="noopener noreferrer">
               Learn more
-            </a>
+            </a> */}
           </div>
         ))}
       </div>
