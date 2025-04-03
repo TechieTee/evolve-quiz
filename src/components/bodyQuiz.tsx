@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import AreaSelection from './areaSelection';
-import ServiceRecommendations from './serviceRecommendations';
+// import ServiceRecommendations from './serviceRecommendations';
 import ConditionDisplay from './conditionalDisplay';
 import './bodyQuiz.css';
 import { Area, AreasResponse, Condition } from '../types/types';
