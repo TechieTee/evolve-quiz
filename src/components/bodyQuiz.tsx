@@ -2,108 +2,63 @@ import { useState, useEffect } from 'react';
 import AreaSelection from './areaSelection';
 import ServiceRecommendations from './serviceRecommendations';
 import ConditionDisplay from './conditionalDisplay';
-import './BodyQuiz.css'; // Create this CSS file for styling
-
-interface Area {
-  id: number;
-  name: string;
-  slug: string;
-  description: string;
-  count: number;
-  children: Area[];
-}
-
-interface Condition {
-  id: string;
-  title: string;
-  link: string;
-  recommended_services: {
-    id: string;
-    title: string;
-    link: string;
-    taxonomy: { id: string; name: string }[];
-  }[];
-}
-
-interface ApiError {
-  message: string;
-}
-
-type AreasResponse = Area[] | ApiError;
+import './BodyQuiz.css';
+import { Area, AreasResponse, Condition } from '../types/types';
 
 const BodyQuiz = () => {
   const [areasResponse, setAreasResponse] = useState<AreasResponse>([]);
   const [selectedArea, setSelectedArea] = useState<Area | null>(null);
   const [conditions, setConditions] = useState<Condition[]>([]);
-  const [selectedCondition, setSelectedCondition] = useState<Condition | undefined>(undefined);
+  const [selectedCondition, setSelectedCondition] = useState<Condition | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showFrontView, setShowFrontView] = useState(true);
 
-  // Fetch areas on component mount
-  useEffect(() => {
-    const fetchAreas = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch('http://evolve.local/wp-json/wp-evolve-body-quiz/v1/areas');
-        
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Failed to fetch areas');
-        }
-
-        const data: Area[] = await response.json();
-        setAreasResponse(data);
-        
-        // Determine initial view based on first area's count
-        if (data.length > 0) {
-          setShowFrontView(data[0].count > 0);
-        }
-      } catch (err) {
-        setAreasResponse({ message: err instanceof Error ? err.message : 'Unknown error' });
-        setError(err instanceof Error ? err.message : 'Unknown error');
-      } finally {
-        setIsLoading(false);
+  const fetchAreas = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('http://evolve.local/wp-json/wp-evolve-body-quiz/v1/areas');
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch areas');
       }
-    };
 
+      const data = await response.json() as Area[];
+      setAreasResponse(data);
+      setShowFrontView(data[0]?.count > 0);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      setAreasResponse({ message: errorMessage });
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchConditions = async (areaId: number) => {
+    try {
+      const response = await fetch(
+        `http://evolve.local/wp-json/wp-evolve-body-quiz/v1/conditions?area=${areaId}`
+      );
+      
+      if (!response.ok) throw new Error('Failed to fetch conditions');
+      
+      const data = await response.json() as Condition[];
+      setConditions(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load conditions');
+    }
+  };
+
+  useEffect(() => {
     fetchAreas();
   }, []);
 
-  // Fetch conditions when area is selected
   useEffect(() => {
-    if (!selectedArea) return;
-
-    const fetchConditions = async () => {
-      try {
-        const response = await fetch(
-          `http://evolve.local/wp-json/wp-evolve-body-quiz/v1/conditions?area=${selectedArea.id}`
-        );
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch conditions');
-        }
-
-        const data: Condition[] = await response.json();
-        setConditions(data);
-     
-        data.forEach(condition => {
-          condition.recommended_services.forEach(service => {
-            service.taxonomy.forEach(taxonomy => {
-              console.log(taxonomy.name, 'Conditions 1');
-            });
-          });
-        });
-        // console.log(data, 'Conditions 2');
-        // console.log(data, 'Conditions 3');
-        // console.log(data, 'Conditions 4');
-        // console.log(data, 'Conditions 5');
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load conditions');
-      }
-    };
-
-    fetchConditions();
+    if (selectedArea) {
+      fetchConditions(selectedArea.id);
+    }
   }, [selectedArea]);
 
   const handleAreaSelect = (area: Area) => {
@@ -116,13 +71,8 @@ const BodyQuiz = () => {
     setShowFrontView(!showFrontView);
   };
 
-  if (isLoading) {
-    return <div className="loading-spinner">Loading quiz data...</div>;
-  }
-
-  if (error) {
-    return <div className="error-message">Error: {error}</div>;
-  }
+  if (isLoading) return <div className="loading-spinner">Loading quiz data...</div>;
+  if (error) return <div className="error-message">Error: {error}</div>;
 
   return (
     <div className="evolve-quiz-container">
@@ -148,7 +98,7 @@ const BodyQuiz = () => {
       {selectedArea && (
         <ConditionDisplay
           conditions={conditions}
-          onSelect={(condition: Condition) => setSelectedCondition(condition)}
+          onSelect={setSelectedCondition}
           selectedCondition={selectedCondition}
         />
       )}

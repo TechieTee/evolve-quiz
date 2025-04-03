@@ -1,19 +1,21 @@
+import { Condition } from "../types/types";
 
-
-
-interface Condition {
-  id: string;
-  title: string;
-  link: string;
-}
 
 interface ConditionDisplayProps {
   conditions: Condition[];
   onSelect: (condition: Condition) => void;
-  selectedCondition?: Condition;
+  selectedCondition: Condition | null;
 }
 
-const ConditionDisplay: React.FC<ConditionDisplayProps> = ({ conditions, onSelect, selectedCondition }) => {
+const ConditionDisplay: React.FC<ConditionDisplayProps> = ({ 
+  conditions, 
+  onSelect, 
+  selectedCondition 
+}) => {
+  if (conditions.length === 0) {
+    return <div className="condition-display">No conditions available</div>;
+  }
+
   return (
     <div className="condition-display">
       <h2>Select a Condition</h2>
