@@ -1,5 +1,5 @@
 import React from 'react';
-import './AreaSelection.css';
+import './areaSelection.css';
 
 interface Area {
   id: number;
