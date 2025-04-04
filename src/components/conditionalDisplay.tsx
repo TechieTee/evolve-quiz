@@ -1,4 +1,5 @@
 import { Condition } from "../types";
+import "./conditionalDisplay.css";
 
 interface ConditionDisplayProps {
   conditions: Condition[];
@@ -12,23 +13,32 @@ const ConditionDisplay: React.FC<ConditionDisplayProps> = ({
   selectedConditions,
 }) => {
   if (conditions.length === 0) {
-    return <div className="condition-display">No conditions available</div>;
+    return (
+      <div className="condition-empty-state">
+        No conditions found for this area
+      </div>
+    );
   }
 
   return (
-    <div className="condition-display">
-      <div className="condition-list">
+    <div className="condition-container">
+      <div className="condition-grid">
         {conditions.map((condition) => (
           <div
             key={condition.id}
-            className={`condition-card ${
+            className={`condition-item ${
               selectedConditions.some((c) => c.id === condition.id)
-                ? "active"
+                ? "selected"
                 : ""
             }`}
             onClick={() => onSelect(condition)}
           >
-            <h3>{condition.title}</h3>
+            <div className="condition-content">
+              <h3 className="condition-title">{condition.title}</h3>
+              {/* {selectedConditions.some((c) => c.id === condition.id) && (
+                <div className="selected-indicator">✓</div>
+              )} */}
+            </div>
           </div>
         ))}
       </div>

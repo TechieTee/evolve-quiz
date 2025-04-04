@@ -47,29 +47,37 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
 
   if (isLoading) {
     return (
-      <div className="area-selection loading">
-        <h2>Select a Body Area</h2>
-        <div className="loading-spinner">Loading areas...</div>
+      <div className="area-selection-loading">
+        <div className="loading-animation"></div>
+        <p>Loading body areas...</p>
       </div>
     );
   }
 
   if (!Array.isArray(areasResponse) && areasResponse?.message) {
     return (
-      <div className="area-selection error">
-        <h2>Select a Body Area</h2>
-        <div className="error-message">{areasResponse.message}</div>
+      <div className="area-selection-error">
+        <div className="error-icon">!</div>
+        <p className="error-message">{areasResponse.message}</p>
+        <button
+          className="retry-button"
+          onClick={() => window.location.reload()}
+        >
+          Try Again
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="area-selection">
-      <h2>Select a Condition ({showFrontView ? "Front View" : "Back View"})</h2>
+    <div className="area-selection-container">
+      <h2 className="view-title">
+        {showFrontView ? "Front of Body" : "Back of Body"}
+      </h2>
 
-      {childAreas.length > 0 ? (
-        <div className="area-grid">
-          {childAreas.map((area) => (
+      <div className="area-selection-grid">
+        {childAreas.length > 0 ? (
+          childAreas.map((area) => (
             <button
               key={area.id}
               onClick={() => onSelect(area)}
@@ -77,20 +85,16 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
                 selectedArea?.id === area.id ? "active" : ""
               }`}
             >
-              {area.name}
-              <span className="count-badge">{area.count}</span>
+              <span className="area-name">{area.name}</span>
+              <span className="condition-count">{area.count} conditions</span>
             </button>
-          ))}
-        </div>
-      ) : (
-        <div className="empty-state">
-          {showFrontView ? (
-            <p>No front areas available</p>
-          ) : (
-            <p>No back areas available</p>
-          )}
-        </div>
-      )}
+          ))
+        ) : (
+          <div className="empty-state">
+            <p>No {showFrontView ? "front" : "back"} areas available</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
