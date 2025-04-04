@@ -25,6 +25,13 @@
   opacity: 0.9;
 }
 
+.subtitle-text {
+  font-size: 1.2rem;
+  padding: 20px 20%;
+  opacity: 0.9;
+}
+
+
 /* Main Content Styles */
 .main-content {
   flex: 1;

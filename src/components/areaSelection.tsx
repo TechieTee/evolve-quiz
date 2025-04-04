@@ -1,5 +1,5 @@
-import React from 'react';
-import './areaSelection.css';
+import React from "react";
+import "./areaSelection.css";
 
 interface Area {
   id: number;
@@ -43,7 +43,7 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
     if (!Array.isArray(areas)) return [];
     return areas.reduce<Area[]>((acc, area) => {
       if (!area) return acc;
-      acc.push({...area});
+      acc.push({ ...area });
       if (area.children?.length) acc.push(...flattenAreas(area.children));
       return acc;
     }, []);
@@ -53,15 +53,15 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
   const allAreas = React.useMemo(() => flattenAreas(areasArray), [areasArray]);
 
   // Determine if we have any back view areas (count === 0)
-  const hasBackViewAreas = allAreas.some(area => area.count === 0);
+  const hasBackViewAreas = allAreas.some((area) => area.count === 0);
 
   // Filter areas based on view
   const filteredAreas = React.useMemo(() => {
     if (showFrontView) {
-      return allAreas.filter(area => area.count === 1);
+      return allAreas.filter((area) => area.count === 1);
     } else {
       // For back view, return either count=0 areas or empty array if none exist
-      const backAreas = allAreas.filter(area => area.count === 0);
+      const backAreas = allAreas.filter((area) => area.count === 0);
       return backAreas.length > 0 ? backAreas : [];
     }
   }, [allAreas, showFrontView]);
@@ -88,16 +88,17 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
 
   return (
     <div className="area-selection">
-      <h2>Select a Body Area ({showFrontView ? 'Front' : 'Back'} View)</h2>
-      
-      {/* Show appropriate areas based on view */}
+      <h2>Select a Condition ({showFrontView ? "Front View" : "Back View"})</h2>
+
       {filteredAreas.length > 0 ? (
         <div className="area-grid">
-          {filteredAreas.map(area => (
+          {filteredAreas.map((area) => (
             <button
               key={area.id}
               onClick={() => onSelect(area)}
-              className={`area-button ${selectedArea?.id === area.id ? 'active' : ''}`}
+              className={`area-button ${
+                selectedArea?.id === area.id ? "active" : ""
+              }`}
             >
               {area.name}
               <span className="count-badge">{area.id}</span>

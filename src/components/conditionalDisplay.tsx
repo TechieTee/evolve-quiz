@@ -1,5 +1,4 @@
-import { Condition } from "../types/types";
-
+import { Condition } from "../types";
 
 interface ConditionDisplayProps {
   conditions: Condition[];
@@ -7,10 +6,10 @@ interface ConditionDisplayProps {
   selectedCondition: Condition | null;
 }
 
-const ConditionDisplay: React.FC<ConditionDisplayProps> = ({ 
-  conditions, 
-  onSelect, 
-  selectedCondition 
+const ConditionDisplay: React.FC<ConditionDisplayProps> = ({
+  conditions,
+  onSelect,
+  selectedCondition,
 }) => {
   if (conditions.length === 0) {
     return <div className="condition-display">No conditions available</div>;
@@ -18,12 +17,13 @@ const ConditionDisplay: React.FC<ConditionDisplayProps> = ({
 
   return (
     <div className="condition-display">
-      <h2>Select a Condition</h2>
       <div className="condition-list">
         {conditions.map((condition) => (
-          <div 
+          <div
             key={condition.id}
-            className={`condition-card ${selectedCondition?.id === condition.id ? 'active' : ''}`}
+            className={`condition-card ${
+              selectedCondition?.id === condition.id ? "active" : ""
+            }`}
             onClick={() => onSelect(condition)}
           >
             <h3>{condition.title}</h3>

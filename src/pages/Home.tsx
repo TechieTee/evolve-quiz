@@ -1,24 +1,31 @@
-import '../styles/quiz.css'; 
-import '../styles/home.css'; // Additional home page styles
-import BodyQuiz from '../components/bodyQuiz';
+import "../styles/quiz.css";
+import "../styles/home.css"; // Additional home page styles
+import BodyQuiz from "../components/bodyQuiz";
 
 const HomePage = () => {
   return (
     <div className="home-page">
-
       {/* Main Content Area */}
       <main className="main-content">
         {/* Introduction Section */}
         <section className="intro-section">
-        <div className="header-content">
-          <h1>Evolve Med Spa Body Treatment Quiz</h1>
-          <p className="subtitle">
-            Discover personalized treatment recommendations based on your specific concerns
-          </p>
-        </div>
+          <div className="header-content">
+            <p className="subtitle">Take out the guess work on your goals</p>
+            <h1>TAKE OUR AESTHETICS QUIZ</h1>
+          </div>
           <div className="container">
-            <h2>How It Works</h2>
-            <div className="steps-container">
+            <p className="subtitle-text">
+              Everyone has a dream of what their best self looks like. Take our
+              aesthetic quiz to find out what our expert providers would suggest
+              to meet you goals. This information will help yourself as well as
+              our team better understand your goals and create a treatment plan
+              specifically for you!
+            </p>
+
+            <div className="view-toggle-container">
+              <button className="view-toggle">Take The Quiz</button>
+            </div>
+            {/* <div className="steps-container">
               <div className="step">
                 <div className="step-icon">1</div>
                 <h3>Body Area Selection</h3>
@@ -34,30 +41,25 @@ const HomePage = () => {
                 <h3>Get Recommendations</h3>
                 <p>Receive personalized service recommendations</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </section>
 
         {/* Quiz Container */}
         <section className="quiz-container-section">
-        
-        
-            <div className="quiz-wrapper">
-              <BodyQuiz />
-            </div>
-    
+          <div className="quiz-wrapper">
+            <BodyQuiz />
+          </div>
         </section>
-
- 
 
         {/* Additional Information Section */}
         <section className="info-section">
           <div className="container">
             <h2>About Our Treatments</h2>
             <p>
-              Our clinic specializes in advanced aesthetic treatments tailored to your unique needs.
-              The recommendations provided by this quiz are based on our most popular and effective
-              treatment options.
+              Our clinic specializes in advanced aesthetic treatments tailored
+              to your unique needs. The recommendations provided by this quiz
+              are based on our most popular and effective treatment options.
             </p>
             <div className="features-grid">
               <div className="feature">
@@ -80,7 +82,9 @@ const HomePage = () => {
       {/* Footer */}
       <footer className="quiz-footer">
         <div className="container">
-          <p>© {new Date().getFullYear()} Evolve Med Spa. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} Evolve Med Spa. All rights reserved.
+          </p>
           <div className="footer-links">
             <a href="/privacy">Privacy Policy</a>
             <a href="/terms">Terms of Service</a>
