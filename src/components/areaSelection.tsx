@@ -31,42 +31,20 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
   isLoading = false,
   showFrontView,
 }) => {
-  // Helper functions
-  const getAreasArray = (response: AreasResponse): Area[] => {
+  const getChildAreas = (): Area[] => {
     if (isLoading) return [];
-    if (!response) return [];
-    if (Array.isArray(response)) return response;
-    return [];
+    if (!Array.isArray(areasResponse)) return [];
+    if (areasResponse.length < 2) return [];
+
+    const parentArea = showFrontView ? areasResponse[1] : areasResponse[0];
+    return parentArea?.children || [];
   };
 
-  const flattenAreas = (areas: Area[]): Area[] => {
-    if (!Array.isArray(areas)) return [];
-    return areas.reduce<Area[]>((acc, area) => {
-      if (!area) return acc;
-      acc.push({ ...area });
-      if (area.children?.length) acc.push(...flattenAreas(area.children));
-      return acc;
-    }, []);
-  };
+  const childAreas = React.useMemo(
+    () => getChildAreas(),
+    [areasResponse, showFrontView, isLoading]
+  );
 
-  const areasArray = getAreasArray(areasResponse);
-  const allAreas = React.useMemo(() => flattenAreas(areasArray), [areasArray]);
-
-  // Determine if we have any back view areas (count === 0)
-  const hasBackViewAreas = allAreas.some((area) => area.count === 0);
-
-  // Filter areas based on view
-  const filteredAreas = React.useMemo(() => {
-    if (showFrontView) {
-      return allAreas.filter((area) => area.count === 1);
-    } else {
-      // For back view, return either count=0 areas or empty array if none exist
-      const backAreas = allAreas.filter((area) => area.count === 0);
-      return backAreas.length > 0 ? backAreas : [];
-    }
-  }, [allAreas, showFrontView]);
-
-  // Loading state
   if (isLoading) {
     return (
       <div className="area-selection loading">
@@ -76,7 +54,6 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
     );
   }
 
-  // Error state
   if (!Array.isArray(areasResponse) && areasResponse?.message) {
     return (
       <div className="area-selection error">
@@ -90,9 +67,9 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
     <div className="area-selection">
       <h2>Select a Condition ({showFrontView ? "Front View" : "Back View"})</h2>
 
-      {filteredAreas.length > 0 ? (
+      {childAreas.length > 0 ? (
         <div className="area-grid">
-          {filteredAreas.map((area) => (
+          {childAreas.map((area) => (
             <button
               key={area.id}
               onClick={() => onSelect(area)}
@@ -101,7 +78,7 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
               }`}
             >
               {area.name}
-              <span className="count-badge">{area.id}</span>
+              <span className="count-badge">{area.count}</span>
             </button>
           ))}
         </div>
@@ -109,10 +86,8 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
         <div className="empty-state">
           {showFrontView ? (
             <p>No front areas available</p>
-          ) : hasBackViewAreas ? (
-            <p>No back areas available</p>
           ) : (
-            <p>Only front view areas available</p>
+            <p>No back areas available</p>
           )}
         </div>
       )}

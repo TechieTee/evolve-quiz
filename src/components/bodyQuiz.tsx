@@ -8,9 +8,7 @@ const BodyQuiz = () => {
   const [areasResponse, setAreasResponse] = useState<AreasResponse>([]);
   const [selectedArea, setSelectedArea] = useState<Area | null>(null);
   const [conditions, setConditions] = useState<Condition[]>([]);
-  const [selectedCondition, setSelectedCondition] = useState<Condition | null>(
-    null
-  );
+  const [selectedConditions, setSelectedConditions] = useState<Condition[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showFrontView, setShowFrontView] = useState(true);
@@ -23,7 +21,7 @@ const BodyQuiz = () => {
     email: "",
     phone: "",
     area: "",
-    condition: "",
+    conditions: "",
   });
 
   const fetchAreas = async () => {
@@ -47,7 +45,7 @@ const BodyQuiz = () => {
 
       const data = (await response.json()) as Area[];
       setAreasResponse(data);
-      setShowFrontView(data[0]?.count > 0);
+      setShowFrontView(data[1]?.children?.length > 0);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
       setAreasResponse({ message: errorMessage });
@@ -78,6 +76,7 @@ const BodyQuiz = () => {
 
       const data = (await response.json()) as Condition[];
       setConditions(data);
+      setSelectedConditions([]);
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to load conditions";
@@ -99,14 +98,15 @@ const BodyQuiz = () => {
 
   const handleAreaSelect = (area: Area) => {
     setSelectedArea(area);
-    setSelectedCondition(null);
-    setShowFrontView(area.count > 0);
+    setSelectedConditions([]);
     setShowConsultationSummary(false);
     setSubmittedData(null);
   };
 
   const toggleView = () => {
     setShowFrontView(!showFrontView);
+    setSelectedArea(null);
+    setSelectedConditions([]);
   };
 
   const handleAddToConsultation = () => {
@@ -118,16 +118,15 @@ const BodyQuiz = () => {
     setSubmittedData(null);
   };
 
-  // Update form data when area or condition changes
   useEffect(() => {
-    if (selectedArea && selectedCondition) {
+    if (selectedArea && selectedConditions.length > 0) {
       setFormData((prev) => ({
         ...prev,
         area: selectedArea.name,
-        condition: selectedCondition.title,
+        conditions: selectedConditions.map((c) => c.title).join(", "),
       }));
     }
-  }, [selectedArea, selectedCondition]);
+  }, [selectedArea, selectedConditions]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -153,23 +152,8 @@ const BodyQuiz = () => {
   if (error) return <div className="error-message">Error: {error}</div>;
 
   return (
-    <div
-      className="evolve-quiz-container"
-      style={{
-        display: "flex",
-        alignItems: "flex-start",
-        gap: "2rem",
-        width: "100%",
-      }}
-    >
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          gap: "2rem",
-        }}
-      >
+    <div className="evolve-quiz-container">
+      <div className="quiz-content">
         {!submittedData && (
           <>
             <div className="view-toggle-container">
@@ -191,17 +175,18 @@ const BodyQuiz = () => {
 
             {showConsultationSummary &&
               selectedArea &&
-              selectedCondition &&
-              !showForm &&
-              !submittedData && (
+              selectedConditions.length > 0 && (
                 <div className="consultation-summary">
                   <h3>Consultation Summary</h3>
                   <p>
                     <strong>Body Part:</strong> {selectedArea.name}
                   </p>
-                  <p>
-                    <strong>Condition:</strong> {selectedCondition.title}
-                  </p>
+                  <h4>Selected Conditions:</h4>
+                  <ul>
+                    {selectedConditions.map((condition) => (
+                      <li key={condition.id}>{condition.title}</li>
+                    ))}
+                  </ul>
                   <button
                     onClick={handleOpenForm}
                     className="consultation-form-button"
@@ -216,7 +201,8 @@ const BodyQuiz = () => {
                 <div className="form-container">
                   <h3>Your Consultation Form</h3>
                   <p>
-                    For {selectedArea?.name} - {selectedCondition?.title}
+                    For {selectedArea?.name} - {selectedConditions.length}{" "}
+                    condition(s)
                   </p>
 
                   <form onSubmit={handleSubmit}>
@@ -262,8 +248,8 @@ const BodyQuiz = () => {
                     <input type="hidden" name="area" value={formData.area} />
                     <input
                       type="hidden"
-                      name="condition"
-                      value={formData.condition}
+                      name="conditions"
+                      value={formData.conditions}
                     />
 
                     <div className="form-actions">
@@ -316,8 +302,8 @@ const BodyQuiz = () => {
                 <span className="data-value">{submittedData.area}</span>
               </div>
               <div className="data-row">
-                <span className="data-label">Condition:</span>
-                <span className="data-value">{submittedData.condition}</span>
+                <span className="data-label">Conditions:</span>
+                <span className="data-value">{submittedData.conditions}</span>
               </div>
             </div>
             <div className="card-footer">
@@ -326,7 +312,7 @@ const BodyQuiz = () => {
                 onClick={() => {
                   setSubmittedData(null);
                   setSelectedArea(null);
-                  setSelectedCondition(null);
+                  setSelectedConditions([]);
                   setShowConsultationSummary(false);
                   setShowForm(false);
                 }}
@@ -337,38 +323,32 @@ const BodyQuiz = () => {
           </div>
         )}
       </div>
-      <div
-        style={{
-          margin: 0,
-          width: "30%",
-          textAlign: "left",
-          alignItems: "flex-start",
-        }}
-      >
-        <h1 className="quiz-card-header-text">Your Selection (0)</h1>
+
+      <div className="selection-panel">
+        <h1 className="quiz-card-header-text">
+          Your Selection ({selectedConditions.length})
+        </h1>
         {selectedArea && (
           <ConditionDisplay
             conditions={conditions}
-            onSelect={setSelectedCondition}
-            selectedCondition={selectedCondition}
+            onSelect={(condition) => {
+              setSelectedConditions((prev) => {
+                const exists = prev.find((c) => c.id === condition.id);
+                return exists
+                  ? prev.filter((c) => c.id !== condition.id)
+                  : [...prev, condition];
+              });
+            }}
+            selectedConditions={selectedConditions}
           />
         )}
-
-        {selectedCondition &&
+        {selectedConditions.length > 0 &&
           !showConsultationSummary &&
           !showForm &&
           !submittedData && (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <button onClick={handleAddToConsultation} className="area-button">
-                Add to my consultation
-              </button>
-            </div>
+            <button onClick={handleAddToConsultation} className="area-button">
+              Add to my consultation
+            </button>
           )}
       </div>
     </div>

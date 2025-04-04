@@ -3,13 +3,13 @@ import { Condition } from "../types";
 interface ConditionDisplayProps {
   conditions: Condition[];
   onSelect: (condition: Condition) => void;
-  selectedCondition: Condition | null;
+  selectedConditions: Condition[];
 }
 
 const ConditionDisplay: React.FC<ConditionDisplayProps> = ({
   conditions,
   onSelect,
-  selectedCondition,
+  selectedConditions,
 }) => {
   if (conditions.length === 0) {
     return <div className="condition-display">No conditions available</div>;
@@ -22,14 +22,13 @@ const ConditionDisplay: React.FC<ConditionDisplayProps> = ({
           <div
             key={condition.id}
             className={`condition-card ${
-              selectedCondition?.id === condition.id ? "active" : ""
+              selectedConditions.some((c) => c.id === condition.id)
+                ? "active"
+                : ""
             }`}
             onClick={() => onSelect(condition)}
           >
             <h3>{condition.title}</h3>
-            {/* <a href={condition.link} target="_blank" rel="noopener noreferrer">
-              Learn more
-            </a> */}
           </div>
         ))}
       </div>
