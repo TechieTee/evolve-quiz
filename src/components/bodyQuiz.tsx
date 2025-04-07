@@ -147,13 +147,13 @@ const BodyQuiz = () => {
     setShowConsultationSummary(false);
   };
 
-  if (isLoading)
-    return <div className="loading-spinner">Loading quiz data...</div>;
-  if (error) return <div className="error-message">Error: {error}</div>;
+  // if (isLoading)
+  //   return <div className="loading-spinner">Loading quiz data...</div>;
+  // if (error) return <div className="error-message">Error: {error}</div>;
 
   return (
-    <div className="evolve-quiz-container">
-      <div className="quiz-content">
+    <div className="quiz-main-grid">
+      <div className="quiz-content-area">
         {!submittedData && (
           <>
             <div className="view-toggle-container">
@@ -177,21 +177,25 @@ const BodyQuiz = () => {
               selectedArea &&
               selectedConditions.length > 0 && (
                 <div className="consultation-summary">
-                  <h3>Consultation Summary</h3>
+                  <h3> Your Selection ({selectedConditions.length})</h3>
+
                   <p>
-                    <strong>Body Part:</strong> {selectedArea.name}
+                    <span className="label">Body Part:</span>{" "}
+                    {selectedArea.name}
                   </p>
+
                   <h4>Selected Conditions:</h4>
                   <ul>
                     {selectedConditions.map((condition) => (
                       <li key={condition.id}>{condition.title}</li>
                     ))}
                   </ul>
+
                   <button
                     onClick={handleOpenForm}
                     className="consultation-form-button"
                   >
-                    Proceed to Consultation Form
+                    Finish Consultation
                   </button>
                 </div>
               )}
@@ -268,7 +272,7 @@ const BodyQuiz = () => {
                         className="primary-button"
                         disabled={isLoading}
                       >
-                        {isLoading ? "Submitting..." : "Submit Consultation"}
+                        {isLoading ? "Submitting..." : "Get My Results"}
                       </button>
                     </div>
                   </form>
@@ -325,11 +329,12 @@ const BodyQuiz = () => {
       </div>
 
       <div className="selection-panel">
-        <h1 className="quiz-card-header-text">
+        <h3 className="quiz-card-header-text">
           Your Selection ({selectedConditions.length})
-        </h1>
+        </h3>
         {selectedArea && (
           <ConditionDisplay
+            bodypart={selectedArea.name}
             conditions={conditions}
             onSelect={(condition) => {
               setSelectedConditions((prev) => {
