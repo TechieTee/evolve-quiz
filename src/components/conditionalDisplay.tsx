@@ -1,4 +1,4 @@
-import { Condition } from "../types";
+import { Condition } from "../types/types";
 import "./conditionalDisplay.css";
 
 interface ConditionDisplayProps {

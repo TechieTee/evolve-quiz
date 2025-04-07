@@ -147,9 +147,9 @@ const BodyQuiz = () => {
     setShowConsultationSummary(false);
   };
 
-  // if (isLoading)
-  //   return <div className="loading-spinner">Loading quiz data...</div>;
-  // if (error) return <div className="error-message">Error: {error}</div>;
+  if (isLoading)
+    return <div className="loading-spinner">Loading quiz data...</div>;
+  if (error) return <div className="error-message">Error: {error}</div>;
 
   return (
     <div className="quiz-main-grid">
