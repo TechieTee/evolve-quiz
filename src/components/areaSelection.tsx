@@ -19,7 +19,7 @@ type AreasResponse = Area[] | ApiError;
 interface AreaSelectionProps {
   areasResponse: AreasResponse;
   onSelect: (area: Area) => void;
-  selectedArea: Area | null;
+  selectedAreas: Area[];
   isLoading?: boolean;
   showFrontView: boolean;
 }
@@ -27,10 +27,12 @@ interface AreaSelectionProps {
 const AreaSelection: React.FC<AreaSelectionProps> = ({
   areasResponse,
   onSelect,
-  selectedArea,
+  selectedAreas,
   isLoading = false,
   showFrontView,
 }) => {
+  const [message, setMessage] = React.useState<string | null>(null);
+
   const getChildAreas = (): Area[] => {
     if (isLoading) return [];
     if (!Array.isArray(areasResponse)) return [];
@@ -42,8 +44,17 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
 
   const childAreas = React.useMemo(
     () => getChildAreas(),
-    [areasResponse, showFrontView, isLoading]
+    [areasResponse, showFrontView, isLoading, getChildAreas]
   );
+
+  const handleAreaClick = (area: Area) => {
+    if (area.count === 0) {
+      setMessage(`No conditions available for ${area.name}.`);
+    } else {
+      setMessage(null);
+      onSelect(area);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -54,7 +65,7 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
     );
   }
 
-  if (!Array.isArray(areasResponse) && areasResponse?.message) {
+  if (!Array.isArray(areasResponse)) {
     return (
       <div className="area-selection-error">
         <div className="error-icon">!</div>
@@ -75,14 +86,16 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
         {showFrontView ? "Front of Body" : "Back of Body"}
       </h2>
 
+      {message && <div className="info-message">{message}</div>}
+
       <div className="area-selection-grid">
         {childAreas.length > 0 ? (
           childAreas.map((area) => (
             <button
               key={area.id}
-              onClick={() => onSelect(area)}
+              onClick={() => handleAreaClick(area)}
               className={`area-button ${
-                selectedArea?.id === area.id ? "active" : ""
+                selectedAreas.some((a) => a.id === area.id) ? "active" : ""
               }`}
             >
               <span className="area-name">{area.name}</span>

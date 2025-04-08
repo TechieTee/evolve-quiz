@@ -3,24 +3,50 @@ import AreaSelection from "./areaSelection";
 import ConditionDisplay from "./conditionalDisplay";
 import "./bodyQuiz.css";
 import { Area, AreasResponse, Condition } from "../types/types";
+import { Redo, Undo } from "lucide-react";
+import ServiceRecommendations from "./serviceRecommendations";
+
+interface SelectedBodyPart {
+  area: Area;
+  conditions: Condition[];
+}
 
 const BodyQuiz = () => {
   const [areasResponse, setAreasResponse] = useState<AreasResponse>([]);
-  const [selectedArea, setSelectedArea] = useState<Area | null>(null);
+  const [selectedAreas, setSelectedAreas] = useState<Area[]>([]);
+  const [currentArea, setCurrentArea] = useState<Area | null>(null);
   const [conditions, setConditions] = useState<Condition[]>([]);
-  const [selectedConditions, setSelectedConditions] = useState<Condition[]>([]);
+  const [selectedBodyParts, setSelectedBodyParts] = useState<
+    SelectedBodyPart[]
+  >([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showFrontView, setShowFrontView] = useState(true);
   const [showConsultationSummary, setShowConsultationSummary] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [submittedData, setSubmittedData] = useState<any>(null);
+  interface SubmittedData {
+    name: string;
+    email: string;
+    phone: string;
+    areas: string;
+    conditions: string;
+    date: string;
+    groupedData: {
+      bodyArea: string;
+      conditions: string[];
+      services: string[];
+    }[];
+  }
+
+  const [submittedData, setSubmittedData] = useState<SubmittedData | null>(
+    null
+  );
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    area: "",
+    areas: "",
     conditions: "",
   });
 
@@ -75,12 +101,12 @@ const BodyQuiz = () => {
       }
 
       const data = (await response.json()) as Condition[];
-      setConditions(data);
-      setSelectedConditions([]);
+      setConditions(data || []); // Ensure we always set an array
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to load conditions";
       setError(errorMessage);
+      setConditions([]); // Set empty array on error
     } finally {
       setIsLoading(false);
     }
@@ -91,25 +117,46 @@ const BodyQuiz = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedArea) {
-      fetchConditions(selectedArea.id);
+    if (currentArea) {
+      fetchConditions(currentArea.id);
     }
-  }, [selectedArea]);
+  }, [currentArea]);
 
   const handleAreaSelect = (area: Area) => {
-    setSelectedArea(area);
-    setSelectedConditions([]);
-    setShowConsultationSummary(false);
-    setSubmittedData(null);
+    setCurrentArea(area);
+    if (!selectedAreas.some((a) => a.id === area.id)) {
+      setSelectedAreas((prev) => [...prev, area]);
+    }
   };
 
   const toggleView = () => {
     setShowFrontView(!showFrontView);
-    setSelectedArea(null);
-    setSelectedConditions([]);
+    setCurrentArea(null);
   };
 
   const handleAddToConsultation = () => {
+    if (currentArea && conditions.length > 0) {
+      const existingIndex = selectedBodyParts.findIndex(
+        (item) => item.area.id === currentArea.id
+      );
+
+      if (existingIndex >= 0) {
+        // Update existing entry
+        setSelectedBodyParts((prev) =>
+          prev.map((item, index) =>
+            index === existingIndex
+              ? { ...item, conditions: [...item.conditions] }
+              : item
+          )
+        );
+      } else {
+        // Add new entry
+        setSelectedBodyParts((prev) => [
+          ...prev,
+          { area: currentArea, conditions: [] },
+        ]);
+      }
+    }
     setShowConsultationSummary(true);
   };
 
@@ -119,14 +166,16 @@ const BodyQuiz = () => {
   };
 
   useEffect(() => {
-    if (selectedArea && selectedConditions.length > 0) {
+    if (selectedBodyParts.length > 0) {
       setFormData((prev) => ({
         ...prev,
-        area: selectedArea.name,
-        conditions: selectedConditions.map((c) => c.title).join(", "),
+        areas: selectedBodyParts.map((item) => item.area.name).join(", "),
+        conditions: selectedBodyParts
+          .flatMap((item) => item.conditions.map((c) => c.title))
+          .join(", "),
       }));
     }
-  }, [selectedArea, selectedConditions]);
+  }, [selectedBodyParts]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -139,12 +188,63 @@ const BodyQuiz = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const submissionDate = new Date().toLocaleString();
+
+    // Create grouped data for submission
+    const groupedData = selectedBodyParts.map((item) => ({
+      bodyArea: item.area.name,
+      conditions: item.conditions.map((c) => c.title),
+      services: item.conditions.flatMap(
+        (c) => c.recommended_services?.map((s) => s.title) || []
+      ),
+    }));
+
     setSubmittedData({
       ...formData,
       date: submissionDate,
+      groupedData, // Add the grouped data to submittedData
     });
+
     setShowForm(false);
     setShowConsultationSummary(false);
+  };
+
+  const handleConditionSelect = (condition: Condition) => {
+    if (!currentArea) return;
+
+    setSelectedBodyParts((prev) => {
+      const existingIndex = prev.findIndex(
+        (item) => item.area.id === currentArea.id
+      );
+
+      if (existingIndex >= 0) {
+        // Update existing body part's conditions
+        return prev.map((item, index) => {
+          if (index === existingIndex) {
+            const conditionExists = item.conditions.some(
+              (c) => c.id === condition.id
+            );
+            return {
+              ...item,
+              conditions: conditionExists
+                ? item.conditions.filter((c) => c.id !== condition.id)
+                : [...item.conditions, condition],
+            };
+          }
+          return item;
+        });
+      } else {
+        // Add new body part with this condition
+        return [...prev, { area: currentArea, conditions: [condition] }];
+      }
+    });
+  };
+
+  const getSelectedConditionsForCurrentArea = () => {
+    if (!currentArea) return [];
+    const bodyPart = selectedBodyParts.find(
+      (item) => item.area.id === currentArea.id
+    );
+    return bodyPart ? bodyPart.conditions : [];
   };
 
   if (isLoading)
@@ -157,55 +257,31 @@ const BodyQuiz = () => {
         {!submittedData && (
           <>
             <div className="view-toggle-container">
-              <button
-                onClick={toggleView}
-                className={`view-toggle ${showFrontView ? "active" : ""}`}
-              >
-                {showFrontView ? "Show Back View" : "Show Front View"}
-              </button>
+              <div onClick={toggleView} className="flipper">
+                <Redo size={24} strokeWidth={2} className="undo-icon" />
+              </div>
+              <AreaSelection
+                areasResponse={areasResponse}
+                onSelect={handleAreaSelect}
+                selectedAreas={selectedAreas}
+                isLoading={isLoading}
+                showFrontView={showFrontView}
+              />
+              <div onClick={toggleView} className="flipper">
+                <Undo size={24} strokeWidth={2} className="undo-icon" />
+              </div>
             </div>
-
-            <AreaSelection
-              areasResponse={areasResponse}
-              onSelect={handleAreaSelect}
-              selectedArea={selectedArea}
-              isLoading={isLoading}
-              showFrontView={showFrontView}
-            />
-
-            {showConsultationSummary &&
-              selectedArea &&
-              selectedConditions.length > 0 && (
-                <div className="consultation-summary">
-                  <h3> Your Selection ({selectedConditions.length})</h3>
-
-                  <p>
-                    <span className="label">Body Part:</span>{" "}
-                    {selectedArea.name}
-                  </p>
-
-                  <h4>Selected Conditions:</h4>
-                  <ul>
-                    {selectedConditions.map((condition) => (
-                      <li key={condition.id}>{condition.title}</li>
-                    ))}
-                  </ul>
-
-                  <button
-                    onClick={handleOpenForm}
-                    className="consultation-form-button"
-                  >
-                    Finish Consultation
-                  </button>
-                </div>
-              )}
 
             {showForm && (
               <div className="consultation-form">
                 <div className="form-container">
                   <h3>Your Consultation Form</h3>
                   <p>
-                    For {selectedArea?.name} - {selectedConditions.length}{" "}
+                    {selectedBodyParts.length} body part(s) with{" "}
+                    {selectedBodyParts.reduce(
+                      (total, item) => total + item.conditions.length,
+                      0
+                    )}{" "}
                     condition(s)
                   </p>
 
@@ -249,7 +325,7 @@ const BodyQuiz = () => {
                       />
                     </div>
 
-                    <input type="hidden" name="area" value={formData.area} />
+                    <input type="hidden" name="areas" value={formData.areas} />
                     <input
                       type="hidden"
                       name="conditions"
@@ -282,7 +358,7 @@ const BodyQuiz = () => {
           </>
         )}
 
-        {submittedData && (
+        {/* {submittedData && (
           <div className="submission-card">
             <div className="card-header">
               <h3>Consultation Submitted Successfully!</h3>
@@ -302,21 +378,112 @@ const BodyQuiz = () => {
                 <span className="data-value">{submittedData.phone}</span>
               </div>
               <div className="data-row">
-                <span className="data-label">Body Area:</span>
-                <span className="data-value">{submittedData.area}</span>
+                <span className="data-label">Body Areas:</span>
+                <span className="data-value">{submittedData.areas}</span>
               </div>
               <div className="data-row">
                 <span className="data-label">Conditions:</span>
                 <span className="data-value">{submittedData.conditions}</span>
               </div>
             </div>
+
+            <ServiceRecommendations
+              services={selectedBodyParts.flatMap((item) =>
+                item.conditions.flatMap(
+                  (condition) => condition.recommended_services || []
+                )
+              )}
+            />
+
             <div className="card-footer">
               <button
                 className="primary-button"
                 onClick={() => {
                   setSubmittedData(null);
-                  setSelectedArea(null);
-                  setSelectedConditions([]);
+                  setSelectedAreas([]);
+                  setSelectedBodyParts([]);
+                  setCurrentArea(null);
+                  setShowConsultationSummary(false);
+                  setShowForm(false);
+                }}
+              >
+                Start New Consultation
+              </button>
+            </div>
+          </div>
+        )} */}
+
+        {/* (previous state and functions remain the same until the submission display) */}
+
+        {submittedData && (
+          <div className="submission-card">
+            <div className="card-header">
+              <h3>Consultation Submitted Successfully!</h3>
+              <p>Submitted on: {submittedData.date}</p>
+            </div>
+            <div className="card-body">
+              <div className="data-row">
+                <span className="data-label">Name:</span>
+                <span className="data-value">{submittedData.name}</span>
+              </div>
+              <div className="data-row">
+                <span className="data-label">Email:</span>
+                <span className="data-value">{submittedData.email}</span>
+              </div>
+              <div className="data-row">
+                <span className="data-label">Phone:</span>
+                <span className="data-value">{submittedData.phone}</span>
+              </div>
+
+              <div className="grouped-data">
+                <h4>Body Areas and Conditions:</h4>
+                {selectedBodyParts.map((item) => (
+                  <div key={item.area.id} className="body-part-group">
+                    <div className="body-part-header">
+                      <span className="body-part-name">{item.area.name}</span>
+                    </div>
+
+                    {item.conditions.length > 0 && (
+                      <>
+                        <div className="conditions-list">
+                          <span className="sub-label">Conditions:</span>
+                          <ul>
+                            {item.conditions.map((condition) => (
+                              <li key={condition.id}>{condition.title}</li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {item.conditions.some(
+                          (c) => c.recommended_services?.length > 0
+                        ) && (
+                          <div className="services-group">
+                            <span className="sub-label">
+                              Recommended Services:
+                            </span>
+                            <ServiceRecommendations
+                              services={item.conditions.flatMap(
+                                (condition) =>
+                                  condition.recommended_services || []
+                              )}
+                            />
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="card-footer">
+              <button
+                className="primary-button"
+                onClick={() => {
+                  setSubmittedData(null);
+                  setSelectedAreas([]);
+                  setSelectedBodyParts([]);
+                  setCurrentArea(null);
                   setShowConsultationSummary(false);
                   setShowForm(false);
                 }}
@@ -326,35 +493,73 @@ const BodyQuiz = () => {
             </div>
           </div>
         )}
+        {/* (rest of the component remains the same) */}
       </div>
 
       <div className="selection-panel">
         <h3 className="quiz-card-header-text">
-          Your Selection ({selectedConditions.length})
-        </h3>
-        {selectedArea && (
-          <ConditionDisplay
-            bodypart={selectedArea.name}
-            conditions={conditions}
-            onSelect={(condition) => {
-              setSelectedConditions((prev) => {
-                const exists = prev.find((c) => c.id === condition.id);
-                return exists
-                  ? prev.filter((c) => c.id !== condition.id)
-                  : [...prev, condition];
-              });
-            }}
-            selectedConditions={selectedConditions}
-          />
-        )}
-        {selectedConditions.length > 0 &&
-          !showConsultationSummary &&
-          !showForm &&
-          !submittedData && (
-            <button onClick={handleAddToConsultation} className="area-button">
-              Add to my consultation
-            </button>
+          Your Selection (
+          {selectedBodyParts.reduce(
+            (total, item) => total + item.conditions.length,
+            0
           )}
+          )
+        </h3>
+        <>
+          {currentArea && (
+            <ConditionDisplay
+              bodypart={currentArea.name}
+              conditions={conditions} // This will always be an array now
+              onSelect={handleConditionSelect}
+              selectedConditions={getSelectedConditionsForCurrentArea()}
+            />
+          )}
+
+          {currentArea &&
+            conditions.length > 0 &&
+            !showConsultationSummary &&
+            !showForm &&
+            !submittedData && (
+              <button onClick={handleAddToConsultation} className="area-button">
+                Add to my consultation
+              </button>
+            )}
+        </>
+
+        {showConsultationSummary && selectedBodyParts.length > 0 && (
+          <div className="consultation-summary">
+            <h4>Selected Body Parts and Conditions:</h4>
+            {selectedBodyParts.map((item) => (
+              <div key={item.area.id} className="body-part-section">
+                <p className="body-part-name">
+                  <strong>{item.area.name}</strong>
+                </p>
+                {item.conditions.length > 0 ? (
+                  <ul>
+                    {item.conditions.map((condition) => (
+                      <li key={condition.id}>{condition.title}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="no-conditions">No conditions selected</p>
+                )}
+              </div>
+            ))}
+
+            <button
+              onClick={handleOpenForm}
+              className="consultation-form-button"
+              disabled={
+                selectedBodyParts.reduce(
+                  (total, item) => total + item.conditions.length,
+                  0
+                ) === 0
+              }
+            >
+              Finish Consultation
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

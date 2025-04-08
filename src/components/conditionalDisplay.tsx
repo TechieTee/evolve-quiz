@@ -2,20 +2,24 @@ import { Condition } from "../types/types";
 import "./conditionalDisplay.css";
 
 interface ConditionDisplayProps {
-  conditions: Condition[];
+  conditions: Condition[] | undefined; // Allow undefined
   onSelect: (condition: Condition) => void;
   selectedConditions: Condition[];
   bodypart: string;
 }
 
 const ConditionDisplay: React.FC<ConditionDisplayProps> = ({
-  conditions,
+  conditions = [], // Default to empty array if undefined
   bodypart,
   onSelect,
   selectedConditions,
 }) => {
-  if (conditions.length === 0) {
-    return <div className="condition-empty-state">data...</div>;
+  if (!conditions || conditions.length === 0) {
+    return (
+      <div className="condition-empty-state">
+        No conditions available for this body part
+      </div>
+    );
   }
 
   return (
