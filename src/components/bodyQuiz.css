@@ -47,7 +47,7 @@ body {
 /* Right Selection Panel */
 .selection-panel {
   background: white;
-  padding: 2rem;
+  padding: 0 2rem;
   /* box-shadow: var(--box-shadow); */
   display: flex;
   flex-direction: column;
