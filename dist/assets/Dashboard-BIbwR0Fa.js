@@ -1,0 +1,1 @@
+import{j as e}from"./index-BSi7cstz.js";const r=()=>e.jsx("div",{className:"flex flex-col items-center justify-center min-h-screen bg-gray-100",children:e.jsx("h2",{className:"text-2xl font-bold mb-4",children:"Dashboard"})});export{r as default};

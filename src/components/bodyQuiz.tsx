@@ -335,8 +335,13 @@ const BodyQuiz = () => {
         {submittedData && (
           <div className="submission-card">
             <div className="card-header">
-              <h3>Consultation Submitted Successfully!</h3>
-              <p>Submitted on: {submittedData.date}</p>
+              <h3 style={{ textAlign: "center" }}>
+                Your Recommendations Are In!
+              </h3>
+              <p style={{ textAlign: "center" }}>
+                Here is what we suggest based on your skin + body goals:
+              </p>
+              {/* <p>Submitted on: {submittedData.date}</p>
             </div>
             <div className="card-body">
               <div className="data-row">
@@ -350,10 +355,9 @@ const BodyQuiz = () => {
               <div className="data-row">
                 <span className="data-label">Phone:</span>
                 <span className="data-value">{submittedData.phone}</span>
-              </div>
+              </div> */}
 
               <div className="grouped-data">
-                <h4>Body Areas and Conditions:</h4>
                 {selectedBodyParts.map((item) => (
                   <div key={item.area.id} className="body-part-group">
                     <div className="body-part-header">
@@ -362,22 +366,22 @@ const BodyQuiz = () => {
 
                     {item.conditions.length > 0 && (
                       <>
-                        <div className="conditions-list">
+                        {/* <div className="conditions-list">
                           <span className="sub-label">Conditions:</span>
                           <ul>
                             {item.conditions.map((condition) => (
                               <li key={condition.id}>{condition.title}</li>
                             ))}
                           </ul>
-                        </div>
+                        </div> */}
 
                         {item.conditions.some(
                           (c) => c.recommended_services?.length > 0
                         ) && (
                           <div className="services-group">
-                            <span className="sub-label">
+                            {/* <span className="sub-label">
                               Recommended Services:
-                            </span>
+                            </span> */}
                             <ServiceRecommendations
                               services={item.conditions.flatMap(
                                 (condition) =>
@@ -395,7 +399,7 @@ const BodyQuiz = () => {
 
             <div className="card-footer">
               <button
-                className="primary-button"
+                className="link"
                 onClick={() => {
                   setSubmittedData(null);
                   setSelectedAreas([]);
@@ -405,7 +409,10 @@ const BodyQuiz = () => {
                   setShowForm(false);
                 }}
               >
-                Start New Consultation
+                Take the quiz again
+              </button>
+              <button className="area-button" onClick={() => {}}>
+                Book Appointment
               </button>
             </div>
           </div>

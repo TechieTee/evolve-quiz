@@ -384,19 +384,17 @@ body {
 }
 
 .body-part-header {
-  margin-bottom: 10px;
+ text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #2c3e50; 
 }
 
 .body-part-name {
-
-  background: white;
-  border-bottom: 1px solid #dac4b8;
-  padding: 15px 10px;
-
-
+ 
   font-weight: 600;
   font-size: 1.1rem;
-  color: #2c3e50;
+  color: #2c3e50; 
 }
 
 .sub-label {
@@ -483,4 +481,18 @@ body {
 
 .conditions-list li .delete-icon:hover {
   color: rgba(0, 0, 0, 0.8);
+}
+
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+  background-color: transparent;
+  color: #000000;
+  border: none;
+}
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
 }

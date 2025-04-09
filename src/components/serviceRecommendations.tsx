@@ -52,7 +52,6 @@ interface ServiceRecommendationsProps {
 const ServiceRecommendations = ({ services }: ServiceRecommendationsProps) => {
   return (
     <div className="service-recommendations">
-      <h2>Recommended Services</h2>
       <div className="service-grid">
         {services.map((service) => (
           <div key={service.id} className="service-card">
@@ -66,9 +65,9 @@ const ServiceRecommendations = ({ services }: ServiceRecommendationsProps) => {
               </div>
             )}
             <h3>{service.title}</h3>
-            <a href={service.link} target="_blank" rel="noopener noreferrer">
+            {/* <a href={service.link} target="_blank" rel="noopener noreferrer">
               View Details
-            </a>
+            </a> */}
           </div>
         ))}
       </div>
