@@ -3,7 +3,6 @@ import AreaSelection from "./areaSelection";
 import ConditionDisplay from "./conditionalDisplay";
 import "./bodyQuiz.css";
 import { Area, AreasResponse, Condition } from "../types/types";
-import { Redo, Undo } from "lucide-react";
 import ServiceRecommendations from "./serviceRecommendations";
 
 interface SelectedBodyPart {
@@ -48,6 +47,7 @@ const BodyQuiz = () => {
     phone: "",
     areas: "",
     conditions: "",
+    consent: false,
   });
 
   const fetchAreas = async () => {
@@ -257,9 +257,9 @@ const BodyQuiz = () => {
         {!submittedData && (
           <>
             <div className="view-toggle-container">
-              <div onClick={toggleView} className="flipper">
-                <Redo size={24} strokeWidth={2} className="undo-icon" />
-              </div>
+              {/* <div onClick={toggleView} className="flipper">
+                <Undo size={24} strokeWidth={2} className="undo-icon" />
+              </div> */}
               <AreaSelection
                 areasResponse={areasResponse}
                 onSelect={handleAreaSelect}
@@ -268,93 +268,10 @@ const BodyQuiz = () => {
                 showFrontView={showFrontView}
               />
               <div onClick={toggleView} className="flipper">
-                <Undo size={24} strokeWidth={2} className="undo-icon" />
+                {/* <Redo size={24} strokeWidth={2} className="undo-icon" /> */}
+                {showFrontView ? "Back" : showFrontView ? "Front" : "Front"}
               </div>
             </div>
-
-            {showForm && (
-              <div className="consultation-form">
-                <div className="form-container">
-                  <h3>Your Consultation Form</h3>
-                  <p>
-                    {selectedBodyParts.length} body part(s) with{" "}
-                    {selectedBodyParts.reduce(
-                      (total, item) => total + item.conditions.length,
-                      0
-                    )}{" "}
-                    condition(s)
-                  </p>
-
-                  <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                      <label htmlFor="name">Full Name</label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Enter your full name"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="email">Email Address</label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Enter your email"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="phone">Phone Number</label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Enter your phone number"
-                      />
-                    </div>
-
-                    <input type="hidden" name="areas" value={formData.areas} />
-                    <input
-                      type="hidden"
-                      name="conditions"
-                      value={formData.conditions}
-                    />
-
-                    <div className="form-actions">
-                      <button
-                        type="button"
-                        className="secondary-button"
-                        onClick={() => {
-                          setShowForm(false);
-                          setShowConsultationSummary(true);
-                        }}
-                      >
-                        Back
-                      </button>
-                      <button
-                        type="submit"
-                        className="primary-button"
-                        disabled={isLoading}
-                      >
-                        {isLoading ? "Submitting..." : "Get My Results"}
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            )}
           </>
         )}
 
@@ -498,13 +415,18 @@ const BodyQuiz = () => {
 
       <div className="selection-panel">
         <h3 className="quiz-card-header-text">
-          Your Selection (
+          Your Selections
+          {/* (
           {selectedBodyParts.reduce(
             (total, item) => total + item.conditions.length,
             0
           )}
-          )
+          ) */}
         </h3>
+
+        <span className="quiz-card-desc-text">
+          Start your quiz by clicking on a body part you want to be treated.
+        </span>
         <>
           {currentArea && (
             <ConditionDisplay
@@ -520,24 +442,38 @@ const BodyQuiz = () => {
             !showConsultationSummary &&
             !showForm &&
             !submittedData && (
-              <button onClick={handleAddToConsultation} className="area-button">
-                Add to my consultation
+              <button
+                onClick={handleAddToConsultation}
+                className="area-button"
+                style={{ marginTop: "60px" }}
+              >
+                ADD TREATMENTS
               </button>
             )}
         </>
 
         {showConsultationSummary && selectedBodyParts.length > 0 && (
-          <div className="consultation-summary">
-            <h4>Selected Body Parts and Conditions:</h4>
+          <div>
+            <h3 className="quiz-card-header-text">
+              Your Selections (
+              {selectedBodyParts.reduce(
+                (total, item) => total + item.conditions.length,
+                0
+              )}
+              ){" "}
+            </h3>
             {selectedBodyParts.map((item) => (
               <div key={item.area.id} className="body-part-section">
                 <p className="body-part-name">
                   <strong>{item.area.name}</strong>
                 </p>
                 {item.conditions.length > 0 ? (
-                  <ul>
+                  <ul className="conditions-list">
                     {item.conditions.map((condition) => (
-                      <li key={condition.id}>{condition.title}</li>
+                      <li key={condition.id}>
+                        {condition.title}{" "}
+                        <span className="delete-icon">&times;</span>
+                      </li>
                     ))}
                   </ul>
                 ) : (
@@ -548,7 +484,7 @@ const BodyQuiz = () => {
 
             <button
               onClick={handleOpenForm}
-              className="consultation-form-button"
+              className="area-button"
               disabled={
                 selectedBodyParts.reduce(
                   (total, item) => total + item.conditions.length,
@@ -556,8 +492,110 @@ const BodyQuiz = () => {
                 ) === 0
               }
             >
-              Finish Consultation
+              COMPLETE CONSULTATION
             </button>
+          </div>
+        )}
+
+        {showForm && (
+          <div className="consultation-form">
+            <div className="form-container">
+              <h3>Complete your consultation</h3>
+              {/* <p>
+                {selectedBodyParts.length} body part(s) with{" "}
+                {selectedBodyParts.reduce(
+                  (total, item) => total + item.conditions.length,
+                  0
+                )}{" "}
+                condition(s)
+              </p> */}
+
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="name">Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Enter your full name"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Enter your email"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="phone">Phone</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Enter your phone number"
+                  />
+                </div>
+
+                <div className="form-group checkbox-group">
+                  <input
+                    type="checkbox"
+                    id="consent"
+                    name="consent"
+                    checked={formData.consent || false}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <label htmlFor="consent" className="consent-text">
+                    I agree to receiving appointment confirmations, reminders
+                    and marketing communications via email and SMS messages. Msg
+                    & data rates may apply. Msg frequency varies. Reply HELP for
+                    help and STOP to cancel. View our{" "}
+                    <a href="/privacy-policy">Privacy Policy</a>
+                  </label>
+                </div>
+
+                <input type="hidden" name="areas" value={formData.areas} />
+                <input
+                  type="hidden"
+                  name="conditions"
+                  value={formData.conditions}
+                />
+
+                <div className="form-actions">
+                  {/* <button
+                    type="button"
+                    className="secondary-button"
+                    onClick={() => {
+                      setShowForm(false);
+                      setShowConsultationSummary(true);
+                    }}
+                  >
+                    Back
+                  </button> */}
+                  <button
+                    type="submit"
+                    className="area-button"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Submitting..." : "COMPLETE CONSULTATION"}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         )}
       </div>

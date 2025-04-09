@@ -24,7 +24,8 @@ const ConditionDisplay: React.FC<ConditionDisplayProps> = ({
 
   return (
     <div className="condition-container">
-      <h3>Select {bodypart} Concerns</h3>
+      <h3 className="concerns-header-text">{bodypart} Concerns</h3>
+
       <div className="condition-grid">
         {conditions.map((condition) => (
           <div
@@ -37,7 +38,32 @@ const ConditionDisplay: React.FC<ConditionDisplayProps> = ({
             onClick={() => onSelect(condition)}
           >
             <div className="condition-content">
-              <h3 className="condition-title">{condition.title}</h3>
+              <span className="condition-title">{condition.title}</span>
+              <span
+                className={`custom-checkbox ${
+                  selectedConditions.some((c) => c.id === condition.id)
+                    ? "checked"
+                    : ""
+                }`}
+              >
+                {" "}
+                {selectedConditions.some((c) => c.id === condition.id) && (
+                  <svg
+                    className="check-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                )}
+              </span>
             </div>
           </div>
         ))}

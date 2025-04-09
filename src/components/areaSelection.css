@@ -1,7 +1,7 @@
 /* AreaSelection.css */
 .area-selection {
     text-align: center;
-    margin: 2rem 0;
+    margin: 1rem 0;
   }
   
   .area-grid {
@@ -13,14 +13,16 @@
   }
   
   .area-button {
+    font-weight: 700;
+    font-size: 14px;
     position: relative;
-    padding: 15px 10px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    background: white;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 50px;
+    background: #70C1B3;
+    color: #000;
     cursor: pointer;
     transition: all 0.3s;
-    min-height: 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,11 +30,11 @@
   }
   
   .area-button:hover:not(:disabled) {
-    border-color: #aaa;
+    border-color: transparent;
   }
   
   .area-button.active {
-    border-color: #0066cc;
+    border-color: none;
     background: #e6f2ff;
   }
   

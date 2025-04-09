@@ -1,5 +1,6 @@
 import React from "react";
 import "./areaSelection.css";
+import FrontBody from "../assets/body-front.svg";
 
 interface Area {
   id: number;
@@ -82,9 +83,9 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
 
   return (
     <div className="area-selection-container">
-      <h2 className="view-title">
+      {/* <h2 className="view-title">
         {showFrontView ? "Front of Body" : "Back of Body"}
-      </h2>
+      </h2> */}
 
       {message && <div className="info-message">{message}</div>}
 
@@ -99,7 +100,7 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
               }`}
             >
               <span className="area-name">{area.name}</span>
-              <span className="condition-count">{area.count} conditions</span>
+              {/* <span className="condition-count">{area.count} conditions</span> */}
             </button>
           ))
         ) : (
@@ -107,6 +108,7 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
             <p>No {showFrontView ? "front" : "back"} areas available</p>
           </div>
         )}
+        <img src={FrontBody} alt="FrontBody" />
       </div>
     </div>
   );
