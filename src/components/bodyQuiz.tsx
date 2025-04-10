@@ -255,8 +255,6 @@ const BodyQuiz = () => {
     setShowForm(false);
   };
 
-  if (isLoading)
-    return <div className="loading-spinner">Loading quiz data...</div>;
   if (error) return <div className="error-message">Error: {error}</div>;
 
   const renderSelectionPanelContent = () => {
@@ -395,6 +393,8 @@ const BodyQuiz = () => {
     }
 
     if (currentArea) {
+      if (isLoading)
+        return <div className="loading-spinner">Loading quiz data...</div>;
       return (
         <>
           <ConditionDisplay
