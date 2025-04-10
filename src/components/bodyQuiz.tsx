@@ -373,6 +373,9 @@ const BodyQuiz = () => {
                           <div className="body-part-header">
                             <span className="body-part-name">
                               {item.area.name}
+                              {/* {conditions
+                                .map((condition) => condition.title)
+                                .join(", ")} */}
                             </span>
                           </div>
                         </div>
@@ -443,19 +446,22 @@ const BodyQuiz = () => {
       </div>
 
       <div className="selection-panel">
-        <h3 className="quiz-card-header-text">
-          Your Selections
-          {/* (
+        <>
+          <h3 className="quiz-card-header-text">
+            Your Selections
+            {/* (
           {selectedBodyParts.reduce(
             (total, item) => total + item.conditions.length,
             0
           )}
           ) */}
-        </h3>
+          </h3>
 
-        <span className="quiz-card-desc-text">
-          Start your quiz by clicking on a body part you want to be treated.
-        </span>
+          <span className="quiz-card-desc-text">
+            Start your quiz by clicking on a body part you want to be treated.
+          </span>
+        </>
+
         <>
           {currentArea && (
             <ConditionDisplay
@@ -481,56 +487,59 @@ const BodyQuiz = () => {
             )}
         </>
 
-        {showConsultationSummary && selectedBodyParts.length > 0 && (
-          <div>
-            <h3 className="quiz-card-header-text">
-              Your Selections (
-              {selectedBodyParts.reduce(
-                (total, item) => total + item.conditions.length,
-                0
-              )}
-              ){" "}
-            </h3>
-            {selectedBodyParts.map((item) => (
-              <div key={item.area.id} className="body-part-section">
-                <p className="body-part-name">
-                  <strong>{item.area.name}</strong>
-                </p>
-                {item.conditions.length > 0 ? (
-                  <ul className="conditions-list">
-                    {item.conditions.map((condition) => (
-                      <li key={condition.id}>
-                        {condition.title}{" "}
-                        <span className="delete-icon">&times;</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="no-conditions">No conditions selected</p>
-                )}
-              </div>
-            ))}
-
-            <button
-              onClick={handleOpenForm}
-              className="area-button"
-              disabled={
-                selectedBodyParts.reduce(
+        <>
+          {showConsultationSummary && selectedBodyParts.length > 0 && (
+            <div>
+              <h3 className="quiz-card-header-text">
+                Your Selections (
+                {selectedBodyParts.reduce(
                   (total, item) => total + item.conditions.length,
                   0
-                ) === 0
-              }
-            >
-              COMPLETE CONSULTATION
-            </button>
-          </div>
-        )}
+                )}
+                ){" "}
+              </h3>
+              {selectedBodyParts.map((item) => (
+                <div key={item.area.id} className="body-part-section">
+                  <p className="body-part-name">
+                    <strong>{item.area.name}</strong>
+                  </p>
+                  {item.conditions.length > 0 ? (
+                    <ul className="conditions-list">
+                      {item.conditions.map((condition) => (
+                        <li key={condition.id}>
+                          {condition.title}{" "}
+                          <span className="delete-icon">&times;</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="no-conditions">No conditions selected</p>
+                  )}
+                </div>
+              ))}
 
-        {showForm && (
-          <div className="consultation-form">
-            <div className="form-container">
-              <h3>Complete your consultation</h3>
-              {/* <p>
+              <button
+                onClick={handleOpenForm}
+                className="area-button"
+                disabled={
+                  selectedBodyParts.reduce(
+                    (total, item) => total + item.conditions.length,
+                    0
+                  ) === 0
+                }
+              >
+                COMPLETE CONSULTATION
+              </button>
+            </div>
+          )}
+        </>
+
+        <>
+          {showForm && (
+            <div className="consultation-form">
+              <div className="form-container">
+                <h3>Complete your consultation</h3>
+                {/* <p>
                 {selectedBodyParts.length} body part(s) with{" "}
                 {selectedBodyParts.reduce(
                   (total, item) => total + item.conditions.length,
@@ -539,73 +548,73 @@ const BodyQuiz = () => {
                 condition(s)
               </p> */}
 
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="name">Name</label>
+                <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="name">Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                      placeholder="Enter your full name"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                      placeholder="Enter your email"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="phone">Phone</label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      required
+                      placeholder="Enter your phone number"
+                    />
+                  </div>
+
+                  <div className="form-group checkbox-group">
+                    <input
+                      type="checkbox"
+                      id="consent"
+                      name="consent"
+                      checked={formData.consent || false}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <label htmlFor="consent" className="consent-text">
+                      I agree to receiving appointment confirmations, reminders
+                      and marketing communications via email and SMS messages.
+                      Msg & data rates may apply. Msg frequency varies. Reply
+                      HELP for help and STOP to cancel. View our{" "}
+                      <a href="/privacy-policy">Privacy Policy</a>
+                    </label>
+                  </div>
+
+                  <input type="hidden" name="areas" value={formData.areas} />
                   <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Enter your full name"
+                    type="hidden"
+                    name="conditions"
+                    value={formData.conditions}
                   />
-                </div>
 
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Enter your email"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="phone">Phone</label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Enter your phone number"
-                  />
-                </div>
-
-                <div className="form-group checkbox-group">
-                  <input
-                    type="checkbox"
-                    id="consent"
-                    name="consent"
-                    checked={formData.consent || false}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor="consent" className="consent-text">
-                    I agree to receiving appointment confirmations, reminders
-                    and marketing communications via email and SMS messages. Msg
-                    & data rates may apply. Msg frequency varies. Reply HELP for
-                    help and STOP to cancel. View our{" "}
-                    <a href="/privacy-policy">Privacy Policy</a>
-                  </label>
-                </div>
-
-                <input type="hidden" name="areas" value={formData.areas} />
-                <input
-                  type="hidden"
-                  name="conditions"
-                  value={formData.conditions}
-                />
-
-                <div className="form-actions">
-                  {/* <button
+                  <div className="form-actions">
+                    {/* <button
                     type="button"
                     className="secondary-button"
                     onClick={() => {
@@ -615,18 +624,19 @@ const BodyQuiz = () => {
                   >
                     Back
                   </button> */}
-                  <button
-                    type="submit"
-                    className="area-button"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "Submitting..." : "COMPLETE CONSULTATION"}
-                  </button>
-                </div>
-              </form>
+                    <button
+                      type="submit"
+                      className="area-button"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "Submitting..." : "COMPLETE CONSULTATION"}
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </>
       </div>
       {/* <ServiceRecommendations
                               services={item.conditions.flatMap(
