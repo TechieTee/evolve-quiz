@@ -735,3 +735,24 @@ body {
 .book-button:hover {
   background-color: #5fb3a5;
 }
+
+.quiz-card-header-text {
+  text-align: center;
+  color: black;
+  font-size: 30px;
+}
+
+.fallback-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.fallback-instructions {
+  margin-top: 20px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.fallback-instructions p {
+  margin: 10px 0;
+}
