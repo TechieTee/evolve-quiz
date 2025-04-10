@@ -3,7 +3,6 @@ import AreaSelection from "./areaSelection";
 import ConditionDisplay from "./conditionalDisplay";
 import "./bodyQuiz.css";
 import { Area, AreasResponse, Condition } from "../types/types";
-import ServiceRecommendations from "./serviceRecommendations";
 
 interface SelectedBodyPart {
   area: Area;
@@ -358,42 +357,65 @@ const BodyQuiz = () => {
               </div> */}
 
               <div className="grouped-data">
-                {selectedBodyParts.map((item) => (
-                  <div key={item.area.id} className="body-part-group">
-                    <div className="body-part-header">
-                      <span className="body-part-name">{item.area.name}</span>
-                    </div>
+                {selectedBodyParts.map((item) => {
+                  // Get all unique services from all conditions for this body part
+                  const allServices = item.conditions.flatMap(
+                    (condition) => condition.recommended_services || []
+                  );
 
-                    {item.conditions.length > 0 && (
-                      <>
-                        {/* <div className="conditions-list">
-                          <span className="sub-label">Conditions:</span>
-                          <ul>
-                            {item.conditions.map((condition) => (
-                              <li key={condition.id}>{condition.title}</li>
-                            ))}
-                          </ul>
-                        </div> */}
+                  // Only show card if there are services
+                  if (allServices.length === 0) return null;
 
-                        {item.conditions.some(
-                          (c) => c.recommended_services?.length > 0
-                        ) && (
-                          <div className="services-group">
-                            {/* <span className="sub-label">
-                              Recommended Services:
-                            </span> */}
-                            <ServiceRecommendations
-                              services={item.conditions.flatMap(
-                                (condition) =>
-                                  condition.recommended_services || []
-                              )}
-                            />
+                  return (
+                    <div key={item.area.id} className="recommendation-card">
+                      <div className="card-content">
+                        <div className="card-header">
+                          <div className="body-part-header">
+                            <span className="body-part-name">
+                              {item.area.name}
+                            </span>
                           </div>
-                        )}
-                      </>
-                    )}
-                  </div>
-                ))}
+                        </div>
+
+                        <div className="scroll-area">
+                          <div className="scroll-content">
+                            {/* <div className="conditions-list">
+                              <ul>
+                                {item.conditions.map((condition) => (
+                                  <li key={condition.id}>{condition.title}</li>
+                                ))}
+                              </ul>
+                            </div> */}
+
+                            {/* <div className="services-list">
+                              <h4>Recommended Services:</h4>
+                              <div className="service-tags">
+                                {allServices.map((service) => (
+                                  <span key={service.id} className="tag">
+                                    {service.title}
+                                  </span>
+                                ))}
+                              </div>
+                            </div> */}
+
+                            {allServices.map((service) => (
+                              <div key={service.id} className="treatment-item">
+                                <div className="card-separator" />
+                                <span className="card-badge">
+                                  {service.taxonomy[0]?.name}
+                                </span>
+                                <h3>{service.title}</h3>
+                                <p>
+                                  {service?.description || "Description..."}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
@@ -606,6 +628,12 @@ const BodyQuiz = () => {
           </div>
         )}
       </div>
+      {/* <ServiceRecommendations
+                              services={item.conditions.flatMap(
+                                (condition) =>
+                                  condition.recommended_services || []
+                              )}
+                            /> */}
     </div>
   );
 };

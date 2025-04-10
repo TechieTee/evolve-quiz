@@ -5,6 +5,7 @@ export interface Taxonomy {
   }
   
   export interface Service {
+    description: string;
     id: string;
     title: string;
     link: string;
