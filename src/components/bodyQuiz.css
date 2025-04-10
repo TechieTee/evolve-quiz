@@ -28,7 +28,6 @@ body {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-
 }
 
 /* Left Content Area */
@@ -36,8 +35,6 @@ body {
   background: #FBF8F2;
   border-radius: var(--border-radius);
   padding: 2rem;
-  /* box-shadow: var(--box-shadow); */
-  /* display: flex; */
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -45,6 +42,212 @@ body {
   min-height: 70vh;
 }
 
+/* Right Selection Panel */
+.selection-panel {
+  background: rgba(255, 255, 255, 0.748);
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  min-height: 70vh;
+}
+
+/* View Toggle */
+.view-toggle-container {
+  width: 100%;
+  display: flex;
+  gap: 5rem;
+  justify-content: space-evenly;
+  align-items: start;
+}
+
+.flipper {
+  padding: 5px 25px;
+  background-color: #DAC4B8;
+  outline: none;
+  border: none;
+  border: 0px solid #ccc;
+  border-radius: 8px;
+  color: var(--dark-color);
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+}
+
+/* Submission Section */
+.submission-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.submission-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+}
+
+.submission-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.submission-header h2 {
+  font-size: 2rem;
+  color: var(--dark-color);
+ 
+}
+
+.submission-header span {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  margin: 2.5rem 0;
+}
+
+.recommendation-card {
+  background: #FBF8F2;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+
+.card-header {
+  padding: 1.5rem;
+
+  border-bottom: 1px solid #eee;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--dark-color);
+}
+
+.card-content {
+  padding: 1.5rem;
+}
+
+.scroll-area {
+  height: 300px;
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
+.scroll-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.treatment-item {
+  padding-bottom: 1rem;
+}
+
+.treatment-item h3 {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.treatment-item p {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.card-badge {
+  display: inline-block;
+  background: white;
+  color: black;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid #DAC4B8;
+  margin-bottom: 0.5rem;
+}
+
+.card-separator {
+  height: 1px;
+  background: #DAC4B8;
+  margin: 0.5rem 0;
+}
+
+.submission-footer {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.reset-button {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+
+.book-button:hover {
+  background: var(--secondary-color);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .quiz-main-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .selection-panel {
+    position: static;
+    order: -1;
+    margin-bottom: 2rem;
+  }
+  
+  .quiz-content-area {
+    min-height: auto;
+  }
+
+  .recommendations-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .quiz-main-grid {
+    padding: 1rem;
+  }
+  
+  .quiz-content-area,
+  .selection-panel {
+    padding: 1.5rem;
+  }
+
+  .submission-footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+/* Rest of your existing CSS styles... */
+/* (Keep all your existing styles for other components) */
 /* Right Selection Panel */
 .selection-panel {
   background: rgba(255, 255, 255, 0.748);
@@ -572,16 +775,13 @@ body {
   flex-direction: column;
   max-width: 400px;
   height: 477px;
-  border-radius: 26px;
-  background-color: #ffffff;
+  background: #FBF8F2;
   border: none;
   overflow: hidden;
   position: relative;
 }
 
-.card-header {
-  padding: 0;
-}
+
 
 .card-image {
   width: 100%;
@@ -721,7 +921,7 @@ body {
 
 .book-button {
   width: 317px;
-  height: 72px;
+  height: 60px;
   background-color: #70c1b3;
   color: black;
   border-radius: 100px;

@@ -428,10 +428,10 @@ const BodyQuiz = () => {
   };
 
   return (
-    <div className="quiz-main-grid">
-      <div className="quiz-content-area">
-        {!submittedData && (
-          <>
+    <>
+      {!submittedData && (
+        <div className="quiz-main-grid">
+          <div className="quiz-content-area">
             <div className="view-toggle-container">
               <AreaSelection
                 areasResponse={areasResponse}
@@ -444,75 +444,66 @@ const BodyQuiz = () => {
                 {showFrontView ? "Back" : "Front"}
               </div>
             </div>
-          </>
-        )}
+          </div>
 
-        {submittedData && (
-          <div className="submission-card">
-            <div className="card-header">
-              <h3 style={{ textAlign: "center" }}>
-                Your Recommendations Are In!
-              </h3>
-              <p style={{ textAlign: "center" }}>
+          <div className="selection-panel">{renderSelectionPanelContent()}</div>
+        </div>
+      )}
+
+      {submittedData && (
+        <div className="submission-section">
+          <div className="submission-container">
+            <div className="submission-header">
+              <h2>Your Recommendations Are In!</h2>
+              <span>
                 Here is what we suggest based on your skin + body goals:
-              </p>
+              </span>
+            </div>
 
-              <div className="grouped-data">
-                {selectedBodyParts.map((item) => {
-                  const allServices = item.conditions.flatMap(
-                    (condition) => condition.recommended_services || []
-                  );
+            <div className="recommendations-grid">
+              {selectedBodyParts.map((item) => {
+                const allServices = item.conditions.flatMap(
+                  (condition) => condition.recommended_services || []
+                );
 
-                  if (allServices.length === 0) return null;
+                if (allServices.length === 0) return null;
 
-                  return (
-                    <div key={item.area.id} className="recommendation-card">
-                      <div className="card-content">
-                        <div className="card-header">
-                          <div className="body-part-header">
-                            <span className="body-part-name">
-                              {item.area.name}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="scroll-area">
-                          <div className="scroll-content">
-                            {allServices.map((service) => (
-                              <div key={service.id} className="treatment-item">
-                                <div className="card-separator" />
-                                <span className="card-badge">
-                                  {service.taxonomy[0]?.name}
-                                </span>
-                                <h3>{service.title}</h3>
-                                <p>
-                                  {service?.description || "Description..."}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
+                return (
+                  <div key={item.area.id} className="recommendation-card">
+                    <div className="card-header">
+                      <h3>{item.area.name}</h3>
+                    </div>
+                    <div className="card-content">
+                      <div className="scroll-area">
+                        <div className="scroll-content">
+                          {allServices.map((service) => (
+                            <div key={service.id} className="treatment-item">
+                              <div className="card-separator" />
+                              <span className="card-badge">
+                                {service.taxonomy[0]?.name}
+                              </span>
+                              <h3>{service.title}</h3>
+                              <p>{service?.description || "Description..."}</p>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </div>
 
-            <div className="card-footer">
-              <button className="link" onClick={resetQuiz}>
+            <div className="submission-footer">
+              <button className="reset-button" onClick={resetQuiz}>
                 Take the quiz again
               </button>
-              <button className="area-button" onClick={() => {}}>
-                Book Appointment
-              </button>
+              <button className="book-button">Book Appointment</button>
             </div>
           </div>
-        )}
-      </div>
-
-      <div className="selection-panel">{renderSelectionPanelContent()}</div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 
