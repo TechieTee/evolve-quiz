@@ -8,7 +8,7 @@ const HomePage = () => {
       {/* Main Content Area */}
       <main className="main-content">
         {/* Introduction Section */}
-        <section className="intro-section">
+        {/* <section className="intro-section">
           <div className="header-content">
             <p className="subtitle">Take out the guess work on your goals</p>
             <h1>TAKE OUR AESTHETICS QUIZ</h1>
@@ -25,25 +25,9 @@ const HomePage = () => {
             <div className="view-toggle-container">
               <button className="view-toggle">Take The Quiz</button>
             </div>
-            {/* <div className="steps-container">
-              <div className="step">
-                <div className="step-icon">1</div>
-                <h3>Body Area Selection</h3>
-                <p>Choose the area of your body you're interested in treating from the front or back view</p>
-              </div>
-              <div className="step">
-                <div className="step-icon">2</div>
-                <h3>Identify Your Condition</h3>
-                <p>Select the specific condition you'd like to address</p>
-              </div>
-              <div className="step">
-                <div className="step-icon">3</div>
-                <h3>Get Recommendations</h3>
-                <p>Receive personalized service recommendations</p>
-              </div>
-            </div> */}
+          
           </div>
-        </section>
+        </section> */}
 
         {/* Quiz Container */}
         <section className="quiz-container-section">
@@ -53,7 +37,7 @@ const HomePage = () => {
         </section>
 
         {/* Additional Information Section */}
-        <section className="info-section">
+        {/* <section className="info-section">
           <div className="container">
             <h2>About Our Treatments</h2>
             <p>
@@ -76,11 +60,11 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
 
       {/* Footer */}
-      <footer className="quiz-footer">
+      {/* <footer className="quiz-footer">
         <div className="container">
           <p>
             © {new Date().getFullYear()} Evolve Med Spa. All rights reserved.
@@ -91,7 +75,7 @@ const HomePage = () => {
             <a href="/contact">Contact Us</a>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };
