@@ -264,7 +264,7 @@ const BodyQuiz = () => {
       return (
         <div className="consultation-form">
           <div className="form-container">
-            <h3>Complete your consultation</h3>
+            <h3>Complete your Consultation</h3>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -319,7 +319,7 @@ const BodyQuiz = () => {
                   marketing communications via email and SMS messages. Msg &
                   data rates may apply. Msg frequency varies. Reply HELP for
                   help and STOP to cancel. View our{" "}
-                  <a href="/privacy-policy">Privacy Policy</a>
+                  <a href="/#">Privacy Policy</a>
                 </label>
               </div>
 
@@ -349,18 +349,20 @@ const BodyQuiz = () => {
       return (
         <div>
           <h3 className="quiz-card-header-text">
-            Your Selections (
+            Your Selections
+            {/* (
             {selectedBodyParts.reduce(
               (total, item) => total + item.conditions.length,
               0
             )}
-            )
+            ) */}
           </h3>
           {selectedBodyParts.map((item) => (
             <div key={item.area.id} className="body-part-section">
               <p className="body-part-name">
                 <strong>{item.area.name}</strong>
               </p>
+
               {item.conditions.length > 0 ? (
                 <ul className="conditions-list">
                   {item.conditions.map((condition) => (
@@ -478,12 +480,12 @@ const BodyQuiz = () => {
                         <div className="scroll-content">
                           {allServices.map((service) => (
                             <div key={service.id} className="treatment-item">
-                              <div className="card-separator" />
                               <span className="card-badge">
                                 {service.taxonomy[0]?.name}
                               </span>
                               <h3>{service.title}</h3>
                               <p>{service?.description || "Description..."}</p>
+                              <div className="card-separator" />
                             </div>
                           ))}
                         </div>

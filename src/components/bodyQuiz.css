@@ -87,15 +87,15 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  /* padding: 2rem; */
 }
-
+/* 
 .submission-container {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   padding: 1rem 2rem;
-}
+} */
 
 .submission-header {
   text-align: center;
@@ -105,6 +105,7 @@ body {
 .submission-header h2 {
   font-size: 2rem;
   color: var(--dark-color);
+  margin-bottom: 0px;
  
 }
 
@@ -140,35 +141,37 @@ body {
   color: var(--dark-color);
 }
 
-.card-content {
-  padding: 1.5rem;
-}
 
 .scroll-area {
-  height: 300px;
-  overflow-y: auto;
+  height: 354px;
   padding-right: 1rem;
+  padding-left: 1rem;
+  padding-top: 1rem;
+  position: relative;
+  overflow-y: auto;
 }
 
 .scroll-content {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-}
 
-.treatment-item {
-  padding-bottom: 1rem;
 }
+/* 
+.treatment-item {
+
+} */
 
 .treatment-item h3 {
   margin: 0.5rem 0;
   font-size: 1.1rem;
+
 }
 
 .treatment-item p {
   margin: 0.5rem 0 0;
   font-size: 0.9rem;
   color: #666;
+  padding-bottom: 1rem;
 }
 
 .card-badge {
@@ -213,7 +216,17 @@ body {
   .quiz-main-grid {
     grid-template-columns: 1fr;
   }
-  
+  /* .recommendations-grid {
+  display: grid;
+  align-items: center;
+justify-content: center;
+} */
+
+  .submission-section {
+    display: flex;
+  align-items: center;
+justify-content: center;
+}
   .selection-panel {
     position: static;
     order: -1;
@@ -231,7 +244,7 @@ body {
 
 @media (max-width: 768px) {
   .quiz-main-grid {
-    padding: 1rem;
+    /* padding: 1rem; */
   }
   
   .quiz-content-area,
@@ -361,9 +374,7 @@ body {
 
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
-  .quiz-main-grid {
-    grid-template-columns: 1fr;
-  }
+ 
   
   .selection-panel {
     position: static;
@@ -377,9 +388,7 @@ body {
 }
 
 @media (max-width: 768px) {
-  .quiz-main-grid {
-    padding: 1rem;
-  }
+
   
   .quiz-content-area,
   .selection-panel {
@@ -458,18 +467,19 @@ body {
 }
 
 .form-container {
-  background: #fff;
+  padding: 30px 0;
+  /* background: #fff;
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-  padding: 30px;
   width: 100%;
   max-width: 600px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
 }
 
 .form-container h3 {
   font-size: 24px;
   margin-bottom: 30px;
+  align-items: center;
   padding: 0 0 15px 0;
   color: #222;
   border-bottom: 1px solid #DAC4B8;
@@ -591,6 +601,7 @@ body {
   font-weight: 600;
   font-size: 1.1rem;
   color: #2c3e50; 
+  border-bottom: 1px solid #DAC4B8;
 }
 
 .sub-label {
@@ -811,10 +822,7 @@ body {
   width: 100%;
   height: 1px;
   margin: 0.5rem 0 1rem 0;
-
-
-
-  background-color: #dac4b8;
+ background-color: #dac4b8;
   /* color: black;
   font-size: 0.6875rem;
   font-weight: 400;
@@ -829,9 +837,8 @@ body {
 .card-content {
   position: relative;
   z-index: 10;
-  padding-top: 1.75rem;
-  padding-left: 2.25rem;
-  padding-right: 2.25rem;
+  padding: 0 ;
+  /* padding-left: 30px; */
 }
 
 .card-badge {
@@ -848,19 +855,7 @@ body {
   font-family: 'Poppins', Helvetica, sans-serif;
 }
 
-.scroll-area {
-  height: 354px;
-  padding-right: 1.5rem;
-  margin-top: 1rem;
-  position: relative;
-  overflow-y: auto;
-}
 
-.scroll-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
 
 .treatment-item h3 {
   font-weight: 700;
