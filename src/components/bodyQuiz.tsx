@@ -21,6 +21,7 @@ interface SelectedBodyPart {
     }[];
   }[];
 }
+
 const BodyQuiz = () => {
   const [areasResponse, setAreasResponse] = useState<AreasResponse>([]);
   const [selectedAreas, setSelectedAreas] = useState<Area[]>([]);
@@ -31,7 +32,12 @@ const BodyQuiz = () => {
   >([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Updated view states
   const [showFrontView, setShowFrontView] = useState(true);
+  const [showBackView, setShowBackView] = useState(false);
+  const [showFaceView, setShowFaceView] = useState(false);
+
   const [showConsultationSummary, setShowConsultationSummary] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
@@ -142,8 +148,10 @@ const BodyQuiz = () => {
     }
   };
 
-  const toggleView = () => {
-    setShowFrontView(!showFrontView);
+  const toggleView = (viewType: "front" | "back" | "face") => {
+    setShowFrontView(viewType === "front");
+    setShowBackView(viewType === "back");
+    setShowFaceView(viewType === "face");
     setCurrentArea(null);
     setShowConsultationSummary(false);
     setShowForm(false);
@@ -265,6 +273,9 @@ const BodyQuiz = () => {
     setCurrentArea(null);
     setShowConsultationSummary(false);
     setShowForm(false);
+    setShowFrontView(true);
+    setShowBackView(false);
+    setShowFaceView(false);
   };
 
   if (error) return <div className="error-message">Error: {error}</div>;
@@ -360,15 +371,7 @@ const BodyQuiz = () => {
     if (showConsultationSummary && selectedBodyParts.length > 0) {
       return (
         <div>
-          <h3 className="quiz-card-header-text">
-            Your Selections
-            {/* (
-            {selectedBodyParts.reduce(
-              (total, item) => total + item.conditions.length,
-              0
-            )}
-            ) */}
-          </h3>
+          <h3 className="quiz-card-header-text">Your Selections</h3>
           {selectedBodyParts.map((item) => (
             <div key={item.area.id} className="body-part-section">
               <p className="body-part-name">
@@ -453,9 +456,34 @@ const BodyQuiz = () => {
                 selectedAreas={selectedAreas}
                 isLoading={isLoading}
                 showFrontView={showFrontView}
+                showBackView={showBackView}
+                showFaceView={showFaceView}
               />
-              <div onClick={toggleView} className="flipper">
-                {showFrontView ? "Back" : "Front"}
+              <div className="view-toggle-buttons">
+                {!showFrontView && (
+                  <button
+                    onClick={() => toggleView("front")}
+                    className="flipper"
+                  >
+                    Front
+                  </button>
+                )}
+                {!showBackView && (
+                  <button
+                    onClick={() => toggleView("back")}
+                    className="flipper"
+                  >
+                    Back
+                  </button>
+                )}
+                {!showFaceView && (
+                  <button
+                    onClick={() => toggleView("face")}
+                    className="flipper"
+                  >
+                    Face
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -469,55 +497,6 @@ const BodyQuiz = () => {
           selectedBodyParts={selectedBodyParts}
           resetQuiz={resetQuiz}
         />
-        // <div className="submission-section">
-        //   <div className="submission-container">
-        //     <div className="submission-header">
-        //       <h2>Your Recommendations Are In!</h2>
-        //       <span>
-        //         Here is what we suggest based on your skin + body goals:
-        //       </span>
-        //     </div>
-        //     <div className="submission-footer">
-        //       <button className="reset-button" onClick={resetQuiz}>
-        //         Take the quiz again
-        //       </button>
-        //       <button className="book-button">Book Appointment</button>
-        //     </div>
-        //     <div className="recommendations-grid">
-        //       {selectedBodyParts.map((item) => {
-        //         const allServices = item.conditions.flatMap(
-        //           (condition) => condition.recommended_services || []
-        //         );
-
-        //         if (allServices.length === 0) return null;
-
-        //         return (
-        //           <div key={item.area.id} className="recommendation-card">
-        //             <div className="card-header">
-        //               <h3>{item.area.name}</h3>
-        //             </div>
-        //             <div className="card-content">
-        //               <div className="scroll-area">
-        //                 <div className="scroll-content">
-        //                   {allServices.map((service) => (
-        //                     <div key={service.id} className="treatment-item">
-        //                       <span className="card-badge">
-        //                         {service.taxonomy[0]?.name}
-        //                       </span>
-        //                       <h3>{service.title}</h3>
-        //                       <p>{service?.description || "Description..."}</p>
-        //                       <div className="card-separator" />
-        //                     </div>
-        //                   ))}
-        //                 </div>
-        //               </div>
-        //             </div>
-        //           </div>
-        //         );
-        //       })}
-        //     </div>
-        //   </div>
-        // </div>
       )}
     </>
   );

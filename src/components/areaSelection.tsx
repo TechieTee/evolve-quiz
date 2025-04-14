@@ -1,6 +1,8 @@
 import React from "react";
 import "./areaSelection.css";
 import FrontBody from "../assets/body-front.svg";
+import BackBody from "../assets/body-back.svg";
+import Face from "../assets/face.svg";
 
 interface Area {
   id: number;
@@ -23,6 +25,8 @@ interface AreaSelectionProps {
   selectedAreas: Area[];
   isLoading?: boolean;
   showFrontView: boolean;
+  showBackView: boolean;
+  showFaceView: boolean;
 }
 
 const AreaSelection: React.FC<AreaSelectionProps> = ({
@@ -31,22 +35,47 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
   selectedAreas,
   isLoading = false,
   showFrontView,
+  showBackView,
+  showFaceView,
 }) => {
   const [message, setMessage] = React.useState<string | null>(null);
 
   const getChildAreas = (): Area[] => {
     if (isLoading) return [];
     if (!Array.isArray(areasResponse)) return [];
-    if (areasResponse.length < 2) return [];
 
-    const parentArea = showFrontView ? areasResponse[1] : areasResponse[0];
+    // Find the appropriate parent area based on current view
+    let parentArea: Area | undefined;
+
+    if (showFrontView) {
+      parentArea = areasResponse.find((area) => area.slug === "front");
+    } else if (showBackView) {
+      parentArea = areasResponse.find((area) => area.slug === "back");
+    } else if (showFaceView) {
+      parentArea = areasResponse.find((area) => area.slug === "face");
+    }
+
     return parentArea?.children || [];
   };
 
   const childAreas = React.useMemo(
     () => getChildAreas(),
-    [areasResponse, showFrontView, isLoading, getChildAreas]
+    [areasResponse, showFrontView, showBackView, showFaceView, isLoading]
   );
+
+  const getViewTitle = () => {
+    if (showFrontView) return "Front of Body";
+    if (showBackView) return "Back of Body";
+    if (showFaceView) return "Face Areas";
+    return "Body Areas";
+  };
+
+  const getBodyImage = () => {
+    if (showFrontView) return FrontBody;
+    if (showBackView) return BackBody;
+    if (showFaceView) return Face;
+    return FrontBody;
+  };
 
   const handleAreaClick = (area: Area) => {
     if (area.count === 0) {
@@ -83,12 +112,8 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
 
   return (
     <div className="area-selection-container">
-      {/* <h2 className="view-title">
-        {showFrontView ? "Front of Body" : "Back of Body"}
-      </h2> */}
-
+      {/* <h2 className="view-title">{getViewTitle()}</h2> */}
       {message && <div className="info-message">{message}</div>}
-
       <div className="area-selection-grid">
         {childAreas.length > 0 ? (
           childAreas.map((area) => (
@@ -98,18 +123,23 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
               className={`area-button ${
                 selectedAreas.some((a) => a.id === area.id) ? "active" : ""
               }`}
+              // disabled={area.count === 0}
             >
               <span className="area-name">{area.name}</span>
-              {/* <span className="condition-count">{area.count} conditions</span> */}
             </button>
           ))
         ) : (
           <div className="empty-state">
-            <p>No {showFrontView ? "front" : "back"} areas available</p>
+            <p>No {getViewTitle().toLowerCase()} available</p>
           </div>
         )}
-        <img src={FrontBody} alt="FrontBody" />
       </div>
+
+      <img
+        src={getBodyImage()}
+        alt={getViewTitle()}
+        className={`body-image ${showFaceView ? "face-image" : ""}`}
+      />
     </div>
   );
 };

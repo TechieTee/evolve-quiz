@@ -62,7 +62,11 @@ body {
   justify-content: space-evenly;
   align-items: start;
 }
-
+.view-toggle-buttons{
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
 .flipper {
   padding: 5px 25px;
   background-color: #DAC4B8;
