@@ -29,29 +29,6 @@ export const ServiceRecommendation = ({
   const [activeIndices, setActiveIndices] = useState<number[]>([]);
   const carouselRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const treatmentSections = selectedBodyParts.map((bodyPart, sectionIndex) => {
-    const treatments = bodyPart.conditions.flatMap(
-      (condition) =>
-        condition.recommended_services?.map((service) => ({
-          category: service.taxonomy[0]?.name || "SERVICE",
-          title: service.title,
-          description: service.description || "Description...",
-        })) || []
-    );
-
-    // Initialize active index for each section
-    if (activeIndices[sectionIndex] === undefined) {
-      activeIndices[sectionIndex] = 0;
-    }
-
-    return {
-      title: bodyPart.conditions.flatMap(
-        (condition) => condition.title || "Condition Title Not Available"
-      ),
-      treatments,
-    };
-  });
-
   const scrollToSlide = (sectionIndex: number, slideIndex: number) => {
     const carousel = carouselRefs.current[sectionIndex];
     if (carousel) {
@@ -83,11 +60,14 @@ export const ServiceRecommendation = ({
 
   const navigateSlide = (sectionIndex: number, direction: "prev" | "next") => {
     const currentIndex = activeIndices[sectionIndex] || 0;
-    const treatments = treatmentSections[sectionIndex]?.treatments || [];
+    const carousel = carouselRefs.current[sectionIndex];
+    if (!carousel) return;
+
+    const treatmentsCount = carousel.children.length;
     const newIndex =
       direction === "prev"
         ? Math.max(0, currentIndex - 1)
-        : Math.min(treatments.length - 1, currentIndex + 1);
+        : Math.min(treatmentsCount - 1, currentIndex + 1);
     scrollToSlide(sectionIndex, newIndex);
   };
 
@@ -107,75 +87,99 @@ export const ServiceRecommendation = ({
           </div>
         </header>
 
-        {treatmentSections.map((section, sectionIndex) => (
-          <section key={sectionIndex} className="treatment-section">
-            <div className="section-header">
-              <h2 className="section-title">{section.title}</h2>
-            </div>
-            {section.treatments.length > 0 ? (
-              <>
-                <div className="carousel">
-                  <div
-                    className="carousel-content"
-                    ref={(el) => {
-                      carouselRefs.current[sectionIndex] = el;
-                    }}
-                    onScroll={() => handleScroll(sectionIndex)}
-                  >
-                    {section.treatments.map((treatment, index) => (
-                      <div key={index} className="carousel-item">
-                        <div className="card">
-                          <div className="card-content">
-                            <span className="badge">{treatment.category}</span>
-                            <h3 className="treatment-title">
-                              {treatment.title}
-                            </h3>
-                            <p className="treatment-description">
-                              {treatment.description}
-                            </p>
-                          </div>
+        {selectedBodyParts.map((bodyPart, bodyPartIndex) => (
+          <div key={bodyPartIndex}>
+            <h2 className="body-part-title">{bodyPart.area.name}</h2>
+            {bodyPart.conditions.map((condition, conditionIndex) => {
+              const sectionIndex = bodyPartIndex * 100 + conditionIndex; // Create unique index
+              const treatments =
+                condition.recommended_services?.map((service) => ({
+                  category: service.taxonomy[0]?.name || "SERVICE",
+                  title: service.title,
+                  description: service.description || "Description...",
+                })) || [];
+
+              // Initialize active index if not set
+              if (activeIndices[sectionIndex] === undefined) {
+                activeIndices[sectionIndex] = 0;
+              }
+
+              return (
+                <section key={conditionIndex} className="treatment-section">
+                  <div className="section-header">
+                    <h2 className="section-title">{condition.title}</h2>
+                  </div>
+                  {treatments.length > 0 ? (
+                    <>
+                      <div className="carousel">
+                        <div
+                          className="carousel-content"
+                          ref={(el) => {
+                            carouselRefs.current[sectionIndex] = el;
+                          }}
+                          onScroll={() => handleScroll(sectionIndex)}
+                        >
+                          {treatments.map((treatment, index) => (
+                            <div key={index} className="carousel-item">
+                              <div className="card">
+                                <div className="card-content">
+                                  <span className="badge">
+                                    {treatment.category}
+                                  </span>
+                                  <h3 className="treatment-title">
+                                    {treatment.title}
+                                  </h3>
+                                  <p className="treatment-description">
+                                    {treatment.description}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="carousel-navigation">
+                          <button
+                            className="carousel-prev"
+                            onClick={() => navigateSlide(sectionIndex, "prev")}
+                            disabled={activeIndices[sectionIndex] === 0}
+                          >
+                            <ArrowLeft className="w-5 h-5" color="black" />
+                          </button>
+                          <button
+                            className="carousel-next"
+                            onClick={() => navigateSlide(sectionIndex, "next")}
+                            disabled={
+                              activeIndices[sectionIndex] ===
+                              treatments.length - 1
+                            }
+                          >
+                            <ArrowRight className="w-5 h-5" color="black" />
+                          </button>
+                        </div>
+                        <div className="dots-navigation">
+                          {treatments.map((_, i) => (
+                            <div
+                              key={i}
+                              className={`dot ${
+                                i === activeIndices[sectionIndex]
+                                  ? "active"
+                                  : ""
+                              }`}
+                              onClick={() => scrollToSlide(sectionIndex, i)}
+                            ></div>
+                          ))}
                         </div>
                       </div>
-                    ))}
-                  </div>
-                  <div className="carousel-navigation">
-                    <button
-                      className="carousel-prev"
-                      onClick={() => navigateSlide(sectionIndex, "prev")}
-                      disabled={activeIndices[sectionIndex] === 0}
-                    >
-                      <ArrowLeft className="w-5 h-5" color="black" />
-                    </button>
-                    <button
-                      className="carousel-next"
-                      onClick={() => navigateSlide(sectionIndex, "next")}
-                      disabled={
-                        activeIndices[sectionIndex] ===
-                        section.treatments.length - 1
-                      }
-                    >
-                      <ArrowRight className="w-5 h-5" color="black" />
-                    </button>
-                  </div>
-                  <div className="dots-navigation">
-                    {section.treatments.map((_, i) => (
-                      <div
-                        key={i}
-                        className={`dot ${
-                          i === activeIndices[sectionIndex] ? "active" : ""
-                        }`}
-                        onClick={() => scrollToSlide(sectionIndex, i)}
-                      ></div>
-                    ))}
-                  </div>
-                </div>
-              </>
-            ) : (
-              <p className="no-treatments">
-                No treatments recommended for this area
-              </p>
-            )}
-          </section>
+                    </>
+                  ) : (
+                    <p className="no-treatments">
+                      No treatments recommended for this condition
+                    </p>
+                  )}
+                </section>
+              );
+            })}
+          </div>
         ))}
       </div>
     </main>

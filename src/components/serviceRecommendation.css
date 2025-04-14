@@ -161,32 +161,35 @@
 
 .carousel-prev,
 .carousel-next {
+  background-color: transparent;
   position: relative;
   overflow: hidden;
   pointer-events: auto;
-  background-color: transparent;
-  width: 40px;
-  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.carousel-prev:active ,
+.carousel-next:active {
+ border: none;
+ outline: none;
 }
 
 
 
 .carousel-prev:hover,
 .carousel-next:hover {
-  background-color:transparent;
+  background-color:transparent!important;
 }
 
 .carousel-prev:disabled,
 .carousel-next:disabled {
   opacity: 0.3;
   cursor: not-allowed;
-  background-color: #f0f0f0;
+  background-color:transparent;
 }
 
 .dots-navigation {
@@ -214,4 +217,18 @@
   color: #666;
   padding: 20px;
   font-style: italic;
+}
+
+.body-part-title {
+  font-size: 1.75rem;
+  color: #333;
+  margin: 60px 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #70C1B3;
+  text-align: center;
+}
+
+
+.treatment-section {
+  margin: 40px 0;
 }
