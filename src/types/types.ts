@@ -3,7 +3,7 @@ export interface Taxonomy {
     id: string;
     name: string;
   }
-  
+
   export interface Service {
     description: string;
     id: string;
@@ -12,13 +12,25 @@ export interface Taxonomy {
     taxonomy: Taxonomy[];
   }
   
-  export interface Condition {
-    id: string;
-    title: string;
-    link: string;
-    recommended_services: Service[];
+  export interface BodyPart {
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
+    count: number;
+    children: BodyPart[];
   }
-  
+  export interface Condition {
+    id: number; 
+    title: string;
+ 
+    recommended_services?: {
+      id: number;
+      title: string;
+      description: string;
+      taxonomy: { name: string }[];
+    }[];
+  }
   export interface Area {
     id: number;
     name: string;

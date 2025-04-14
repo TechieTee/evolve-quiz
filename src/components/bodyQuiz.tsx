@@ -3,12 +3,24 @@ import AreaSelection from "./areaSelection";
 import ConditionDisplay from "./conditionalDisplay";
 import "./bodyQuiz.css";
 import { Area, AreasResponse, Condition } from "../types/types";
+import { ServiceRecommendation } from "./serviceRecommendation";
 
 interface SelectedBodyPart {
-  area: Area;
-  conditions: Condition[];
+  area: {
+    id: number;
+    name: string;
+  };
+  conditions: {
+    id: number;
+    title: string;
+    recommended_services?: {
+      id: number;
+      title: string;
+      description: string;
+      taxonomy: { name: string }[];
+    }[];
+  }[];
 }
-
 const BodyQuiz = () => {
   const [areasResponse, setAreasResponse] = useState<AreasResponse>([]);
   const [selectedAreas, setSelectedAreas] = useState<Area[]>([]);
@@ -238,7 +250,7 @@ const BodyQuiz = () => {
     });
   };
 
-  const getSelectedConditionsForCurrentArea = () => {
+  const getSelectedConditionsForCurrentArea = (): Condition[] => {
     if (!currentArea) return [];
     const bodyPart = selectedBodyParts.find(
       (item) => item.area.id === currentArea.id
@@ -453,57 +465,59 @@ const BodyQuiz = () => {
       )}
 
       {submittedData && (
-        <div className="submission-section">
-          <div className="submission-container">
-            <div className="submission-header">
-              <h2>Your Recommendations Are In!</h2>
-              <span>
-                Here is what we suggest based on your skin + body goals:
-              </span>
-            </div>
+        <ServiceRecommendation
+          selectedBodyParts={selectedBodyParts}
+          resetQuiz={resetQuiz}
+        />
+        // <div className="submission-section">
+        //   <div className="submission-container">
+        //     <div className="submission-header">
+        //       <h2>Your Recommendations Are In!</h2>
+        //       <span>
+        //         Here is what we suggest based on your skin + body goals:
+        //       </span>
+        //     </div>
+        //     <div className="submission-footer">
+        //       <button className="reset-button" onClick={resetQuiz}>
+        //         Take the quiz again
+        //       </button>
+        //       <button className="book-button">Book Appointment</button>
+        //     </div>
+        //     <div className="recommendations-grid">
+        //       {selectedBodyParts.map((item) => {
+        //         const allServices = item.conditions.flatMap(
+        //           (condition) => condition.recommended_services || []
+        //         );
 
-            <div className="recommendations-grid">
-              {selectedBodyParts.map((item) => {
-                const allServices = item.conditions.flatMap(
-                  (condition) => condition.recommended_services || []
-                );
+        //         if (allServices.length === 0) return null;
 
-                if (allServices.length === 0) return null;
-
-                return (
-                  <div key={item.area.id} className="recommendation-card">
-                    <div className="card-header">
-                      <h3>{item.area.name}</h3>
-                    </div>
-                    <div className="card-content">
-                      <div className="scroll-area">
-                        <div className="scroll-content">
-                          {allServices.map((service) => (
-                            <div key={service.id} className="treatment-item">
-                              <span className="card-badge">
-                                {service.taxonomy[0]?.name}
-                              </span>
-                              <h3>{service.title}</h3>
-                              <p>{service?.description || "Description..."}</p>
-                              <div className="card-separator" />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="submission-footer">
-              <button className="reset-button" onClick={resetQuiz}>
-                Take the quiz again
-              </button>
-              <button className="book-button">Book Appointment</button>
-            </div>
-          </div>
-        </div>
+        //         return (
+        //           <div key={item.area.id} className="recommendation-card">
+        //             <div className="card-header">
+        //               <h3>{item.area.name}</h3>
+        //             </div>
+        //             <div className="card-content">
+        //               <div className="scroll-area">
+        //                 <div className="scroll-content">
+        //                   {allServices.map((service) => (
+        //                     <div key={service.id} className="treatment-item">
+        //                       <span className="card-badge">
+        //                         {service.taxonomy[0]?.name}
+        //                       </span>
+        //                       <h3>{service.title}</h3>
+        //                       <p>{service?.description || "Description..."}</p>
+        //                       <div className="card-separator" />
+        //                     </div>
+        //                   ))}
+        //                 </div>
+        //               </div>
+        //             </div>
+        //           </div>
+        //         );
+        //       })}
+        //     </div>
+        //   </div>
+        // </div>
       )}
     </>
   );
