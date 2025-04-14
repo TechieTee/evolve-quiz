@@ -96,7 +96,9 @@ export const ServiceRecommendation = ({
                 condition.recommended_services?.map((service) => ({
                   category: service.taxonomy[0]?.name || "SERVICE",
                   title: service.title,
-                  description: service.description || "Description...",
+                  description:
+                    service.description ||
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur...",
                 })) || [];
 
               // Initialize active index if not set
