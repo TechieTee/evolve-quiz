@@ -89,7 +89,6 @@ export const ServiceRecommendation = ({
 
         {selectedBodyParts.map((bodyPart, bodyPartIndex) => (
           <div key={bodyPartIndex}>
-            <h2 className="body-part-title">{bodyPart.area.name}</h2>
             {bodyPart.conditions.map((condition, conditionIndex) => {
               const sectionIndex = bodyPartIndex * 100 + conditionIndex; // Create unique index
               const treatments =
