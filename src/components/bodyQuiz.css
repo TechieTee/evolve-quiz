@@ -14,7 +14,7 @@
 /* Base Reset & Typography */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
   color: var(--dark-color);
   background-color: var(--light-color);
@@ -23,15 +23,18 @@ body {
 /* Main Grid Container */
 .quiz-main-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr; 
+  background-color: rgb(255, 255, 255);
+  grid-template-columns: 1fr 1fr;
   align-items: start;
-  width: 100%;
-  max-width: 1400px;
+
+  /* max-width: 1400px; */
   margin: 0 auto;
+  padding: 2rem;
 }
 
 /* Left Content Area */
-.quiz-content-area {
+/* .quiz-content-area {
+
   background: #FBF8F2;
   border-radius: var(--border-radius);
   padding: 2rem;
@@ -39,37 +42,41 @@ body {
   align-items: center;
   justify-content: flex-start;
   gap: 1rem;
-  min-height: 70vh;
-}
+  min-height: 70vh; 
+} */
 
 /* Right Selection Panel */
 .selection-panel {
-  background: rgba(255, 255, 255, 0.748);
-  padding: 0 2rem;
+  /* padding: 2rem; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: 1rem;
-  min-height: 70vh;
+  /* justify-content: flex-start; */
+
+  min-height: 90vh;
 }
 
 /* View Toggle */
 .view-toggle-container {
-  width: 100%;
+  background-color: #fbf8f2;
+  padding: 2rem;
+  border-radius: 25px;
   display: flex;
-  gap: 5rem;
-  justify-content: space-evenly;
-  align-items: start;
-}
-.view-toggle-buttons{
-  display: flex;
+  flex-direction: column;
   gap: 1rem;
-  margin-bottom: 2rem;
+  min-height: 90vh;
+  justify-content: start;
+  align-items: center;
+}
+.view-toggle-buttons {
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  gap: 1rem;
 }
 .flipper {
   padding: 5px 25px;
-  background-color: #DAC4B8;
+  background-color: #dac4b8;
   outline: none;
   border: none;
   border: 0px solid #ccc;
@@ -110,7 +117,6 @@ body {
   font-size: 2rem;
   color: var(--dark-color);
   margin-bottom: 0px;
- 
 }
 
 .submission-header span {
@@ -126,7 +132,7 @@ body {
 }
 
 .recommendation-card {
-  background: #FBF8F2;
+  background: #fbf8f2;
   border-radius: 10px;
   /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); */
   overflow: hidden;
@@ -145,7 +151,6 @@ body {
   color: var(--dark-color);
 }
 
-
 .scroll-area {
   height: 354px;
   padding-right: 1rem;
@@ -158,7 +163,6 @@ body {
 .scroll-content {
   display: flex;
   flex-direction: column;
-
 }
 /* 
 .treatment-item {
@@ -168,7 +172,6 @@ body {
 .treatment-item h3 {
   margin: 0.5rem 0;
   font-size: 1.1rem;
-
 }
 
 .treatment-item p {
@@ -185,13 +188,13 @@ body {
   font-size: 0.75rem;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
-  border: 1px solid #DAC4B8;
+  border: 1px solid #dac4b8;
   margin-bottom: 0.5rem;
 }
 
 .card-separator {
   height: 1px;
-  background: #DAC4B8;
+  background: #dac4b8;
   margin: 0.5rem 0;
 }
 
@@ -210,7 +213,6 @@ body {
   font-size: 1rem;
 }
 
-
 .book-button:hover {
   background: var(--secondary-color);
 }
@@ -228,18 +230,14 @@ justify-content: center;
 
   .submission-section {
     display: flex;
-  align-items: center;
-justify-content: center;
-}
-  .selection-panel {
-    position: static;
-    order: -1;
-    margin-bottom: 2rem;
+    align-items: center;
+    justify-content: center;
   }
-  
+
+  /*   
   .quiz-content-area {
     min-height: auto;
-  }
+  } */
 
   .recommendations-grid {
     grid-template-columns: 1fr;
@@ -247,14 +245,11 @@ justify-content: center;
 }
 
 @media (max-width: 768px) {
-  .quiz-main-grid {
-    /* padding: 1rem; */
-  }
-  
+  /*   
   .quiz-content-area,
   .selection-panel {
     padding: 1.5rem;
-  }
+  } */
 
   .submission-footer {
     flex-direction: column;
@@ -266,17 +261,6 @@ justify-content: center;
 /* Rest of your existing CSS styles... */
 /* (Keep all your existing styles for other components) */
 /* Right Selection Panel */
-.selection-panel {
-  background: rgba(255, 255, 255, 0.748);
-  padding: 0 2rem;
-  /* box-shadow: var(--box-shadow); */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 1rem;
-  min-height: 70vh;
-}
 
 /* Header Styles */
 .selection-header {
@@ -301,7 +285,7 @@ justify-content: center;
 
 .flipper {
   padding: 5px 25px;
-  background-color: #DAC4B8;
+  background-color: #dac4b8;
   outline: none;
   border: none;
   border: 0px solid #ccc;
@@ -326,14 +310,6 @@ justify-content: center;
 
 .undo-icon:hover {
   color: rgb(16, 101, 175); /* or any color you want on hover */
-}
-/* View Toggle */
-.view-toggle-container {
-  width: 100%;
-  display: flex;
-  gap: 5rem;
-  justify-content: space-evenly;
-  align-items: start;
 }
 
 .view-toggle {
@@ -378,29 +354,16 @@ justify-content: center;
 
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
- 
-  
   .selection-panel {
-    position: static;
+    /* position: static;
     order: -1;
-    margin-bottom: 2rem;
+    margin-bottom: 2rem; */
   }
-  
-  .quiz-content-area {
+
+  /* .quiz-content-area {
     min-height: auto;
-  }
+  } */
 }
-
-@media (max-width: 768px) {
-
-  
-  .quiz-content-area,
-  .selection-panel {
-    padding: 1.5rem;
-  }
-}
-
-
 
 .consultation-summary {
   background-color: #ffffff;
@@ -409,7 +372,7 @@ justify-content: center;
   margin: 40px auto;
   border-radius: 12px;
   /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
 }
 
@@ -447,67 +410,43 @@ justify-content: center;
   font-size: 15px;
 }
 
-.consultation-form-button {
-  background-color: #007bff;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-  width: 100%;
-}
-
-.consultation-form-button:hover {
-  background-color: #0056b3;
-}
-
 .consultation-form {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
- 
+  margin-top: 5rem;
+  min-height: 80vh;
+  padding: 0 10rem;
+
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
 }
 
-.form-container {
-  padding: 30px 0;
-  /* background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-  width: 100%;
-  max-width: 600px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-}
-
-.form-container h3 {
+.consultation-form h5 {
   font-size: 24px;
   margin-bottom: 30px;
   align-items: center;
-  padding: 0 0 15px 0;
+  padding: 0;
   color: #222;
-  border-bottom: 1px solid #DAC4B8;
-}
-
-.form-container p {
-  margin-bottom: 20px;
-  color: #555;
+  border-bottom: 1px solid #dac4b8;
 }
 
 .form-group {
   margin-bottom: 20px;
-  padding: 0 20px 0 0;
+  /* padding: 0 20px 0 0; */
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 6px;
-  font-weight: 400;
+  margin: 10px;
+  font-weight: 600;
   color: #333;
 }
 
 .form-group input {
-  width: 100%;
+  width: 90%;
   color: #000;
   padding: 12px 14px;
   background-color: #fff !important;
@@ -524,10 +463,9 @@ justify-content: center;
 }
 
 .form-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin: 50px 0 0 10px;
+  display: grid;
+
+  margin-top: 100px;
 }
 
 .checkbox-group {
@@ -540,9 +478,12 @@ justify-content: center;
 .checkbox-group input[type="checkbox"] {
   margin-top: 3px;
 }
-
+#consent {
+  width: auto !important;
+  margin-top: 12px;
+}
 .consent-text {
-  font-weight: 300;
+  font-weight: 300 !important;
   font-size: 12px;
   line-height: 1.4;
   color: #666;
@@ -565,13 +506,13 @@ justify-content: center;
 
 .primary-button {
   background-color: #ffffff;
-  border: 1px solid  #333;
+  border: 1px solid #333;
   color: white;
 }
 
 .primary-button:hover {
   background-color: #ffffff;
-  border: 1px solid  #333;
+  border: 1px solid #333;
 }
 
 .secondary-button {
@@ -583,29 +524,19 @@ justify-content: center;
   background-color: #c6c6c6;
 }
 
-
-
 /* Add these new styles */
 .grouped-data {
   display: flex;
   gap: 20px;
-
-}
-
-
-.body-part-header {
-  text-align: left;
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #2c3e50; 
 }
 
 .body-part-name {
- text-align: left;
+  text-align: left;
   font-weight: 600;
   font-size: 1.1rem;
-  color: #2c3e50; 
-  border-bottom: 1px solid #DAC4B8;
+  color: #000000;
+  padding: 10px;
+  border-bottom: 1px solid #dac4b8;
 }
 
 .sub-label {
@@ -614,9 +545,6 @@ justify-content: center;
   margin-bottom: 5px;
   color: #555;
 }
-
-
-
 
 /* Adjust service recommendations styling */
 .service-recommendations {
@@ -641,10 +569,31 @@ justify-content: center;
   padding: 15px;
   background: white;
 }
+.selected-body-conditions {
+  display: flex;
+  margin-top: 5rem;
+  min-height: 80vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-
-
-
+.ff {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+}
+.start {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+}
+.condition-container {
+  display: flex;
+  margin-top: 5rem;
+  min-height: 80vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
 .conditions-list {
   display: flex;
@@ -657,7 +606,7 @@ justify-content: center;
 
 .conditions-list li {
   position: relative;
-  background-color: #FBF8F2;
+  background-color: #fbf8f2;
   border-radius: 5px;
   padding: 8px 30px 8px 12px;
   font-size: 14px;
@@ -671,21 +620,21 @@ justify-content: center;
   content: "|";
   position: absolute;
   right: 24px;
-  color: #DAC4B8;
-  font-size: 16px; 
+  color: #dac4b8;
+  font-size: 16px;
 }
 
 .conditions-list li .delete-icon {
   position: absolute;
   right: 8px;
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.8);
   width: 16px;
   height: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px; 
+  font-size: 20px;
 }
 
 .conditions-list li .delete-icon:hover {
@@ -707,25 +656,13 @@ justify-content: center;
   margin-top: 30px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 .service-recommendation-main {
   background-color: white;
   display: flex;
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  min-height: 100vh;
+  min-height: 90vh;
 }
 
 .service-recommendation-container {
@@ -752,7 +689,7 @@ justify-content: center;
   text-align: center;
   line-height: 2.25rem;
   margin-bottom: 1rem;
-  font-family: 'Poppins', Helvetica, sans-serif;
+  font-family: "Poppins", Helvetica, sans-serif;
 }
 
 .service-recommendation-header p {
@@ -760,7 +697,7 @@ justify-content: center;
   font-size: 1.125rem;
   text-align: center;
   line-height: normal;
-  font-family: 'Poppins', Helvetica, sans-serif;
+  font-family: "Poppins", Helvetica, sans-serif;
   max-width: 389px;
 }
 
@@ -790,13 +727,11 @@ justify-content: center;
   flex-direction: column;
   max-width: 400px;
   height: 477px;
-  background: #FBF8F2;
+  background: #fbf8f2;
   border: none;
   overflow: hidden;
   position: relative;
 }
-
-
 
 .card-image {
   width: 100%;
@@ -819,14 +754,14 @@ justify-content: center;
   font-weight: 700;
   font-size: 1.125rem;
   color: black;
-  font-family: 'Poppins', Helvetica, sans-serif;
+  font-family: "Poppins", Helvetica, sans-serif;
 }
 
 .card-separator {
   width: 100%;
   height: 1px;
   margin: 0.5rem 0 1rem 0;
- background-color: #dac4b8;
+  background-color: #dac4b8;
   /* color: black;
   font-size: 0.6875rem;
   font-weight: 400;
@@ -841,7 +776,7 @@ justify-content: center;
 .card-content {
   position: relative;
   z-index: 10;
-  padding: 0 ;
+  padding: 0;
   /* padding-left: 30px; */
 }
 
@@ -856,10 +791,8 @@ justify-content: center;
   padding-right: 1rem;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
-  font-family: 'Poppins', Helvetica, sans-serif;
+  font-family: "Poppins", Helvetica, sans-serif;
 }
-
-
 
 .treatment-item h3 {
   font-weight: 700;
@@ -907,7 +840,7 @@ justify-content: center;
 }
 
 .quiz-button {
-  font-family: 'Poppins', Helvetica, sans-serif;
+  font-family: "Poppins", Helvetica, sans-serif;
   font-weight: 700;
   font-size: 1.125rem;
   color: black;
@@ -924,7 +857,7 @@ justify-content: center;
   background-color: #70c1b3;
   color: black;
   border-radius: 100px;
-  font-family: 'Poppins', Helvetica, sans-serif;
+  font-family: "Poppins", Helvetica, sans-serif;
   font-weight: 700;
   font-size: 1.25rem;
   border: none;
@@ -936,11 +869,15 @@ justify-content: center;
 }
 
 .quiz-card-header-text {
-  text-align: center;
+  text-align: left;
   color: black;
   font-size: 30px;
 }
-
+.quiz-card-desc-text {
+  text-align: center;
+  color: black;
+  font-size: 16px;
+}
 .fallback-content {
   text-align: center;
   padding: 20px;

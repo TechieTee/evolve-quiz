@@ -286,113 +286,111 @@ const BodyQuiz = () => {
     if (showForm) {
       return (
         <div className="consultation-form">
-          <div className="form-container">
-            <h3>Complete your Consultation</h3>
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="Enter your full name"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="Enter your email"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="phone">Phone</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="Enter your phone number"
-                />
-              </div>
-
-              <div className="form-group checkbox-group">
-                <input
-                  type="checkbox"
-                  id="consent"
-                  name="consent"
-                  checked={formData.consent || false}
-                  onChange={handleInputChange}
-                  required
-                />
-                <label htmlFor="consent" className="consent-text">
-                  I agree to receiving appointment confirmations, reminders and
-                  marketing communications via email and SMS messages. Msg &
-                  data rates may apply. Msg frequency varies. Reply HELP for
-                  help and STOP to cancel. View our{" "}
-                  <a href="/#">Privacy Policy</a>
-                </label>
-              </div>
-
-              <input type="hidden" name="areas" value={formData.areas} />
+          <h5>Complete your Consultation</h5>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
               <input
-                type="hidden"
-                name="conditions"
-                value={formData.conditions}
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+                placeholder="Enter your full name"
               />
+            </div>
 
-              <div className="form-actions">
-                <button
-                  type="submit"
-                  className="area-button"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Submitting..." : "COMPLETE CONSULTATION"}
-                </button>
-              </div>
-            </form>
-          </div>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                placeholder="Enter your email"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="phone">Phone</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                required
+                placeholder="Enter your phone number"
+              />
+            </div>
+
+            <div className="form-group checkbox-group">
+              <input
+                type="checkbox"
+                id="consent"
+                name="consent"
+                checked={formData.consent || false}
+                onChange={handleInputChange}
+                required
+              />
+              <label htmlFor="consent" className="consent-text">
+                I agree to receiving appointment confirmations, reminders and
+                marketing communications via email and SMS messages. Msg & data
+                rates may apply. Msg frequency varies. Reply HELP for help and
+                STOP to cancel. View our <a href="/#">Privacy Policy</a>
+              </label>
+            </div>
+
+            <input type="hidden" name="areas" value={formData.areas} />
+            <input
+              type="hidden"
+              name="conditions"
+              value={formData.conditions}
+            />
+
+            <div className="form-actions">
+              <button
+                type="submit"
+                className="area-button"
+                disabled={isLoading}
+              >
+                {isLoading ? "Submitting..." : "COMPLETE CONSULTATION"}
+              </button>
+            </div>
+          </form>
         </div>
       );
     }
 
     if (showConsultationSummary && selectedBodyParts.length > 0) {
       return (
-        <div>
-          <h3 className="quiz-card-header-text">Your Selections</h3>
-          {selectedBodyParts.map((item) => (
-            <div key={item.area.id} className="body-part-section">
-              <p className="body-part-name">
-                <strong>{item.area.name}</strong>
-              </p>
+        <div className="selected-body-conditions">
+          <div className="ff">
+            <h3 className="quiz-card-header-text">Your Selections</h3>
+            {selectedBodyParts.map((item) => (
+              <div key={item.area.id} className="body-part-section">
+                <p className="body-part-name">
+                  <strong>{item.area.name}</strong>
+                </p>
 
-              {item.conditions.length > 0 ? (
-                <ul className="conditions-list">
-                  {item.conditions.map((condition) => (
-                    <li key={condition.id}>
-                      {condition.title}{" "}
-                      <span className="delete-icon">&times;</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="no-conditions">No conditions selected</p>
-              )}
-            </div>
-          ))}
-
+                {item.conditions.length > 0 ? (
+                  <ul className="conditions-list">
+                    {item.conditions.map((condition) => (
+                      <li key={condition.id}>
+                        {condition.title}{" "}
+                        <span className="delete-icon">&times;</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="no-conditions">No conditions selected</p>
+                )}
+              </div>
+            ))}
+          </div>
           <button
             onClick={handleOpenForm}
             className="area-button"
@@ -413,7 +411,7 @@ const BodyQuiz = () => {
       if (isLoading)
         return <div className="loading-spinner">Loading quiz data...</div>;
       return (
-        <>
+        <div className="condition-container">
           <ConditionDisplay
             bodypart={currentArea.name}
             conditions={conditions}
@@ -422,25 +420,21 @@ const BodyQuiz = () => {
           />
 
           {conditions.length > 0 && (
-            <button
-              onClick={handleAddToConsultation}
-              className="area-button"
-              style={{ marginTop: "60px" }}
-            >
+            <button onClick={handleAddToConsultation} className="area-button">
               ADD TREATMENTS
             </button>
           )}
-        </>
+        </div>
       );
     }
 
     return (
-      <>
+      <div className="start">
         <h3 className="quiz-card-header-text">Your Selections</h3>
         <span className="quiz-card-desc-text">
           Start your quiz by clicking on a body part you want to be treated.
         </span>
-      </>
+      </div>
     );
   };
 
@@ -448,44 +442,33 @@ const BodyQuiz = () => {
     <>
       {!submittedData && (
         <div className="quiz-main-grid">
-          <div className="quiz-content-area">
-            <div className="view-toggle-container">
-              <AreaSelection
-                areasResponse={areasResponse}
-                onSelect={handleAreaSelect}
-                selectedAreas={selectedAreas}
-                isLoading={isLoading}
-                showFrontView={showFrontView}
-                showBackView={showBackView}
-                showFaceView={showFaceView}
-              />
-              <div className="view-toggle-buttons">
-                {!showFrontView && (
-                  <button
-                    onClick={() => toggleView("front")}
-                    className="flipper"
-                  >
-                    Front
-                  </button>
-                )}
-                {!showBackView && (
-                  <button
-                    onClick={() => toggleView("back")}
-                    className="flipper"
-                  >
-                    Back
-                  </button>
-                )}
-                {!showFaceView && (
-                  <button
-                    onClick={() => toggleView("face")}
-                    className="flipper"
-                  >
-                    Face
-                  </button>
-                )}
-              </div>
+          <div className="view-toggle-container">
+            <div className="view-toggle-buttons">
+              {!showFrontView && (
+                <button onClick={() => toggleView("front")} className="flipper">
+                  Front
+                </button>
+              )}
+              {!showBackView && (
+                <button onClick={() => toggleView("back")} className="flipper">
+                  Back
+                </button>
+              )}
+              {!showFaceView && (
+                <button onClick={() => toggleView("face")} className="flipper">
+                  Face
+                </button>
+              )}
             </div>
+            <AreaSelection
+              areasResponse={areasResponse}
+              onSelect={handleAreaSelect}
+              selectedAreas={selectedAreas}
+              isLoading={isLoading}
+              showFrontView={showFrontView}
+              showBackView={showBackView}
+              showFaceView={showFaceView}
+            />
           </div>
 
           <div className="selection-panel">{renderSelectionPanelContent()}</div>

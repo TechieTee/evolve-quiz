@@ -23,51 +23,48 @@ const ConditionDisplay: React.FC<ConditionDisplayProps> = ({
   }
 
   return (
-    <div className="condition-container">
+    <div className="condition-grid">
       <h3 className="concerns-header-text">{bodypart} Concerns</h3>
-
-      <div className="condition-grid">
-        {conditions.map((condition) => (
-          <div
-            key={condition.id}
-            className={`condition-item ${
-              selectedConditions.some((c) => c.id === condition.id)
-                ? "selected"
-                : ""
-            }`}
-            onClick={() => onSelect(condition)}
-          >
-            <div className="condition-content">
-              <span className="condition-title">{condition.title}</span>
-              <span
-                className={`custom-checkbox ${
-                  selectedConditions.some((c) => c.id === condition.id)
-                    ? "checked"
-                    : ""
-                }`}
-              >
-                {" "}
-                {selectedConditions.some((c) => c.id === condition.id) && (
-                  <svg
-                    className="check-icon"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                )}
-              </span>
-            </div>
+      {conditions.map((condition) => (
+        <div
+          key={condition.id}
+          className={`condition-item ${
+            selectedConditions.some((c) => c.id === condition.id)
+              ? "selected"
+              : ""
+          }`}
+          onClick={() => onSelect(condition)}
+        >
+          <div className="condition-content">
+            <span className="condition-title">{condition.title}</span>
+            <span
+              className={`custom-checkbox ${
+                selectedConditions.some((c) => c.id === condition.id)
+                  ? "checked"
+                  : ""
+              }`}
+            >
+              {" "}
+              {selectedConditions.some((c) => c.id === condition.id) && (
+                <svg
+                  className="check-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="10"
+                  height="10"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              )}
+            </span>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };
