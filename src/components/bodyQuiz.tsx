@@ -258,6 +258,26 @@ const BodyQuiz = () => {
     });
   };
 
+  const handleRemoveCondition = (areaId: number, conditionId: number) => {
+    setSelectedBodyParts(
+      (prev) =>
+        prev
+          .map((item) => {
+            if (item.area.id === areaId) {
+              const updatedConditions = item.conditions.filter(
+                (c) => c.id !== conditionId
+              );
+              return {
+                ...item,
+                conditions: updatedConditions,
+              };
+            }
+            return item;
+          })
+          .filter((item) => item.conditions.length > 0) // Remove body parts with no conditions
+    );
+  };
+
   const getSelectedConditionsForCurrentArea = (): Condition[] => {
     if (!currentArea) return [];
     const bodyPart = selectedBodyParts.find(
@@ -381,7 +401,15 @@ const BodyQuiz = () => {
                     {item.conditions.map((condition) => (
                       <li key={condition.id}>
                         {condition.title}{" "}
-                        <span className="delete-icon">&times;</span>
+                        <span
+                          className="delete-icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveCondition(item.area.id, condition.id);
+                          }}
+                        >
+                          &times;
+                        </span>
                       </li>
                     ))}
                   </ul>
