@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import AreaSelection from "./areaSelection";
+// import AreaSelection from "./areaSelection";
 import ConditionDisplay from "./conditionalDisplay";
 import "./bodyQuiz.css";
 import { Area, AreasResponse, Condition } from "../types/types";
 import { ServiceRecommendation } from "./serviceRecommendation";
+import BodyMapSVG from "./BodyMapSVG";
 
 interface SelectedBodyPart {
   area: {
@@ -285,7 +286,16 @@ const BodyQuiz = () => {
     );
     return bodyPart ? bodyPart.conditions : [];
   };
-
+  const findAreaByName = (areas: Area[], name: string): Area | undefined => {
+    for (const area of areas) {
+      if (area.name === name) return area;
+      if (area.children?.length) {
+        const found = findAreaByName(area.children, name);
+        if (found) return found;
+      }
+    }
+    return undefined;
+  };
   const resetQuiz = () => {
     setSubmittedData(null);
     setSelectedAreas([]);
@@ -488,11 +498,26 @@ const BodyQuiz = () => {
                 </button>
               )}
             </div>
-            <AreaSelection
+            {/* <AreaSelection
               areasResponse={areasResponse}
               onSelect={handleAreaSelect}
               selectedAreas={selectedAreas}
               isLoading={isLoading}
+              showFrontView={showFrontView}
+              showBackView={showBackView}
+              showFaceView={showFaceView}
+            /> */}
+            <BodyMapSVG
+              viewType={
+                showFrontView ? "front" : showBackView ? "back" : "face"
+              }
+              selectedAreas={selectedAreas.map((a) => a.name)}
+              onAreaSelect={(areaName) => {
+                if (Array.isArray(areasResponse)) {
+                  const area = findAreaByName(areasResponse, areaName);
+                  if (area) handleAreaSelect(area);
+                }
+              }}
               showFrontView={showFrontView}
               showBackView={showBackView}
               showFaceView={showFaceView}

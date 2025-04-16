@@ -1,8 +1,8 @@
 import React from "react";
 import "./areaSelection.css";
-import FrontBody from "../assets/body-front.svg";
-import BackBody from "../assets/body-back.svg";
-import Face from "../assets/face.svg";
+import FrontBody from "/body-front.svg";
+import BackBody from "/body-back.svg";
+import Face from "/face.svg";
 
 interface Area {
   id: number;

@@ -1,0 +1,62 @@
+.body-map-svg-container {
+  width: 100%;
+  max-width: 187px;
+  margin: 0 auto;
+}
+
+.body-svg {
+  width: 100%;
+  height: auto;
+}
+
+.body-area-path {
+  fill: rgba(23, 106, 194, 0.2);
+  stroke: rgba(23, 106, 194, 0.5);
+  stroke-width: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.body-area-path.hovered {
+  fill: rgba(23, 106, 194, 0.3);
+  stroke: rgba(23, 106, 194, 0.8);
+}
+
+.body-area-path.selected {
+  fill: rgba(23, 106, 194, 0.1);
+  stroke: rgba(23, 106, 194, 1);
+  stroke-width: 2px;
+  stroke-dasharray: 3, 3;
+}
+
+.selected-area-indicator {
+  fill: none;
+  stroke: #176ac2;
+  stroke-width: 2px;
+  stroke-dasharray: 3, 3;
+  pointer-events: none;
+}
+
+.area-tooltip {
+  font-size: 12px;
+  fill: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 4px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0% {
+    stroke-opacity: 0.7;
+  }
+  50% {
+    stroke-opacity: 1;
+  }
+  100% {
+    stroke-opacity: 0.7;
+  }
+}
+.selected-area-indicator {
+  animation: pulse 2s infinite;
+}
