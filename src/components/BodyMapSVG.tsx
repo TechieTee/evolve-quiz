@@ -17,7 +17,6 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
   onAreaSelect,
 }) => {
   const [hoveredArea, setHoveredArea] = useState<string | null>(null);
-  // const [message, setMessage] = useState<string | null>(null);
 
   const getAreasForView = () => {
     switch (viewType) {
@@ -48,78 +47,93 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
   };
 
   const handleAreaClick = (area: string) => {
-    // Check if area has conditions (you might want to add this data to bodyAreas)
     const areaData = areas.find((a) => a.area === area);
     if (!areaData) return;
-
-    // If you had condition count data, you could do:
-    // if (areaData.count === 0) {
-    //   setMessage(`No conditions available for ${area}.`);
-    // } else {
-    //   setMessage(null);
     onAreaSelect(area);
-    // }
+  };
+
+  // Special viewBox for face to better fit the coordinates
+  const getViewBox = () => {
+    return viewType === "face" ? "0 0 300 300" : "0 0 187 733";
+  };
+
+  // Special scaling for face areas
+  interface Area {
+    area: string;
+    left: string;
+    top: string;
+  }
+
+  const calculatePosition = (area: Area) => {
+    if (viewType === "face") {
+      // Adjust these multipliers to better fit your face SVG
+      const left = (parseFloat(area.left) / 100) * 300;
+      const top = (parseFloat(area.top) / 100) * 300;
+      return { left, top };
+    } else {
+      const left = (parseFloat(area.left) / 100) * 187;
+      const top = (parseFloat(area.top) / 100) * 733;
+      return { left, top };
+    }
   };
 
   return (
     <div className="body-map-svg-container">
-      {/* {message && <div className="info-message">{message}</div>} */}
-
       <svg
-        viewBox="0 0 187 733"
-        className="body-svg"
+        viewBox={getViewBox()}
+        className={`body-svg ${viewType === "face" ? "face-view" : ""}`}
         preserveAspectRatio="xMidYMid meet"
       >
         {/* Background image */}
         <image
           href={getBodyImage()}
-          width="187"
-          height="733"
+          width={viewType === "face" ? "300" : "187"}
+          height={viewType === "face" ? "300" : "733"}
           preserveAspectRatio="xMidYMid meet"
         />
 
         {/* Interactive areas */}
-        {areas.map((area) => (
-          <path
-            key={area.area}
-            d={area.path}
-            className={`body-area-path ${
-              selectedAreas.includes(area.area) ? "selected" : ""
-            } ${hoveredArea === area.area ? "hovered" : ""}`}
-            onClick={() => handleAreaClick(area.area)}
-            onMouseEnter={() => setHoveredArea(area.area)}
-            onMouseLeave={() => setHoveredArea(null)}
-          />
-        ))}
+        {areas.map((area) => {
+          const { left, top } = calculatePosition(area);
 
-        {/* Visual indicators for selected areas */}
-        {areas
-          .filter((a) => selectedAreas.includes(a.area))
-          .map((area) => (
-            <path
-              key={`selected-${area.area}`}
-              d={area.path}
-              className="selected-area-indicator"
-            />
-          ))}
+          return (
+            <React.Fragment key={area.area}>
+              <circle
+                cx={left}
+                cy={top}
+                r={viewType === "face" ? "6" : "8"} // Smaller radius for face
+                className={`body-area-path ${
+                  hoveredArea === area.area ? "hovered" : ""
+                }`}
+                onClick={() => handleAreaClick(area.area)}
+                onMouseEnter={() => setHoveredArea(area.area)}
+                onMouseLeave={() => setHoveredArea(null)}
+              />
+
+              {selectedAreas.includes(area.area) && (
+                <circle
+                  cx={left}
+                  cy={top}
+                  r={viewType === "face" ? "6" : "8"}
+                  className="selected-area-indicator"
+                />
+              )}
+            </React.Fragment>
+          );
+        })}
 
         {/* Tooltip */}
         {hoveredArea && (
           <text
             x={
-              (parseFloat(
-                areas.find((a) => a.area === hoveredArea)?.left || "0"
-              ) /
-                100) *
-              187
+              calculatePosition(
+                areas.find((a) => a.area === hoveredArea) || areas[0]
+              ).left
             }
             y={
-              (parseFloat(
-                areas.find((a) => a.area === hoveredArea)?.top || "0"
-              ) /
-                100) *
-                733 -
-              10
+              calculatePosition(
+                areas.find((a) => a.area === hoveredArea) || areas[0]
+              ).top - 10
             }
             className="area-tooltip"
           >

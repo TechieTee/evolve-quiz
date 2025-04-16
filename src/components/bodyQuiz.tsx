@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Spinner from "./spinner";
 // import AreaSelection from "./areaSelection";
 import ConditionDisplay from "./conditionalDisplay";
 import "./bodyQuiz.css";
@@ -119,12 +120,12 @@ const BodyQuiz = () => {
       }
 
       const data = (await response.json()) as Condition[];
-      setConditions(data || []);
+      setConditions(Array.isArray(data) ? data : []); // Ensure it's always an array
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to load conditions";
       setError(errorMessage);
-      setConditions([]);
+      setConditions([]); // Set to empty array on error
     } finally {
       setIsLoading(false);
     }
@@ -446,21 +447,30 @@ const BodyQuiz = () => {
     }
 
     if (currentArea) {
-      if (isLoading)
-        return <div className="loading-spinner">Loading quiz data...</div>;
       return (
         <div className="condition-container">
-          <ConditionDisplay
-            bodypart={currentArea.name}
-            conditions={conditions}
-            onSelect={handleConditionSelect}
-            selectedConditions={getSelectedConditionsForCurrentArea()}
-          />
+          {isLoading ? (
+            <div className="loading-spinner">
+              <Spinner />
+            </div>
+          ) : (
+            <>
+              <ConditionDisplay
+                bodypart={currentArea.name}
+                conditions={conditions} // Ensure this is always an array
+                onSelect={handleConditionSelect}
+                selectedConditions={getSelectedConditionsForCurrentArea()}
+              />
 
-          {conditions.length > 0 && (
-            <button onClick={handleAddToConsultation} className="area-button">
-              ADD TREATMENTS
-            </button>
+              {conditions.length > 0 && (
+                <button
+                  onClick={handleAddToConsultation}
+                  className="area-button"
+                >
+                  ADD TREATMENTS
+                </button>
+              )}
+            </>
           )}
         </div>
       );
