@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { bodyAreas } from "./bodyAreaPaths";
-import "./BodyMapSVG.css";
+import "./bodyMapSVG.css";
 
 interface BodyMapSVGProps {
   viewType: "front" | "back" | "face";
