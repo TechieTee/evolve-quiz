@@ -1,14 +1,22 @@
 .body-map-svg-container {
   width: 100%;
-  max-width: 187px;
+  max-width: 177px;
   margin: 0 auto;
   position: relative;
   height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .body-svg {
   width: 100%;
+  max-width: 300px;
   height: auto;
+
+  display: block;
+  margin: 0 auto;
 }
 
 .body-svg.face-view {

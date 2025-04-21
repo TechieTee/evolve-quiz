@@ -52,12 +52,10 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
     onAreaSelect(area);
   };
 
-  // Special viewBox for face to better fit the coordinates
   const getViewBox = () => {
-    return viewType === "face" ? "0 0 300 300" : "0 0 187 733";
+    return viewType === "face" ? "0 0 400 400" : "0 0 187 733";
   };
 
-  // Special scaling for face areas
   interface Area {
     area: string;
     left: string;
@@ -66,9 +64,9 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
 
   const calculatePosition = (area: Area) => {
     if (viewType === "face") {
-      // Adjust these multipliers to better fit your face SVG
-      const left = (parseFloat(area.left) / 100) * 300;
-      const top = (parseFloat(area.top) / 100) * 300;
+      // Center the face content within the larger viewBox
+      const left = (parseFloat(area.left) / 100) * 300 + 50; // 300 + 50 padding on each side
+      const top = (parseFloat(area.top) / 100) * 300 + 50; // 300 + 50 padding on each side
       return { left, top };
     } else {
       const left = (parseFloat(area.left) / 100) * 187;
@@ -84,11 +82,13 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
         className={`body-svg ${viewType === "face" ? "face-view" : ""}`}
         preserveAspectRatio="xMidYMid meet"
       >
-        {/* Background image */}
+        {/* Background image - centered for face view */}
         <image
           href={getBodyImage()}
           width={viewType === "face" ? "300" : "187"}
           height={viewType === "face" ? "300" : "733"}
+          x={viewType === "face" ? "50" : "0"} // Center horizontally for face
+          y={viewType === "face" ? "50" : "0"} // Center vertically for face
           preserveAspectRatio="xMidYMid meet"
         />
 
@@ -101,7 +101,7 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
               <circle
                 cx={left}
                 cy={top}
-                r={viewType === "face" ? "6" : "8"} // Smaller radius for face
+                r={viewType === "face" ? "8" : "8"}
                 className={`body-area-path ${
                   hoveredArea === area.area ? "hovered" : ""
                 }`}
@@ -114,7 +114,7 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
                 <circle
                   cx={left}
                   cy={top}
-                  r={viewType === "face" ? "6" : "8"}
+                  r={viewType === "face" ? "8" : "8"}
                   className="selected-area-indicator"
                 />
               )}

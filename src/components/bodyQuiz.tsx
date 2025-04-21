@@ -44,12 +44,15 @@ const BodyQuiz = () => {
   const [showForm, setShowForm] = useState(false);
 
   interface SubmittedData {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     phone: string;
     areas: string;
     conditions: string;
     date: string;
+    location: string;
+    consent: boolean;
     groupedData: {
       bodyArea: string;
       conditions: string[];
@@ -61,12 +64,14 @@ const BodyQuiz = () => {
     null
   );
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     phone: "",
     areas: "",
     conditions: "",
     consent: false,
+    location: "",
   });
 
   const fetchAreas = async () => {
@@ -201,14 +206,16 @@ const BodyQuiz = () => {
     }
   }, [selectedBodyParts]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const submissionDate = new Date().toLocaleString();
@@ -319,17 +326,32 @@ const BodyQuiz = () => {
         <div className="consultation-form">
           <h5>Complete your Consultation</h5>
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                placeholder="Enter your full name"
-              />
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  value={formData.firstName || ""}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="Enter your first name"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  value={formData.lastName || ""}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="Enter your last name"
+                />
+              </div>
             </div>
 
             <div className="form-group">
@@ -356,6 +378,24 @@ const BodyQuiz = () => {
                 required
                 placeholder="Enter your phone number"
               />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="location">Choose Location</label>
+              <select
+                id="location"
+                name="location"
+                value={formData.location || ""}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="">Select a location</option>
+                <option value="New York">New York</option>
+                <option value="Los Angeles">Los Angeles</option>
+                <option value="Chicago">Chicago</option>
+                <option value="Houston">Houston</option>
+                <option value="Miami">Miami</option>
+              </select>
             </div>
 
             <div className="form-group checkbox-group">
@@ -388,7 +428,7 @@ const BodyQuiz = () => {
                 className="area-button"
                 disabled={isLoading}
               >
-                {isLoading ? "Submitting..." : "COMPLETE CONSULTATION"}
+                {isLoading ? "Submitting..." : "SEE RESULTS"}
               </button>
             </div>
           </form>
@@ -467,7 +507,7 @@ const BodyQuiz = () => {
                   onClick={handleAddToConsultation}
                   className="area-button"
                 >
-                  ADD TREATMENTS
+                  ADD CONCERNS
                 </button>
               )}
             </>
