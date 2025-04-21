@@ -1,7 +1,7 @@
 import BodyQuiz from "../components/bodyQuiz";
 import "./quiz.css";
 import evolveLogo from "../assets/react.svg";
-import { FiMenu, FiX, FiPhone } from "react-icons/fi";
+import { FiMenu, FiX } from "react-icons/fi";
 import { useState } from "react";
 
 const HomePage = () => {
