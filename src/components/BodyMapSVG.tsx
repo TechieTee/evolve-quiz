@@ -53,7 +53,7 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
   };
 
   const getViewBox = () => {
-    return viewType === "face" ? "0 0 400 400" : "0 0 187 733";
+    return viewType === "face" ? "0 0 350 350" : "0 0 187 733";
   };
 
   interface Area {

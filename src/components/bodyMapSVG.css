@@ -20,8 +20,8 @@
 }
 
 .body-svg.face-view {
-  max-width: 300px;
-  max-height: 300px;
+  max-width: 700px;
+  max-height: 700px;
 }
 .selected-area-indicator {
   fill: #70c1b3;
