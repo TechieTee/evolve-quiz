@@ -977,12 +977,13 @@ select {
 
 .gender-button {
   background-color: transparent;
-  color: rgb(0, 0, 0);
+  color: rgba(0, 0, 0, 0.3);
   font-weight: 600;
   font-size: 15px;
 }
 
 .gender-button.active {
+  color: rgba(0, 0, 0, 1);
 }
 
 .gender-button:hover {
