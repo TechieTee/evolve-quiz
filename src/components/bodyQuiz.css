@@ -361,6 +361,9 @@ justify-content: center;
     align-items: center !important;
     justify-content: center !important;
   }
+  .view-toggle-buttons {
+    justify-content: center;
+  }
   .selection-panel {
     /* position: static;
     order: -1;
