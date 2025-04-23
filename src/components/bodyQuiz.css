@@ -220,8 +220,10 @@ body {
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
   .quiz-main-grid {
+    display: block;
     grid-template-columns: 1fr;
   }
+
   /* .recommendations-grid {
   display: grid;
   align-items: center;
@@ -354,6 +356,11 @@ justify-content: center;
 
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
+  .button-toggles {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
   .selection-panel {
     /* position: static;
     order: -1;
@@ -945,4 +952,41 @@ select {
   opacity: 0.6;
   cursor: not-allowed;
   background-color: #f5f5f5;
+}
+
+/* bodyQuiz.css or a new CSS file */
+.button-toggles {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+.gender-toggle {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+
+  border: 1px solid #343338;
+
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.gender-button {
+  background-color: transparent;
+  color: rgb(0, 0, 0);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.gender-button.active {
+}
+
+.gender-button:hover {
+}
+
+.gender-button.active:hover {
 }

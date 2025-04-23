@@ -9,12 +9,14 @@ interface BodyMapSVGProps {
   showFrontView: boolean;
   showBackView: boolean;
   showFaceView: boolean;
+  gender: "male" | "female";
 }
 
 const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
   viewType,
   selectedAreas,
   onAreaSelect,
+  gender,
 }) => {
   const [hoveredArea, setHoveredArea] = useState<string | null>(null);
 
@@ -36,13 +38,19 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
   const getBodyImage = () => {
     switch (viewType) {
       case "front":
-        return "/body-front.svg";
+        return gender === "male"
+          ? "/male-body-front.svg"
+          : "/female-body-front.svg";
       case "back":
-        return "/body-back.svg";
+        return gender === "male"
+          ? "/male-body-back.svg"
+          : "/female-body-back.svg";
       case "face":
         return "/face.svg";
       default:
-        return "/body-front.svg";
+        return gender === "male"
+          ? "/male-body-front.svg"
+          : "/female-body-front.svg";
     }
   };
 
@@ -98,17 +106,40 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
 
           return (
             <React.Fragment key={area.area}>
-              <circle
+              {/* <circle
                 cx={left}
                 cy={top}
-                r={viewType === "face" ? "8" : "8"}
+                r={viewType === "face" ? "10" : "10"}
                 className={`body-area-path ${
                   hoveredArea === area.area ? "hovered" : ""
                 }`}
                 onClick={() => handleAreaClick(area.area)}
                 onMouseEnter={() => setHoveredArea(area.area)}
                 onMouseLeave={() => setHoveredArea(null)}
+              /> */}
+              <circle
+                cx={left}
+                cy={top}
+                r={viewType === "face" ? "10" : "10"}
+                className={`body-area-path ${
+                  hoveredArea === area.area ? "hovered" : ""
+                }`}
+                onClick={() => handleAreaClick(area.area)}
+                onMouseEnter={() => setHoveredArea(area.area)}
+                onMouseLeave={() => setHoveredArea(null)}
+                filter="url(#dropshadow)" // Add drop shadow
               />
+
+              {/* Plus icon in the middle */}
+              <text
+                x={left}
+                y={top}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="plus-icon"
+              >
+                +
+              </text>
 
               {selectedAreas.includes(area.area) && (
                 <circle

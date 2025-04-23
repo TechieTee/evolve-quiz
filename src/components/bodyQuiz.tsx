@@ -42,6 +42,7 @@ const BodyQuiz = () => {
 
   const [showConsultationSummary, setShowConsultationSummary] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [gender, setGender] = useState<"male" | "female">("male");
 
   interface SubmittedData {
     firstName: string;
@@ -317,7 +318,41 @@ const BodyQuiz = () => {
   };
 
   if (error) return <div className="error-message">Error: {error}</div>;
-
+  const renderGenderToggle = () => (
+    <div className="gender-toggle">
+      <button
+        className={`gender-button ${gender === "male" ? "active" : ""}`}
+        onClick={() => setGender("male")}
+      >
+        Male
+      </button>
+      <button
+        className={`gender-button ${gender === "female" ? "active" : ""}`}
+        onClick={() => setGender("female")}
+      >
+        Female
+      </button>
+    </div>
+  );
+  const renderBodyToggle = () => (
+    <div className="view-toggle-buttons">
+      {!showFrontView && (
+        <button onClick={() => toggleView("front")} className="flipper">
+          Front
+        </button>
+      )}
+      {!showBackView && (
+        <button onClick={() => toggleView("back")} className="flipper">
+          Back
+        </button>
+      )}
+      {!showFaceView && (
+        <button onClick={() => toggleView("face")} className="flipper">
+          Face
+        </button>
+      )}
+    </div>
+  );
   const renderSelectionPanelContent = () => {
     if (submittedData) return null;
 
@@ -531,23 +566,11 @@ const BodyQuiz = () => {
       {!submittedData && (
         <div className="quiz-main-grid">
           <div className="view-toggle-container">
-            <div className="view-toggle-buttons">
-              {!showFrontView && (
-                <button onClick={() => toggleView("front")} className="flipper">
-                  Front
-                </button>
-              )}
-              {!showBackView && (
-                <button onClick={() => toggleView("back")} className="flipper">
-                  Back
-                </button>
-              )}
-              {!showFaceView && (
-                <button onClick={() => toggleView("face")} className="flipper">
-                  Face
-                </button>
-              )}
+            <div className="button-toggles">
+              {renderGenderToggle()}
+              {renderBodyToggle()}
             </div>
+
             {/* <AreaSelection
               areasResponse={areasResponse}
               onSelect={handleAreaSelect}
@@ -571,6 +594,7 @@ const BodyQuiz = () => {
               showFrontView={showFrontView}
               showBackView={showBackView}
               showFaceView={showFaceView}
+              gender={gender}
             />
           </div>
 

@@ -57,7 +57,7 @@
   transform: scale(1.3);
 }
 .area-tooltip {
-  font-size: 12px;
+  font-size: 14px;
   fill: rgb(0, 0, 0);
   background: rgba(0, 0, 0, 0.7);
   padding: 4px 8px;
@@ -99,4 +99,23 @@
   to {
     opacity: 1;
   }
+}
+
+.body-area-path {
+  fill: #70c1b3;
+  stroke: white;
+  /* stroke-width: 1.5; */
+  transition: all 0.2s ease;
+}
+
+.body-area-path.hovered {
+  fill: #70c1b3;
+}
+
+.plus-icon {
+  fill: white;
+  font-size: 14px;
+  font-weight: 300;
+  pointer-events: none; /* Prevent the icon from blocking circle interactions */
+  user-select: none;
 }
