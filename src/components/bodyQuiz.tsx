@@ -18,7 +18,7 @@ interface SelectedBodyPart {
     recommended_services?: {
       id: number;
       title: string;
-      description: string;
+      content: string;
       taxonomy: { name: string }[];
     }[];
   }[];

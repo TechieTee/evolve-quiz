@@ -5,7 +5,7 @@ export interface Taxonomy {
   }
 
   export interface Service {
-    description: string;
+    content: string;
     id: string;
     title: string;
     link: string;
@@ -16,7 +16,7 @@ export interface Taxonomy {
     id: number;
     name: string;
     slug: string;
-    description: string;
+    content: string;
     count: number;
     children: BodyPart[];
   }
@@ -27,7 +27,7 @@ export interface Taxonomy {
     recommended_services?: {
       id: number;
       title: string;
-      description: string;
+      content: string;
       taxonomy: { name: string }[];
     }[];
   }
@@ -35,7 +35,7 @@ export interface Taxonomy {
     id: number;
     name: string;
     slug: string;
-    description: string;
+    content: string;
     count: number;
     children: Area[];
   }

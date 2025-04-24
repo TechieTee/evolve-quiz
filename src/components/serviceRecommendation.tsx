@@ -15,7 +15,7 @@ interface ServiceRecommendationProps {
       recommended_services?: {
         id: number;
         title: string;
-        description: string;
+        content: string;
         taxonomy: { name: string }[];
       }[];
     }[];
@@ -95,8 +95,8 @@ export const ServiceRecommendation = ({
                 condition.recommended_services?.map((service) => ({
                   category: service.taxonomy[0]?.name || "SERVICE",
                   title: service.title,
-                  description:
-                    service.description ||
+                  content:
+                    service.content ||
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur...",
                 })) || [];
 
@@ -131,7 +131,7 @@ export const ServiceRecommendation = ({
                                     {treatment.title}
                                   </h3>
                                   <p className="treatment-description">
-                                    {treatment.description}
+                                    {treatment.content}
                                   </p>
                                 </div>
                               </div>

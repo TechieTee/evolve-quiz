@@ -1056,6 +1056,7 @@ select {
 @media (max-width: 768px) {
   .selection-panel {
     position: fixed;
+    display: block;
     bottom: 0;
     left: 0;
     right: 0;
