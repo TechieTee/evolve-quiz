@@ -658,6 +658,7 @@ select {
   background: white;
 }
 .selected-body-conditions {
+  padding: 0 5rem;
   display: flex;
   margin-top: 1rem;
   min-height: 80vh;
@@ -666,7 +667,7 @@ select {
 }
 
 .ff {
-  display: grid;
+  /* display: grid; */
   gap: 0.5rem;
   grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
 }
@@ -676,6 +677,7 @@ select {
   flex-direction: column;
 }
 .condition-container {
+  padding: 0 5rem;
   display: flex;
   margin-top: 1rem;
   min-height: 80vh;
