@@ -1,5 +1,5 @@
 .recommendations {
-  font-family: 'Poppins', Helvetica, sans-serif;
+  font-family: "Poppins", Helvetica, sans-serif;
   padding: 20px;
 }
 
@@ -48,7 +48,7 @@
   background-color: #70c1b3;
   color: black;
   border-radius: 100px;
-  font-family: 'Poppins', Helvetica, sans-serif;
+  font-family: "Poppins", Helvetica, sans-serif;
   font-weight: 700;
   font-size: 1.25rem;
   border: none;
@@ -75,7 +75,7 @@
   color: #333;
   margin: 0;
   text-align: center;
-  border-bottom: 2px solid #70C1B3;
+  border-bottom: 2px solid #70c1b3;
   padding: 5px;
   width: auto;
 }
@@ -113,7 +113,7 @@
 }
 
 .card {
-  background-color: #FBF8F2;
+  background-color: #fbf8f2;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -127,7 +127,7 @@
 .badge {
   display: inline-block;
   background-color: #fff;
-  border: 1px solid #DAC4B8;
+  border: 1px solid #dac4b8;
   color: #666;
   padding: 4px 8px;
   border-radius: 5px;
@@ -172,24 +172,22 @@
   transition: all 0.2s ease;
 }
 
-.carousel-prev:active ,
+.carousel-prev:active,
 .carousel-next:active {
- border: none;
- outline: none;
+  border: none;
+  outline: none;
 }
-
-
 
 .carousel-prev:hover,
 .carousel-next:hover {
-  background-color:transparent!important;
+  background-color: transparent !important;
 }
 
 .carousel-prev:disabled,
 .carousel-next:disabled {
   opacity: 0.3;
   cursor: not-allowed;
-  background-color:transparent;
+  background-color: transparent;
 }
 
 .dots-navigation {
@@ -209,7 +207,7 @@
 }
 
 .dot.active {
-  background-color: #70C1B3;
+  background-color: #70c1b3;
 }
 
 .no-treatments {
@@ -224,11 +222,75 @@
   color: #333;
   margin: 60px 0 20px;
   padding-bottom: 10px;
-  border-bottom: 2px solid #70C1B3;
+  border-bottom: 2px solid #70c1b3;
   text-align: center;
 }
 
-
 .treatment-section {
   margin: 40px 0;
+}
+
+@media (max-width: 768px) {
+  .recommendations {
+    padding: 15px;
+  }
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+  }
+
+  .appointment-button {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 15px;
+  }
+
+  .carousel-item {
+    width: 280px;
+  }
+
+  .carousel-navigation {
+    width: 100%;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+
+  .body-part-title {
+    font-size: 1.3rem;
+    margin: 30px 0 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .carousel-item {
+    width: 260px;
+  }
+
+  .treatment-title {
+    font-size: 1rem;
+  }
+
+  .treatment-description {
+    font-size: 0.8rem;
+  }
 }

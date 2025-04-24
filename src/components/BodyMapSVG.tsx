@@ -93,7 +93,7 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
         {/* Background image - centered for face view */}
         <image
           href={getBodyImage()}
-          width={viewType === "face" ? "300" : "187"}
+          width={viewType === "face" ? "250" : "187"}
           height={viewType === "face" ? "300" : "733"}
           x={viewType === "face" ? "50" : "0"} // Center horizontally for face
           y={viewType === "face" ? "50" : "0"} // Center vertically for face

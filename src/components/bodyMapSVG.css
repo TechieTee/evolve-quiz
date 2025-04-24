@@ -1,10 +1,9 @@
 .body-map-svg-container {
   width: 100%;
-  max-width: 177px;
+
   margin: 0 auto;
   position: relative;
   height: 100%;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,16 +11,19 @@
 
 .body-svg {
   width: 100%;
-  max-width: 300px;
-  height: auto;
-
+  max-width: 177px;
+  /* height: auto; */
   display: block;
   margin: 0 auto;
 }
 
 .body-svg.face-view {
-  max-width: 700px;
-  max-height: 700px;
+  max-width: 400px;
+  max-height: 400px;
+  width: 100%;
+  /* height: auto; */
+  display: block;
+  margin: 0 auto;
 }
 .selected-area-indicator {
   fill: #70c1b3;
@@ -118,4 +120,14 @@
   font-weight: 300;
   pointer-events: none; /* Prevent the icon from blocking circle interactions */
   user-select: none;
+}
+
+@media (max-width: 768px) {
+  .body-svg {
+    width: 100%;
+    max-width: 300px;
+    height: 60vh;
+    display: block;
+    margin: 0 auto;
+  }
 }

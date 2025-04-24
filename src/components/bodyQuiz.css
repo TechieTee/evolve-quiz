@@ -47,12 +47,9 @@ body {
 
 /* Right Selection Panel */
 .selection-panel {
-  /* padding: 2rem; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: flex-start; */
-
   min-height: 90vh;
 }
 
@@ -247,22 +244,86 @@ justify-content: center;
 }
 
 @media (max-width: 768px) {
-  /*   
-  .quiz-content-area,
+  .ff {
+    display: block !important;
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  }
   .selection-panel {
+    display: block !important;
     padding: 1.5rem;
-  } */
-
+  }
   .submission-footer {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
   }
+  .quiz-main-grid {
+    padding: 1rem;
+  }
+
+  .view-toggle-container {
+    padding: 1rem;
+    min-height: auto;
+  }
+
+  .consultation-form {
+    padding: 0 1rem !important;
+    grid-template-columns: 1fr;
+    display: block !important;
+  }
+  .form-group input,
+  .form-group select {
+    width: 100%;
+  }
+
+  .form-row {
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+  }
+
+  .conditions-list li {
+    width: 100%;
+  }
+
+  .quiz-card-header-text {
+    font-size: 24px;
+  }
+
+  .concerns-header-text {
+    font-size: 24px;
+  }
 }
 
-/* Rest of your existing CSS styles... */
-/* (Keep all your existing styles for other components) */
-/* Right Selection Panel */
+@media (max-width: 480px) {
+  .button-toggles {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .view-toggle-buttons {
+    justify-content: center;
+  }
+
+  .gender-toggle {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .flipper {
+    padding: 5px 15px;
+    font-size: 0.9rem;
+  }
+
+  .area-button {
+    width: 100%;
+  }
+  .consultation-form {
+    padding: 0 1rem !important;
+    grid-template-columns: 1fr;
+    display: block !important;
+  }
+}
 
 /* Header Styles */
 .selection-header {
@@ -363,11 +424,6 @@ justify-content: center;
   }
   .view-toggle-buttons {
     justify-content: center;
-  }
-  .selection-panel {
-    /* position: static;
-    order: -1;
-    margin-bottom: 2rem; */
   }
 
   /* .quiz-content-area {

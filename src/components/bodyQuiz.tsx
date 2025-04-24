@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Spinner from "./spinner";
-// import AreaSelection from "./areaSelection";
 import ConditionDisplay from "./conditionalDisplay";
 import "./bodyQuiz.css";
 import { Area, AreasResponse, Condition } from "../types/types";
@@ -571,15 +570,6 @@ const BodyQuiz = () => {
               {renderBodyToggle()}
             </div>
 
-            {/* <AreaSelection
-              areasResponse={areasResponse}
-              onSelect={handleAreaSelect}
-              selectedAreas={selectedAreas}
-              isLoading={isLoading}
-              showFrontView={showFrontView}
-              showBackView={showBackView}
-              showFaceView={showFaceView}
-            /> */}
             <BodyMapSVG
               viewType={
                 showFrontView ? "front" : showBackView ? "back" : "face"

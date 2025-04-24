@@ -2,7 +2,6 @@
   display: grid;
   gap: 0.5rem;
   grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
- 
 }
 
 .condition-item {
@@ -18,17 +17,17 @@
 .condition-item:hover {
   transform: translateY(-2px);
   box-shadow: var(--box-shadow);
-  background-color: #FBF8F2;
+  background-color: #fbf8f2;
 }
 
 .condition-item.selected {
-  background-color: #F5EDE1; /* Slightly darker shade for selected state */
+  background-color: #f5ede1; /* Slightly darker shade for selected state */
 }
 
-.condition-item:active{
+.condition-item:active {
   transform: translateY(-2px);
   box-shadow: var(--box-shadow);
-  background-color: #FBF8F2;
+  background-color: #fbf8f2;
 }
 .concerns-header-text {
   text-align: left;
@@ -45,7 +44,7 @@
 .custom-checkbox {
   width: 12px;
   height: 12px;
-  border: 1px solid #DAC4B8;
+  border: 1px solid #dac4b8;
   border-radius: 50%;
   background-color: white;
   position: relative;
@@ -72,4 +71,13 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+@media (max-width: 768px) {
+  .condition-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .condition-item {
+    padding: 12px 8px;
+  }
 }
