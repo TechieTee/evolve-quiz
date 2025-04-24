@@ -5,6 +5,7 @@ import "./bodyQuiz.css";
 import { Area, AreasResponse, Condition } from "../types/types";
 import { ServiceRecommendation } from "./serviceRecommendation";
 import BodyMapSVG from "./BodyMapSVG";
+import MobilePanel from "./MobilePanel";
 
 interface SelectedBodyPart {
   area: {
@@ -43,6 +44,7 @@ const BodyQuiz = () => {
   const [showForm, setShowForm] = useState(false);
   const [gender, setGender] = useState<"male" | "female">("male");
 
+  const [panelOpen, setPanelOpen] = useState(false);
   interface SubmittedData {
     firstName: string;
     lastName: string;
@@ -142,6 +144,7 @@ const BodyQuiz = () => {
 
   useEffect(() => {
     if (currentArea) {
+      setPanelOpen(true);
       fetchConditions(currentArea.id);
     }
   }, [currentArea]);
@@ -424,11 +427,10 @@ const BodyQuiz = () => {
                 required
               >
                 <option value="">Select a location</option>
+                <option value="New York">New Jersey</option>
                 <option value="New York">New York</option>
-                <option value="Los Angeles">Los Angeles</option>
-                <option value="Chicago">Chicago</option>
-                <option value="Houston">Houston</option>
-                <option value="Miami">Miami</option>
+                <option value="Los Angeles">Mary Land</option>
+                <option value="Chicago">Pennsylvania</option>
               </select>
             </div>
 
@@ -522,6 +524,32 @@ const BodyQuiz = () => {
 
     if (currentArea) {
       return (
+        // <div className="condition-container">
+        //   {isLoading ? (
+        //     <div className="loading-spinner">
+        //       <Spinner />
+        //     </div>
+        //   ) : (
+        //     <>
+        //       <ConditionDisplay
+        //         bodypart={currentArea.name}
+        //         conditions={conditions} // Ensure this is always an array
+        //         onSelect={handleConditionSelect}
+        //         selectedConditions={getSelectedConditionsForCurrentArea()}
+        //       />
+
+        //       {conditions.length > 0 && (
+        //         <button
+        //           onClick={handleAddToConsultation}
+        //           className="area-button"
+        //         >
+        //           ADD CONCERNS
+        //         </button>
+        //       )}
+        //     </>
+        //   )}
+        // </div>
+        // {currentArea && (
         <div className="condition-container">
           {isLoading ? (
             <div className="loading-spinner">
@@ -531,7 +559,7 @@ const BodyQuiz = () => {
             <>
               <ConditionDisplay
                 bodypart={currentArea.name}
-                conditions={conditions} // Ensure this is always an array
+                conditions={conditions}
                 onSelect={handleConditionSelect}
                 selectedConditions={getSelectedConditionsForCurrentArea()}
               />
@@ -547,6 +575,7 @@ const BodyQuiz = () => {
             </>
           )}
         </div>
+        // )}
       );
     }
 
@@ -588,7 +617,9 @@ const BodyQuiz = () => {
             />
           </div>
 
-          <div className="selection-panel">{renderSelectionPanelContent()}</div>
+          <MobilePanel isOpen={panelOpen} onClose={() => setPanelOpen(false)}>
+            {renderSelectionPanelContent()}
+          </MobilePanel>
         </div>
       )}
 

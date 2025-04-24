@@ -2,7 +2,7 @@ import { Condition } from "../types/types";
 import "./conditionalDisplay.css";
 
 interface ConditionDisplayProps {
-  conditions?: Condition[] | null; // Allow undefined
+  conditions?: Condition[] | null;
   onSelect: (condition: Condition) => void;
   selectedConditions: Condition[];
   bodypart: string;
@@ -14,15 +14,7 @@ const ConditionDisplay: React.FC<ConditionDisplayProps> = ({
   onSelect,
   selectedConditions,
 }) => {
-  if (!Array.isArray(conditions)) {
-    return (
-      <div className="condition-empty-state">
-        No conditions available for this body part
-      </div>
-    );
-  }
-
-  if (!conditions || conditions.length === 0) {
+  if (!Array.isArray(conditions) || conditions.length === 0) {
     return (
       <div className="condition-empty-state">
         No conditions available for this body part
@@ -52,7 +44,6 @@ const ConditionDisplay: React.FC<ConditionDisplayProps> = ({
                   : ""
               }`}
             >
-              {" "}
               {selectedConditions.some((c) => c.id === condition.id) && (
                 <svg
                   className="check-icon"
