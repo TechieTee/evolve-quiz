@@ -126,7 +126,7 @@
   .body-svg {
     width: 100%;
     max-width: 300px;
-    /* height: 60vh; */
+    height: 60vh;
     display: block;
     margin: 0 auto;
   }
