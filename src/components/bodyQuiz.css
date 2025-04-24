@@ -1056,6 +1056,15 @@ select {
 
 /* Add to bodyQuiz.css */
 @media (max-width: 768px) {
+  .consultation-form {
+    padding: 0 1rem !important;
+  }
+  .selected-body-conditions {
+    padding: 0 1rem !important;
+  }
+  .consultation-form {
+    padding: 0 1rem !important;
+  }
   .selection-panel {
     position: fixed;
     display: block;
