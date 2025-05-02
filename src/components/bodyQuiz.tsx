@@ -42,7 +42,7 @@ const BodyQuiz = () => {
 
   const [showConsultationSummary, setShowConsultationSummary] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [gender, setGender] = useState<"male" | "female">("male");
+  const [gender, setGender] = useState<"male" | "female">("female");
 
   const [panelOpen, setPanelOpen] = useState(false);
   interface SubmittedData {
@@ -323,16 +323,16 @@ const BodyQuiz = () => {
   const renderGenderToggle = () => (
     <div className="gender-toggle">
       <button
-        className={`gender-button ${gender === "male" ? "active" : ""}`}
-        onClick={() => setGender("male")}
-      >
-        Male
-      </button>
-      <button
         className={`gender-button ${gender === "female" ? "active" : ""}`}
         onClick={() => setGender("female")}
       >
         Female
+      </button>
+      <button
+        className={`gender-button ${gender === "male" ? "active" : ""}`}
+        onClick={() => setGender("male")}
+      >
+        Male
       </button>
     </div>
   );
@@ -601,7 +601,13 @@ const BodyQuiz = () => {
 
             <BodyMapSVG
               viewType={
-                showFrontView ? "front" : showBackView ? "back" : "face"
+                showFrontView
+                  ? "front"
+                  : showBackView
+                  ? "back"
+                  : showFaceView
+                  ? "face"
+                  : "front"
               }
               selectedAreas={selectedAreas.map((a) => a.name)}
               onAreaSelect={(areaName) => {

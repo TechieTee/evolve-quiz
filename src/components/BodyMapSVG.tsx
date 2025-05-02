@@ -9,7 +9,7 @@ interface BodyMapSVGProps {
   showFrontView: boolean;
   showBackView: boolean;
   showFaceView: boolean;
-  gender: "male" | "female";
+  gender: "female" | "male";
 }
 
 const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
@@ -38,19 +38,19 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
   const getBodyImage = () => {
     switch (viewType) {
       case "front":
-        return gender === "male"
-          ? "/male-body-front.svg"
-          : "/female-body-front.svg";
+        return gender === "female"
+          ? "/female-body-front.svg"
+          : "/male-body-front.svg";
       case "back":
-        return gender === "male"
-          ? "/male-body-back.svg"
-          : "/female-body-back.svg";
+        return gender === "female"
+          ? "/female-body-back.svg"
+          : "/male-body-back.svg";
       case "face":
         return "/face.svg";
       default:
-        return gender === "male"
-          ? "/male-body-front.svg"
-          : "/female-body-front.svg";
+        return gender === "female"
+          ? "/female-body-front.svg"
+          : "/male-body-front.svg";
     }
   };
 
