@@ -427,10 +427,25 @@ const BodyQuiz = () => {
                 required
               >
                 <option value="">Select a location</option>
-                <option value="New York">New Jersey</option>
-                <option value="New York">New York</option>
-                <option value="Los Angeles">Mary Land</option>
-                <option value="Chicago">Pennsylvania</option>
+                <option value="New York">Bel Air, MD</option>
+
+                <option value="New York">Bridgewater, NJ</option>
+                <option value="New York">Denville, NJ</option>
+
+                <option value="New York">Frederick, MD</option>
+                <option value="New York">Hoboken, NJ</option>
+                <option value="Los Angeles">Jersey City, NJ</option>
+                <option value="Chicago">Lancaster, PA</option>
+
+                <option value="New York">Montclair, NJ</option>
+                <option value="New York">Old Bridge, NJ</option>
+                <option value="Los Angeles">Red Bank, NJ</option>
+                <option value="Chicago">Ridgewood, NJ</option>
+
+                <option value="New York">Scarsdale, NY</option>
+                <option value="New York">Short Hills, NJ</option>
+                <option value="Los Angeles">Tribeca, NY</option>
+                <option value="Chicago">Waldorf, MD</option>
               </select>
             </div>
 
