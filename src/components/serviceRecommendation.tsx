@@ -23,8 +23,10 @@ export const ServiceRecommendation = ({
   selectedBodyParts,
   resetQuiz,
 }: ServiceRecommendationProps) => {
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const carouselRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const [currentIndices, setCurrentIndices] = useState<Record<string, number>>(
+    {}
+  );
   const [itemsPerView, setItemsPerView] = useState(1);
 
   useEffect(() => {
@@ -39,23 +41,30 @@ export const ServiceRecommendation = ({
     return () => window.removeEventListener("resize", updateResponsive);
   }, []);
 
-  const handleScroll = () => {
-    if (carouselRef.current) {
-      const scrollLeft = carouselRef.current.scrollLeft;
-      const itemWidth = carouselRef.current.children[0]?.clientWidth || 0;
-      const newIndex = Math.round(scrollLeft / (itemWidth + 24));
-      setCurrentIndex(newIndex);
-    }
+  const handleScroll = (carouselKey: string) => {
+    const carousel = carouselRefs.current[carouselKey];
+    if (!carousel) return;
+
+    const scrollLeft = carousel.scrollLeft;
+    const itemWidth = carousel.children[0]?.clientWidth || 0;
+    const newIndex = Math.round(scrollLeft / (itemWidth + 24));
+    setCurrentIndices((prev) => ({ ...prev, [carouselKey]: newIndex }));
   };
 
-  const scrollToIndex = (index: number) => {
-    if (carouselRef.current) {
-      const itemWidth = carouselRef.current.children[0]?.clientWidth || 0;
-      carouselRef.current.scrollTo({
-        left: index * (itemWidth + 24),
-        behavior: "smooth",
-      });
-    }
+  const scrollToIndex = (
+    carouselKey: string,
+    index: number,
+    totalSlides: number
+  ) => {
+    const carousel = carouselRefs.current[carouselKey];
+    if (!carousel) return;
+
+    const clampedIndex = Math.max(0, Math.min(index, totalSlides - 1));
+    const itemWidth = carousel.children[0]?.clientWidth || 0;
+    carousel.scrollTo({
+      left: clampedIndex * (itemWidth + 24),
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -79,6 +88,8 @@ export const ServiceRecommendation = ({
             {bodyPart.conditions.map((condition, condIndex) => {
               const treatments = condition.recommended_services || [];
               const totalSlides = Math.ceil(treatments.length / itemsPerView);
+              const carouselKey = `${bodyIndex}-${condIndex}`;
+              const currentIndex = currentIndices[carouselKey] || 0;
 
               return (
                 <section key={condIndex} className="treatment-section">
@@ -90,7 +101,13 @@ export const ServiceRecommendation = ({
                     <div className="carousel-container">
                       <button
                         className="carousel-nav-button carousel-nav-prev"
-                        onClick={() => scrollToIndex(currentIndex - 1)}
+                        onClick={() =>
+                          scrollToIndex(
+                            carouselKey,
+                            currentIndex - 1,
+                            totalSlides
+                          )
+                        }
                         disabled={currentIndex === 0}
                       >
                         <ArrowLeft size={20} color="black" />
@@ -98,8 +115,10 @@ export const ServiceRecommendation = ({
 
                       <div
                         className="carousel-content"
-                        ref={carouselRef}
-                        onScroll={handleScroll}
+                        ref={(el) => {
+                          carouselRefs.current[carouselKey] = el;
+                        }}
+                        onScroll={() => handleScroll(carouselKey)}
                       >
                         {treatments.map((treatment, index) => (
                           <div key={index} className="carousel-item">
@@ -122,7 +141,13 @@ export const ServiceRecommendation = ({
 
                       <button
                         className="carousel-nav-button carousel-nav-next"
-                        onClick={() => scrollToIndex(currentIndex + 1)}
+                        onClick={() =>
+                          scrollToIndex(
+                            carouselKey,
+                            currentIndex + 1,
+                            totalSlides
+                          )
+                        }
                         disabled={currentIndex >= totalSlides - 1}
                       >
                         <ArrowRight size={20} color="black" />
@@ -135,7 +160,9 @@ export const ServiceRecommendation = ({
                             className={`carousel-dot ${
                               idx === currentIndex ? "carousel-dot-active" : ""
                             }`}
-                            onClick={() => scrollToIndex(idx)}
+                            onClick={() =>
+                              scrollToIndex(carouselKey, idx, totalSlides)
+                            }
                           />
                         ))}
                       </div>
