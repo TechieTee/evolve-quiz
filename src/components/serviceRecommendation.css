@@ -143,16 +143,16 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: white;
+
   border: none;
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
   cursor: pointer;
   z-index: 10;
   display: none;
-  background: rgba(255, 255, 255, 0.9);
+  background: transparent;
 }
 
 .carousel-nav-prev {

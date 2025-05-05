@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import "./serviceRecommendation.css";
 
 interface ServiceRecommendationProps {
@@ -93,7 +93,7 @@ export const ServiceRecommendation = ({
                         onClick={() => scrollToIndex(currentIndex - 1)}
                         disabled={currentIndex === 0}
                       >
-                        <ChevronLeft size={20} color="black" />
+                        <ArrowLeft size={20} color="black" />
                       </button>
 
                       <div
@@ -125,7 +125,7 @@ export const ServiceRecommendation = ({
                         onClick={() => scrollToIndex(currentIndex + 1)}
                         disabled={currentIndex >= totalSlides - 1}
                       >
-                        <ChevronRight size={20} color="black" />
+                        <ArrowRight size={20} color="black" />
                       </button>
 
                       <div className="carousel-dots">
