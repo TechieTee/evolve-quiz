@@ -364,7 +364,7 @@ const BodyQuiz = () => {
           <h5>Complete your Consultation</h5>
           <form onSubmit={handleSubmit}>
             <div>
-              <div className="form-row">
+              <div className="form-row" style={{ width: "95%" }}>
                 <div className="form-group">
                   <label htmlFor="firstName">First Name</label>
                   <input
