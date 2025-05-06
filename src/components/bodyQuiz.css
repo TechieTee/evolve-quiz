@@ -1042,9 +1042,8 @@ select {
   display: flex;
   gap: 5px;
   justify-content: center;
-
   border: 1px solid #343338;
-
+  padding: 2px 12px;
   cursor: pointer;
   border-radius: 8px;
   transition: all 0.3s ease;
