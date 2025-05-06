@@ -264,7 +264,7 @@ justify-content: center;
 
   .view-toggle-container {
     padding: 1rem;
-    min-height: auto;
+    /* min-height: auto; */
   }
 
   .consultation-form {
@@ -476,10 +476,15 @@ justify-content: center;
   margin-bottom: 6px;
   font-size: 15px;
 }
-
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 75vh;
+  gap: 1rem;
+}
 .consultation-form {
-  /* margin-top: 1rem; */
-  min-height: 70vh;
+  /* min-height: 70vh; */
   padding: 0 5rem;
 
   /* display: flex;
@@ -545,7 +550,7 @@ justify-content: center;
 }
 
 select {
-  width: 97%;
+  width: 94%;
   padding: 12px 14px;
   background-color: #fff !important;
   font-size: 16px;
@@ -563,6 +568,7 @@ select {
 }
 
 .checkbox-group {
+  width: 94%;
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -1074,7 +1080,7 @@ select {
   .selection-panel {
     position: fixed;
     display: block;
-    bottom: 40px;
+    /* bottom: 40px; */
     top: 0;
     left: 0;
     right: 0;

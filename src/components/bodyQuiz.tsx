@@ -363,116 +363,118 @@ const BodyQuiz = () => {
         <div className="consultation-form">
           <h5>Complete your Consultation</h5>
           <form onSubmit={handleSubmit}>
-            <div className="form-row">
+            <div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="firstName">First Name</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    value={formData.firstName || ""}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Enter your first name"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="lastName">Last Name</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value={formData.lastName || ""}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Enter your last name"
+                  />
+                </div>
+              </div>
+
               <div className="form-group">
-                <label htmlFor="firstName">First Name</label>
+                <label htmlFor="email">Email</label>
                 <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  value={formData.firstName || ""}
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleInputChange}
                   required
-                  placeholder="Enter your first name"
+                  placeholder="Enter your email"
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="lastName">Last Name</label>
+                <label htmlFor="phone">Phone</label>
                 <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName || ""}
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
                   onChange={handleInputChange}
                   required
-                  placeholder="Enter your last name"
+                  placeholder="Enter your phone number"
                 />
               </div>
-            </div>
 
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
+              <div className="form-group">
+                <label htmlFor="location">Choose Location</label>
+                <select
+                  id="location"
+                  name="location"
+                  value={formData.location || ""}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="">Select a location</option>
+                  <option value="New York">Bel Air, MD</option>
+
+                  <option value="New York">Bridgewater, NJ</option>
+                  <option value="New York">Denville, NJ</option>
+
+                  <option value="New York">Frederick, MD</option>
+                  <option value="New York">Hoboken, NJ</option>
+                  <option value="Los Angeles">Jersey City, NJ</option>
+                  <option value="Chicago">Lancaster, PA</option>
+
+                  <option value="New York">Montclair, NJ</option>
+                  <option value="New York">Old Bridge, NJ</option>
+                  <option value="Los Angeles">Red Bank, NJ</option>
+                  <option value="Chicago">Ridgewood, NJ</option>
+
+                  <option value="New York">Scarsdale, NY</option>
+                  <option value="New York">Short Hills, NJ</option>
+                  <option value="Los Angeles">Tribeca, NY</option>
+                  <option value="Chicago">Waldorf, MD</option>
+                </select>
+              </div>
+
+              <div className="form-group checkbox-group">
+                <input
+                  type="checkbox"
+                  id="consent"
+                  name="consent"
+                  checked={formData.consent || false}
+                  onChange={handleInputChange}
+                  required
+                />
+                <label htmlFor="consent" className="consent-text">
+                  I agree to receiving appointment confirmations, reminders and
+                  marketing communications via email and SMS messages. Msg &
+                  data rates may apply. Msg frequency varies. Reply HELP for
+                  help and STOP to cancel. View our{" "}
+                  <a href="/#">Privacy Policy</a>
+                </label>
+              </div>
+
+              <input type="hidden" name="areas" value={formData.areas} />
               <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                placeholder="Enter your email"
+                type="hidden"
+                name="conditions"
+                value={formData.conditions}
               />
             </div>
-
-            <div className="form-group">
-              <label htmlFor="phone">Phone</label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                required
-                placeholder="Enter your phone number"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="location">Choose Location</label>
-              <select
-                id="location"
-                name="location"
-                value={formData.location || ""}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Select a location</option>
-                <option value="New York">Bel Air, MD</option>
-
-                <option value="New York">Bridgewater, NJ</option>
-                <option value="New York">Denville, NJ</option>
-
-                <option value="New York">Frederick, MD</option>
-                <option value="New York">Hoboken, NJ</option>
-                <option value="Los Angeles">Jersey City, NJ</option>
-                <option value="Chicago">Lancaster, PA</option>
-
-                <option value="New York">Montclair, NJ</option>
-                <option value="New York">Old Bridge, NJ</option>
-                <option value="Los Angeles">Red Bank, NJ</option>
-                <option value="Chicago">Ridgewood, NJ</option>
-
-                <option value="New York">Scarsdale, NY</option>
-                <option value="New York">Short Hills, NJ</option>
-                <option value="Los Angeles">Tribeca, NY</option>
-                <option value="Chicago">Waldorf, MD</option>
-              </select>
-            </div>
-
-            <div className="form-group checkbox-group">
-              <input
-                type="checkbox"
-                id="consent"
-                name="consent"
-                checked={formData.consent || false}
-                onChange={handleInputChange}
-                required
-              />
-              <label htmlFor="consent" className="consent-text">
-                I agree to receiving appointment confirmations, reminders and
-                marketing communications via email and SMS messages. Msg & data
-                rates may apply. Msg frequency varies. Reply HELP for help and
-                STOP to cancel. View our <a href="/#">Privacy Policy</a>
-              </label>
-            </div>
-
-            <input type="hidden" name="areas" value={formData.areas} />
-            <input
-              type="hidden"
-              name="conditions"
-              value={formData.conditions}
-            />
-
             <div className="form-actions">
               <button
                 type="submit"

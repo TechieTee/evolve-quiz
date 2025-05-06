@@ -20,10 +20,10 @@
 
 .body-svg.face-view {
   margin-top: 1rem;
-  /* max-width: 400px;
-  max-height: 400px; */
-  width: 100%;
-  /* height: auto; */
+  max-width: 400px; /* Uncommented and increased */
+  max-height: 400px; /* Uncommented and increased */
+  width: auto; /* Changed from 100% to allow scaling */
+  height: auto; /* Ensure aspect ratio is maintained */
   display: block;
   margin: 0 auto;
 }
@@ -120,7 +120,7 @@
   fill: white;
   font-size: 14px;
   font-weight: 300;
-  pointer-events: none; /* Prevent the icon from blocking circle interactions */
+  pointer-events: none;
   user-select: none;
 }
 
@@ -132,4 +132,18 @@
     display: block;
     margin: 0 auto;
   }
+
+  /* .body-svg.face-view {
+    margin-top: 1rem;
+    max-width: 400px;
+    max-height: 400px;
+    width: auto;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  .body-svg.face-view {
+    max-width: 300px;
+    height: auto;
+  } */
 }
