@@ -1080,7 +1080,7 @@ select {
   .selection-panel {
     position: fixed;
     display: block;
-    /* bottom: 40px; */
+    bottom: 0;
     top: 0;
     left: 0;
     right: 0;
