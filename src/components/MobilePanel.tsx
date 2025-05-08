@@ -36,7 +36,7 @@ const MobilePanel: React.FC<MobilePanelProps> = ({
       />
       <div className={`selection-panel ${panelOpen ? "open" : ""}`}>
         <div className="panel-toggle" onClick={handleToggle}>
-          <div className="toggle-handle" />
+          <div className="toggle-handle">&times;</div>
         </div>
         {children}
       </div>

@@ -458,6 +458,7 @@ const BodyQuiz = () => {
                   checked={formData.consent || false}
                   onChange={handleInputChange}
                   required
+                  style={{ background: "red!important" }}
                 />
                 <label htmlFor="consent" className="consent-text">
                   I agree to receiving appointment confirmations, reminders and
@@ -611,10 +612,7 @@ const BodyQuiz = () => {
       {!submittedData && (
         <div className="quiz-main-grid">
           <div className="view-toggle-container">
-            <div className="button-toggles">
-              {renderGenderToggle()}
-              {renderBodyToggle()}
-            </div>
+            <div className="button-toggles">{renderBodyToggle()}</div>
 
             <BodyMapSVG
               viewType={
@@ -638,6 +636,7 @@ const BodyQuiz = () => {
               showFaceView={showFaceView}
               gender={gender}
             />
+            {renderGenderToggle()}
           </div>
 
           <MobilePanel isOpen={panelOpen} onClose={() => setPanelOpen(false)}>

@@ -86,7 +86,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--box-shadow);
   transition: var(--transition);
 }
 
@@ -363,7 +362,6 @@ justify-content: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--box-shadow);
   transition: var(--transition);
 }
 .undo-icon {
@@ -578,9 +576,11 @@ select {
 
 .checkbox-group input[type="checkbox"] {
   margin-top: 3px;
+  background-color: #fff !important;
 }
 #consent {
   width: auto !important;
+  background-color: red;
   margin-top: 12px;
 }
 .consent-text {
@@ -1040,10 +1040,10 @@ select {
 }
 .gender-toggle {
   display: flex;
-  gap: 5px;
+  gap: 20px;
   justify-content: center;
-  border: 1px solid #343338;
-  padding: 2px 12px;
+
+  /* padding: 6px 12px; */
   cursor: pointer;
   border-radius: 8px;
   transition: all 0.3s ease;
@@ -1053,11 +1053,13 @@ select {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.3);
   font-weight: 600;
+  padding: 6px 0px;
   font-size: 15px;
 }
 
 .gender-button.active {
   color: rgba(0, 0, 0, 1);
+  border-bottom: 2px solid #70c1b3;
 }
 
 .gender-button:hover {
@@ -1075,7 +1077,7 @@ select {
     padding: 3rem 1rem !important;
   }
   .condition-container {
-    padding: 3rem 1rem !important;
+    padding: 1rem !important;
   }
   .selection-panel {
     position: fixed;
@@ -1096,18 +1098,18 @@ select {
   }
 
   .selection-panel.open {
-    transform: translateY(0);
-    max-height: 100vh;
-    /* box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2); */
+    transform: translateY(10%);
+    border-radius: 20px 20px 0 0;
+    /* max-height: 100vh; */
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
   }
 
   .panel-toggle {
     display: flex;
-    justify-content: center;
+    justify-content: end;
     padding: 12px;
     background: white;
     border-radius: 20px 20px 0 0;
-    border-bottom: 1px solid #dac4b8;
     position: sticky;
     top: 0;
     z-index: 1001;
@@ -1115,11 +1117,15 @@ select {
   }
 
   .toggle-handle {
-    width: 60px;
-    height: 5px;
-    background: #dac4b8;
-    border-radius: 3px;
-    transition: all 0.2s ease;
+    background: #d2d2d240;
+    display: flex;
+    border-radius: 50%;
+    padding: 5px;
+    width: 20px;
+    height: 20px;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
   }
 
   .panel-toggle:hover .toggle-handle {
