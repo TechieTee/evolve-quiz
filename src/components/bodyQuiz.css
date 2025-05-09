@@ -243,6 +243,9 @@ justify-content: center;
 }
 
 @media (max-width: 768px) {
+  .start {
+    padding: 0 2rem;
+  }
   .ff {
     display: block !important;
     grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
@@ -288,6 +291,7 @@ justify-content: center;
 
   .quiz-card-header-text {
     font-size: 24px;
+    text-align: center;
   }
 
   .concerns-header-text {
@@ -820,6 +824,9 @@ select {
 }
 
 @media (min-width: 768px) {
+  .start {
+    padding: 0 2rem;
+  }
   .cards-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -943,6 +950,9 @@ select {
 }
 
 @media (min-width: 768px) {
+  .start {
+    padding: 0 2rem;
+  }
   .action-buttons {
     flex-direction: row;
   }
@@ -1093,6 +1103,9 @@ select {
 
 /* Add to bodyQuiz.css */
 @media (max-width: 768px) {
+  .start {
+    padding: 0 2rem;
+  }
   .consultation-form {
     padding: 3rem 1rem 6rem 1rem !important;
   }
@@ -1155,7 +1168,7 @@ select {
     background: #b8a89b;
     transform: scale(1.1);
   }
-
+  /* 
   .panel-overlay {
     position: fixed;
     top: 0;
@@ -1163,11 +1176,11 @@ select {
     right: 0;
     bottom: 0;
     background: rgba(255, 255, 255, 1);
-    z-index: 999;
+  
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
-  }
+  } */
 
   .panel-overlay.open {
     opacity: 1;
