@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Spinner from "./spinner";
 import ConditionDisplay from "./conditionalDisplay";
 import "./bodyQuiz.css";
@@ -34,6 +34,13 @@ const BodyQuiz = () => {
   >([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const genderToggleContainerRef = useRef<HTMLDivElement>(null);
+  const femaleButtonRef = useRef<HTMLButtonElement>(null);
+  const maleButtonRef = useRef<HTMLButtonElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
+
+  // Duplicate declaration removed
 
   // Updated view states
   const [showFrontView, setShowFrontView] = useState(true);
@@ -157,6 +164,33 @@ const BodyQuiz = () => {
       setSelectedAreas((prev) => [...prev, area]);
     }
   };
+  // Update the useEffect in your component
+  useEffect(() => {
+    const updateLinePosition = () => {
+      const container = genderToggleContainerRef.current;
+      const activeButton =
+        gender === "female" ? femaleButtonRef.current : maleButtonRef.current;
+
+      if (container && activeButton && lineRef.current) {
+        const containerRect = container.getBoundingClientRect();
+        const buttonRect = activeButton.getBoundingClientRect();
+
+        // Calculate relative position within container
+        const leftPosition = buttonRect.left - containerRect.left;
+        const buttonWidth = buttonRect.width;
+
+        lineRef.current.style.transform = `translateX(${leftPosition}px)`;
+        lineRef.current.style.width = `${buttonWidth}px`;
+      }
+    };
+
+    // Initial position
+    updateLinePosition();
+
+    // Update on resize and gender change
+    window.addEventListener("resize", updateLinePosition);
+    return () => window.removeEventListener("resize", updateLinePosition);
+  }, [gender, femaleButtonRef.current, maleButtonRef.current]); // Add refs as dependencies
 
   const toggleView = (viewType: "front" | "back" | "face") => {
     setShowFrontView(viewType === "front");
@@ -321,21 +355,25 @@ const BodyQuiz = () => {
 
   if (error) return <div className="error-message">Error: {error}</div>;
   const renderGenderToggle = () => (
-    <div className="gender-toggle">
+    <div className="gender-toggle" ref={genderToggleContainerRef}>
       <button
+        ref={femaleButtonRef}
         className={`gender-button ${gender === "female" ? "active" : ""}`}
         onClick={() => setGender("female")}
       >
         Female
       </button>
       <button
+        ref={maleButtonRef}
         className={`gender-button ${gender === "male" ? "active" : ""}`}
         onClick={() => setGender("male")}
       >
         Male
       </button>
+      <div className="gender-line" ref={lineRef} />
     </div>
   );
+
   const renderBodyToggle = () => (
     <div className="view-toggle-buttons">
       {!showFrontView && (

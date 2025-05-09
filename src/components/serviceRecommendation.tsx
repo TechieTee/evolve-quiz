@@ -19,6 +19,29 @@ interface ServiceRecommendationProps {
   }[];
 }
 
+const sortTreatmentsByTaxonomy = (treatments: any[]) => {
+  const priorityOrder = [
+    "Injectable Services",
+    "Device Services",
+    "Esthi Services",
+    "Retail Items",
+  ];
+
+  return [...treatments].sort((a, b) => {
+    const aTaxonomy = a.taxonomy[0]?.name || "SERVICE";
+    const bTaxonomy = b.taxonomy[0]?.name || "SERVICE";
+
+    const aIndex = priorityOrder.indexOf(aTaxonomy);
+    const bIndex = priorityOrder.indexOf(bTaxonomy);
+
+    // Handle items not in priority list (place them after)
+    if (aIndex === -1) return 1;
+    if (bIndex === -1) return -1;
+
+    return aIndex - bIndex;
+  });
+};
+
 export const ServiceRecommendation = ({
   selectedBodyParts,
   resetQuiz,
@@ -86,7 +109,9 @@ export const ServiceRecommendation = ({
         {selectedBodyParts.map((bodyPart, bodyIndex) => (
           <div key={bodyIndex}>
             {bodyPart.conditions.map((condition, condIndex) => {
-              const treatments = condition.recommended_services || [];
+              const treatments = sortTreatmentsByTaxonomy(
+                condition.recommended_services || []
+              );
               const totalSlides = Math.ceil(treatments.length / itemsPerView);
               const carouselKey = `${bodyIndex}-${condIndex}`;
               const currentIndex = currentIndices[carouselKey] || 0;
