@@ -531,8 +531,9 @@ const BodyQuiz = () => {
     if (showConsultationSummary && selectedBodyParts.length > 0) {
       return (
         <div className="selected-body-conditions">
-          <div className="ff">
-            <h3 className="quiz-card-header-text">Your Selections</h3>
+          {/* <div className="ff"> */}
+          <h3 className="quiz-card-header-text">Your Selections</h3>
+          <div className="body-parts-scroll-container">
             {selectedBodyParts.map((item) => (
               <div key={item.area.id} className="body-part-section">
                 <p className="body-part-name">
@@ -608,7 +609,7 @@ const BodyQuiz = () => {
         // {currentArea && (
         <div className="condition-container">
           {isLoading ? (
-            <div className="loading-spinner">
+            <div className="spinner-container">
               <Spinner />
             </div>
           ) : (
@@ -648,35 +649,70 @@ const BodyQuiz = () => {
   return (
     <>
       {!submittedData && (
+        // <div className="quiz-main-grid">
+        //   <div className="view-toggle-container">
+        //     <div className="button-toggles">{renderBodyToggle()}</div>
+        //     <div>
+        //       <BodyMapSVG
+        //         viewType={
+        //           showFrontView
+        //             ? "front"
+        //             : showBackView
+        //             ? "back"
+        //             : showFaceView
+        //             ? "face"
+        //             : "front"
+        //         }
+        //         selectedAreas={selectedAreas.map((a) => a.name)}
+        //         onAreaSelect={(areaName) => {
+        //           if (Array.isArray(areasResponse)) {
+        //             const area = findAreaByName(areasResponse, areaName);
+        //             if (area) handleAreaSelect(area);
+        //           }
+        //         }}
+        //         showFrontView={showFrontView}
+        //         showBackView={showBackView}
+        //         showFaceView={showFaceView}
+        //         gender={gender}
+        //       />
+        //       {renderGenderToggle()}
+        //     </div>
+        //   </div>
+
+        //   <MobilePanel isOpen={panelOpen} onClose={() => setPanelOpen(false)}>
+        //     {renderSelectionPanelContent()}
+        //   </MobilePanel>
+        // </div>
+
         <div className="quiz-main-grid">
           <div className="view-toggle-container">
             <div className="button-toggles">{renderBodyToggle()}</div>
-
-            <BodyMapSVG
-              viewType={
-                showFrontView
-                  ? "front"
-                  : showBackView
-                  ? "back"
-                  : showFaceView
-                  ? "face"
-                  : "front"
-              }
-              selectedAreas={selectedAreas.map((a) => a.name)}
-              onAreaSelect={(areaName) => {
-                if (Array.isArray(areasResponse)) {
-                  const area = findAreaByName(areasResponse, areaName);
-                  if (area) handleAreaSelect(area);
+            <div className="body-map-wrapper">
+              <BodyMapSVG
+                viewType={
+                  showFrontView
+                    ? "front"
+                    : showBackView
+                    ? "back"
+                    : showFaceView
+                    ? "face"
+                    : "front"
                 }
-              }}
-              showFrontView={showFrontView}
-              showBackView={showBackView}
-              showFaceView={showFaceView}
-              gender={gender}
-            />
-            {renderGenderToggle()}
+                selectedAreas={selectedAreas.map((a) => a.name)}
+                onAreaSelect={(areaName) => {
+                  if (Array.isArray(areasResponse)) {
+                    const area = findAreaByName(areasResponse, areaName);
+                    if (area) handleAreaSelect(area);
+                  }
+                }}
+                showFrontView={showFrontView}
+                showBackView={showBackView}
+                showFaceView={showFaceView}
+                gender={gender}
+              />
+              {renderGenderToggle()}
+            </div>
           </div>
-
           <MobilePanel isOpen={panelOpen} onClose={() => setPanelOpen(false)}>
             {renderSelectionPanelContent()}
           </MobilePanel>
