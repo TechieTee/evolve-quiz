@@ -25,7 +25,7 @@ body {
   display: grid;
   background-color: rgb(255, 255, 255);
   grid-template-columns: 1fr 1fr;
-  align-items: start;
+  align-items: center;
 
   /* max-width: 1400px; */
   margin: 0 auto;
@@ -154,7 +154,9 @@ body {
   overflow: hidden;
   border: 1px solid #eee;
 }
-
+.concerns-header-text {
+  padding-top: 100px;
+}
 .card-header {
   padding: 1.5rem;
 
@@ -282,6 +284,7 @@ justify-content: center;
   }
 
   .view-toggle-container {
+    border-radius: 0%;
     /* padding: 1rem; */
     /* min-height: auto; */
   }
@@ -293,13 +296,13 @@ justify-content: center;
   }
   .form-group input,
   .form-group select {
-    width: 100%;
+    width: 100% !important;
   }
 
   .form-row {
     flex-direction: column;
     width: 100%;
-    gap: 0;
+    gap: 10px;
   }
 
   /* .conditions-list li {
@@ -324,7 +327,7 @@ justify-content: center;
   }
 
   .view-toggle-buttons {
-    justify-content: center;
+    justify-content: end;
   }
 
   .gender-toggle {
@@ -449,7 +452,7 @@ justify-content: center;
     justify-content: center !important;
   }
   .view-toggle-buttons {
-    justify-content: center;
+    justify-content: end;
   }
 
   /* .quiz-content-area {
@@ -530,10 +533,11 @@ form {
 }
 
 .consultation-form h5 {
+  padding-top: 0px;
   font-size: 24px;
   margin-bottom: 30px;
   align-items: center;
-  padding: 0;
+  /* padding: 0; */
   color: #222;
   border-bottom: 1px solid #dac4b8;
 }
@@ -603,19 +607,50 @@ select {
 }
 
 .checkbox-group input[type="checkbox"] {
-  margin-top: 3px;
-  background-color: #fff !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 18px !important;
+  height: 18px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 3px !important;
+  display: grid;
+  place-content: center;
 }
 #consent {
+  padding: 0;
+  height: auto;
   width: auto !important;
-  background-color: red;
   margin-top: 12px;
 }
+.checkbox-group input[type="checkbox"]::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  transform: scale(0);
+  transition: transform 0.1s ease-in-out;
+  box-shadow: inset 1em 1em #70c1b3;
+}
+
+.checkbox-group input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+.checkbox-group input[type="checkbox"]:checked {
+  background: white;
+  border-color: #70c1b3;
+}
+
 .consent-text {
   font-weight: 300 !important;
   font-size: 12px;
   line-height: 1.4;
   color: #666;
+  margin-top: 0 !important;
 }
 
 .consent-text a {
@@ -1052,6 +1087,7 @@ select {
 }
 
 .quiz-card-header-text {
+  padding-top: 100px;
   text-align: left;
   color: black;
   font-size: 30px;
@@ -1190,7 +1226,7 @@ select {
     z-index: 1000;
     border-radius: 20px 20px 0 0;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-    transform: translateY(100%);
+    transform: translateY(110%);
     transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
     max-height: 90vh;
     overflow-y: auto;
@@ -1220,7 +1256,7 @@ select {
     background: #d2d2d240;
     display: flex;
     border-radius: 50%;
-    padding: 5px;
+    padding: 3px;
     width: 20px;
     height: 20px;
     align-content: center;
@@ -1229,7 +1265,7 @@ select {
   }
 
   .panel-toggle:hover .toggle-handle {
-    background: #b8a89b;
+    background: #d2d2d240;
     transform: scale(1.1);
   }
 
@@ -1262,5 +1298,39 @@ select {
   /* Adjust the main grid for mobile */
   .quiz-main-grid {
     padding-bottom: 60px; /* Make space for the toggle button */
+  }
+}
+.mobile-instruction {
+  display: none; /* Hidden by default */
+  text-align: center;
+  padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .body-parts-scroll-container {
+    /* overflow-y: hidden;
+    max-height: 80vh; */
+  }
+  .selected-body-conditions {
+    height: auto;
+  }
+  .mobile-instruction {
+    display: flex;
+
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+  }
+  .quiz-card-header-text {
+    margin-top: 20px;
+    text-align: center !important;
+    margin-bottom: 0 !important;
+  }
+  .quiz-card-desc-text {
+    text-align: center !important;
+  }
+  /* Hide desktop-style start message in panel */
+  .selection-panel .start {
+    display: none;
   }
 }

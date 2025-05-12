@@ -649,41 +649,6 @@ const BodyQuiz = () => {
   return (
     <>
       {!submittedData && (
-        // <div className="quiz-main-grid">
-        //   <div className="view-toggle-container">
-        //     <div className="button-toggles">{renderBodyToggle()}</div>
-        //     <div>
-        //       <BodyMapSVG
-        //         viewType={
-        //           showFrontView
-        //             ? "front"
-        //             : showBackView
-        //             ? "back"
-        //             : showFaceView
-        //             ? "face"
-        //             : "front"
-        //         }
-        //         selectedAreas={selectedAreas.map((a) => a.name)}
-        //         onAreaSelect={(areaName) => {
-        //           if (Array.isArray(areasResponse)) {
-        //             const area = findAreaByName(areasResponse, areaName);
-        //             if (area) handleAreaSelect(area);
-        //           }
-        //         }}
-        //         showFrontView={showFrontView}
-        //         showBackView={showBackView}
-        //         showFaceView={showFaceView}
-        //         gender={gender}
-        //       />
-        //       {renderGenderToggle()}
-        //     </div>
-        //   </div>
-
-        //   <MobilePanel isOpen={panelOpen} onClose={() => setPanelOpen(false)}>
-        //     {renderSelectionPanelContent()}
-        //   </MobilePanel>
-        // </div>
-
         <div className="quiz-main-grid">
           <div className="view-toggle-container">
             <div className="button-toggles">{renderBodyToggle()}</div>
@@ -711,6 +676,15 @@ const BodyQuiz = () => {
                 gender={gender}
               />
               {renderGenderToggle()}
+              {selectedAreas.length === 0 && (
+                <div className="mobile-instruction">
+                  <h3 className="quiz-card-header-text">Your Selections</h3>
+                  <span className="quiz-card-desc-text">
+                    Start your quiz by clicking on a body part you want to be
+                    treated.
+                  </span>
+                </div>
+              )}
             </div>
           </div>
           <MobilePanel isOpen={panelOpen} onClose={() => setPanelOpen(false)}>
