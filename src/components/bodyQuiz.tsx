@@ -6,6 +6,7 @@ import { Area, AreasResponse, Condition } from "../types/types";
 import { ServiceRecommendation } from "./serviceRecommendation";
 import BodyMapSVG from "./BodyMapSVG";
 import MobilePanel from "./MobilePanel";
+import { useNavigate } from "react-router-dom";
 
 interface SelectedBodyPart {
   area: {
@@ -41,7 +42,7 @@ const BodyQuiz = () => {
   const lineRef = useRef<HTMLDivElement>(null);
 
   // Duplicate declaration removed
-
+  console.log(selectedBodyParts, "selectedBodyParts");
   // Updated view states
   const [showFrontView, setShowFrontView] = useState(true);
   const [showBackView, setShowBackView] = useState(false);
@@ -82,6 +83,8 @@ const BodyQuiz = () => {
     consent: false,
     location: "",
   });
+
+  const navigate = useNavigate();
 
   const fetchAreas = async () => {
     setIsLoading(true);
@@ -273,6 +276,15 @@ const BodyQuiz = () => {
 
     setShowForm(false);
     setShowConsultationSummary(false);
+    const conditionIds = selectedBodyParts
+      .flatMap((item) => item.conditions.map((c) => c.id))
+      .join("-");
+    console.log(conditionIds, "conditionIds");
+    navigate(`/results?qs=${conditionIds}`);
+    if (conditionIds.length === 0) {
+      alert("Please select at least one condition before submitting.");
+      return;
+    }
   };
 
   const handleConditionSelect = (condition: Condition) => {
