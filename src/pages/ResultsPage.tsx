@@ -42,7 +42,7 @@ const ResultsPage = () => {
   const carouselRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const conditionIds = searchParams.get("qs");
-  console.log(itemsPerView, "aTaxonomy");
+
   useEffect(() => {
     const updateResponsive = () => {
       if (window.innerWidth < 640) setItemsPerView(1);
@@ -58,11 +58,13 @@ const ResultsPage = () => {
   useEffect(() => {
     const fetchConditionById = async (id: string) => {
       const res = await fetch(
-        `https://evolvequizdev.wpengine.com/wp-json/wp-evolve-body-quiz/v1/condition?condition_id=${id}`
+        `https://evolvequizdev.wpengine.com/wp-json/wp-evolve-body-quiz/v1/condition?condition_id=${id}`,
+        {
+          credentials: "include", // Include credentials for API authentication
+        }
       );
 
       if (!res.ok) return null;
-      console.log(res.url, "res");
       return await res.json();
     };
 
@@ -97,7 +99,7 @@ const ResultsPage = () => {
       behavior: "smooth",
     });
   };
-  console.log(conditions, "conditionIds");
+
   return (
     <main className="recommendations">
       <div className="container">
