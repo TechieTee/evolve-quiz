@@ -281,6 +281,11 @@ const BodyQuiz = () => {
       .join("-");
     console.log(conditionIds, "conditionIds");
     navigate(`/results?qs=${conditionIds}`);
+    console.log(
+      `https://evolvequizdev.wpengine.com/wp-json/wp-evolve-body-quiz/v1/results?qs=${conditionIds}`,
+      "url"
+    );
+
     if (conditionIds.length === 0) {
       alert("Please select at least one condition before submitting.");
       return;

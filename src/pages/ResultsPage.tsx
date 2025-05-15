@@ -5,7 +5,11 @@ import { Condition } from "../types/types";
 import "../components/serviceRecommendation.css";
 
 const sortTreatmentsByTaxonomy = (
-  treatments: { taxonomy: { name: string }[]; title?: string }[]
+  treatments: {
+    taxonomy: { name: string }[];
+    title?: string;
+    content?: string;
+  }[]
 ) => {
   const priorityOrder = [
     "Injectable Services",
@@ -150,7 +154,7 @@ const ResultsPage = () => {
                               {treatment.title || "Untitled Treatment"}
                             </h3>
                             <p className="treatment-description">
-                              {"Description not available"}
+                              {treatment.content || "Description not available"}
                             </p>
                           </div>
                         </div>
