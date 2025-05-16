@@ -41,8 +41,6 @@ const ResultsPage = () => {
   const [itemsPerView, setItemsPerView] = useState(1);
   const carouselRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const conditionIds = searchParams.get("qs");
-
   useEffect(() => {
     const updateResponsive = () => {
       if (window.innerWidth < 640) setItemsPerView(1);
@@ -69,14 +67,15 @@ const ResultsPage = () => {
     };
 
     const loadConditions = async () => {
-      if (!conditionIds) return;
-      const ids = conditionIds.split("-").map((id) => id.trim());
+      const conditionIdsParam = searchParams.get("qs");
+      if (!conditionIdsParam) return;
+      const ids = conditionIdsParam.split("-").map((id) => id.trim());
       const data = await Promise.all(ids.map(fetchConditionById));
       setConditions(data.filter(Boolean));
     };
 
     loadConditions();
-  }, [conditionIds]);
+  }, [searchParams]);
 
   const handleScroll = (key: string) => {
     const carousel = carouselRefs.current[key];
