@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import ResultsPage from "./pages/ResultsPage";
 const Home = lazy(() => import("./pages/Home"));
