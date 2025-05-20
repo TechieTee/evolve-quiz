@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Condition } from "../types/types";
-import "../components/serviceRecommendation.css";
+import "../styles/ResultsPage.css";
 
 const sortTreatmentsByTaxonomy = (
   treatments: {
@@ -103,7 +103,7 @@ const ResultsPage = () => {
     <main className="recommendations">
       <div className="container">
         <header className="header">
-          <h1 className="title">Your Personalized Recommendations Are In!</h1>
+          <h1 className="title">Your Recommendations Are In!</h1>
           <p className="subtitle">
             Here is what we suggest based on your skin + body goals
           </p>
@@ -195,6 +195,14 @@ const ResultsPage = () => {
             </section>
           );
         })}
+        <footer>
+          <a href="/quiz" className="quiz-link">
+            Take the quiz again
+          </a>
+          <a href="/appointment" className="appointment-link">
+            Book Appointment
+          </a>
+        </footer>
       </div>
     </main>
   );
