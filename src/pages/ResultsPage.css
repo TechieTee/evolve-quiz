@@ -1,61 +1,61 @@
-.recommendations {
+.result-recommendations {
   padding: 40px 20px;
   background-color: #fff;
   font-family: "Inter", sans-serif;
   color: #000;
 }
 
-.container {
+.result-container {
   max-width: 1100px;
   margin: 0 auto;
 }
 
-.header {
+.result-header {
   text-align: center;
   margin-bottom: 60px;
 }
 
-.title {
+.result-title {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 10px;
 }
 
-.subtitle {
+.result-subtitle {
   font-size: 16px;
   color: #000000;
 }
 
-.treatment-section {
+.result-treatment-section {
   margin-bottom: 60px;
 }
 
-.section-header {
-  border-bottom: 2px solid #38c4ba;
+.result-section-header {
+  border-bottom: 2px solid #70c1b3;
   padding: 0;
 }
 
-.section-title {
+.result-section-title {
   font-size: 18px;
   font-weight: 700;
   text-transform: uppercase;
 }
 
 /* Grid layout for treatments */
-.carousel-content {
+.result-carousel-content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 24px;
   width: 100%;
 }
 
-.carousel-item {
+.result-carousel-item {
   border-radius: 8px;
   padding: 24px 24px 24px 0;
-  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); */
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.result-05); */
 }
 
-.badge {
+.result-badge {
   display: inline-block;
 
   color: #000000;
@@ -67,23 +67,23 @@
   border-radius: 4px;
 }
 
-.treatment-title {
+.result-treatment-title {
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 8px;
 }
 
-.treatment-description {
+.result-treatment-description {
   font-size: 14px;
   color: #444;
 }
 
-.carousel-nav-button,
-.carousel-dots {
+.result-carousel-nav-button,
+.result-carousel-dots {
   display: none; /* arrows and dots hidden for this layout */
 }
 
-.no-treatments {
+.result-no-treatments {
   font-style: italic;
   color: #888;
   text-align: center;
@@ -100,42 +100,42 @@ footer {
 }
 
 footer a {
-  padding: 12px 20px;
+  padding: 12px 40px;
   text-decoration: none;
   border-radius: 50px;
   font-weight: 600;
   font-size: 14px;
 }
 
-footer .quiz-link {
+footer .result-quiz-link {
   text-decoration: underline;
   color: #000;
 }
 
-footer .appointment-link {
-  background-color: #38c4ba;
+footer .result-appointment-link {
+  background-color: #70c1b3;
   color: #000000;
 }
 
 /* Mobile Responsive Adjustments */
 @media (max-width: 640px) {
-  .title {
+  .result-title {
     font-size: 22px;
   }
 
-  .subtitle {
+  .result-subtitle {
     font-size: 14px;
   }
 
-  .carousel-content {
+  .result-carousel-content {
     grid-template-columns: 1fr; /* stack vertically on mobile */
   }
 
-  .treatment-title {
+  .result-treatment-title {
     font-size: 15px;
   }
 
-  .treatment-description {
+  .result-treatment-description {
     font-size: 13px;
   }
 

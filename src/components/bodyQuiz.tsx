@@ -6,7 +6,7 @@ import { Area, AreasResponse, Condition } from "../types/types";
 import { ServiceRecommendation } from "./serviceRecommendation";
 import BodyMapSVG from "./BodyMapSVG";
 import MobilePanel from "./MobilePanel";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 interface SelectedBodyPart {
   area: {
@@ -84,7 +84,7 @@ const BodyQuiz = () => {
     location: "",
   });
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const fetchAreas = async () => {
     setIsLoading(true);
@@ -281,7 +281,15 @@ const BodyQuiz = () => {
       .flatMap((item) => item.conditions.map((c) => c.id))
       .join("-");
 
-    navigate(`/results?qs=${encodeURIComponent(conditionIds)}`); // Encoded conditionIds
+    const sharableUrl = `${window.location.origin}/results?qs=${conditionIds}`;
+
+    console.log(sharableUrl, "sharableUrl");
+
+    // const conditionIds = selectedBodyParts
+    //   .flatMap((item) => item.conditions.map((c) => c.id))
+    //   .join("-");
+
+    // navigate(`/results?qs=${encodeURIComponent(conditionIds)}`);
   };
 
   const handleConditionSelect = (condition: Condition) => {
@@ -702,10 +710,19 @@ const BodyQuiz = () => {
         </div>
       )}
 
+      {/* {submittedData && (
+        <ServiceRecommendation
+          selectedBodyParts={selectedBodyParts}
+          resetQuiz={resetQuiz}
+        />
+      )} */}
       {submittedData && (
         <ServiceRecommendation
           selectedBodyParts={selectedBodyParts}
           resetQuiz={resetQuiz}
+          conditionIds={selectedBodyParts
+            .flatMap((item) => item.conditions.map((c) => c.id))
+            .join("-")}
         />
       )}
     </>
