@@ -16,13 +16,13 @@
 }
 
 .result-title {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 700;
   margin-bottom: 10px;
 }
 
 .result-subtitle {
-  font-size: 16px;
+  font-size: 20px;
   color: #000000;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .result-section-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -60,21 +60,21 @@
 
   color: #000000;
   border: 1px solid #dac4b8;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 400;
   text-transform: uppercase;
   padding: 4px 10px;
   border-radius: 4px;
 }
 
 .result-treatment-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   margin-bottom: 8px;
 }
 
 .result-treatment-description {
-  font-size: 14px;
+  font-size: 16px;
   color: #444;
 }
 
@@ -104,7 +104,7 @@ footer a {
   text-decoration: none;
   border-radius: 50px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 footer .result-quiz-link {
@@ -120,11 +120,12 @@ footer .result-appointment-link {
 /* Mobile Responsive Adjustments */
 @media (max-width: 640px) {
   .result-title {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .result-subtitle {
-    font-size: 14px;
+    font-size: 18px;
+    text-align: center;
   }
 
   .result-carousel-content {
@@ -132,11 +133,11 @@ footer .result-appointment-link {
   }
 
   .result-treatment-title {
-    font-size: 15px;
+    font-size: 18px;
   }
 
   .result-treatment-description {
-    font-size: 13px;
+    font-size: 15px;
   }
 
   footer {

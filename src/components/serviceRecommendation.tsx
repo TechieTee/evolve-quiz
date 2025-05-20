@@ -1,23 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import "./serviceRecommendation.css";
+import "../pages/ResultsPage.css";
 
-// interface ServiceRecommendationProps {
-//   resetQuiz: () => void;
-//   selectedBodyParts: {
-//     area: { id: number; name: string };
-//     conditions: {
-//       id: number;
-//       title: string;
-//       recommended_services?: {
-//         id: number;
-//         title: string;
-//         content: string;
-//         taxonomy: { name: string }[];
-//       }[];
-//     }[];
-//   }[];
-//}
 interface ServiceRecommendationProps {
   selectedBodyParts: {
     area: { id: number; name: string };
@@ -58,7 +42,6 @@ const sortTreatmentsByTaxonomy = (treatments: Treatment[]) => {
     const aIndex = priorityOrder.indexOf(aTaxonomy);
     const bIndex = priorityOrder.indexOf(bTaxonomy);
 
-    // Handle items not in priority list (place them after)
     if (aIndex === -1) return 1;
     if (bIndex === -1) return -1;
 
@@ -89,251 +72,211 @@ export const ServiceRecommendation = ({
     return () => window.removeEventListener("resize", updateResponsive);
   }, []);
 
-  const handleScroll = (carouselKey: string) => {
-    const carousel = carouselRefs.current[carouselKey];
+  const handleScroll = (key: string) => {
+    const carousel = carouselRefs.current[key];
     if (!carousel) return;
 
     const scrollLeft = carousel.scrollLeft;
     const itemWidth = carousel.children[0]?.clientWidth || 0;
     const newIndex = Math.round(scrollLeft / (itemWidth + 24));
-    setCurrentIndices((prev) => ({ ...prev, [carouselKey]: newIndex }));
+    setCurrentIndices((prev) => ({ ...prev, [key]: newIndex }));
   };
 
-  const scrollToIndex = (
-    carouselKey: string,
-    index: number,
-    totalSlides: number
-  ) => {
-    const carousel = carouselRefs.current[carouselKey];
+  const scrollToIndex = (key: string, index: number, totalSlides: number) => {
+    const carousel = carouselRefs.current[key];
     if (!carousel) return;
 
-    const clampedIndex = Math.max(0, Math.min(index, totalSlides - 1));
+    const clamped = Math.max(0, Math.min(index, totalSlides - 1));
     const itemWidth = carousel.children[0]?.clientWidth || 0;
     carousel.scrollTo({
-      left: clampedIndex * (itemWidth + 24),
+      left: clamped * (itemWidth + 24),
       behavior: "smooth",
     });
   };
 
   return (
-    <main className="recommendations">
-      {/*    ---    */}
-      {/* {conditionIds && (
-        <div
-          className="share-link-box"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            border: "none",
-            outline: "none",
-            background: "#f9f9f9",
-          }}
-        >
-          <span>Click on the link to see result or Copy link:</span>
-          <input
-            type="text"
-            value={`${window.location.origin}/#/results?qs=${conditionIds}`}
-            readOnly
-            onClick={(e) => e.currentTarget.select()}
-            style={{
-              width: "50%",
-              padding: "10px",
-              margin: "10px 10px",
-              background: "#f9f9f9",
-              border: "none",
-              outline: "none",
-              color: "#333",
-              borderRadius: "50px",
-              fontSize: "14px",
-            }}
-          />
-        </div>
-      )} */}
-      {/*    ---    */}
+    <main className="result-recommendations">
+      <div className="result-container">
+        {conditionIds && (
+          <div className="share-link-box" style={{ marginBottom: "3rem" }}>
+            <p style={{ fontWeight: "bold" }}>Your Sharable Result:</p>
 
-      {conditionIds && (
-        <div className="share-link-box" style={{ marginBottom: "2rem" }}>
-          <p style={{ fontWeight: "bold", marginBottom: "0.5rem" }}>
-            Your Sharable Result:
-          </p>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              flexWrap: "wrap",
-            }}
-          >
-            {/* Clickable Link */}
-            <a
-              href={`${window.location.origin}/#/results?qs=${conditionIds}`}
-              target="_blank"
-              rel="noopener noreferrer"
+            <div
               style={{
-                color: "#0c7ce6",
-                textDecoration: "underline",
-                whiteSpace: "nowrap",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                flexWrap: "wrap",
               }}
             >
-              View Result
-            </a>
+              <a
+                href={`${window.location.origin}/#/results?qs=${conditionIds}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: "#70c1b3",
+                  textDecoration: "underline",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                View Result
+              </a>
 
-            {/* Copyable Input */}
-            <input
-              type="text"
-              value={`${window.location.origin}/#/results?qs=${conditionIds}`}
-              readOnly
-              onClick={(e) => e.currentTarget.select()}
-              style={{
-                flex: 1,
-                padding: "10px",
-                background: "#f9f9f9",
-                border: "none",
-                outline: "none",
-                color: "#333",
-                display: "none",
-                borderRadius: "50px",
-                fontSize: "14px",
-                minWidth: "300px",
-              }}
-            />
+              <input
+                type="text"
+                value={`${window.location.origin}/#/results?qs=${conditionIds}`}
+                readOnly
+                onClick={(e) => e.currentTarget.select()}
+                style={{
+                  flex: 1,
+                  padding: "10px",
+                  background: "#f9f9f9",
+                  border: "none",
+                  outline: "none",
+                  color: "#333",
+                  borderRadius: "50px",
+                  fontSize: "14px",
+                  minWidth: "300px",
+                }}
+              />
 
-            {/* Copy Button */}
-            <button
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  `${window.location.origin}/#/results?qs=${conditionIds}`
-                );
-                alert("Link copied to clipboard!");
-              }}
-              style={{
-                padding: "10px 14px",
-                backgroundColor: "#70C1B3",
-                color: "#fff",
-                border: "none",
-                borderRadius: "50px",
-                cursor: "pointer",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Copy Link
-            </button>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    `${window.location.origin}/#/results?qs=${conditionIds}`
+                  );
+                  alert("Link copied to clipboard!");
+                }}
+                style={{
+                  padding: "10px 14px",
+                  backgroundColor: "#70C1B3",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "50px",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Copy Link
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <div className="container">
-        <header className="header">
-          <h1 className="title">Your Recommendations Are In!</h1>
-          <p className="subtitle">
-            Here is what we suggest based on your skin + body goals
+        <header className="result-header">
+          <h1 className="result-title">Your Recommendations Are In!</h1>
+          <p className="result-subtitle">
+            Here is what we suggest based on your <br />
+            skin + body goals
           </p>
-          <div className="button-group">
-            <button className="link-button" onClick={resetQuiz}>
-              Take the quiz again
-            </button>
-            <button className="appointment-button">Book Appointment</button>
-          </div>
         </header>
 
-        {selectedBodyParts.map((bodyPart, bodyIndex) => (
-          <div key={bodyIndex}>
-            {bodyPart.conditions.map((condition, condIndex) => {
-              const treatments = sortTreatmentsByTaxonomy(
-                condition.recommended_services || []
-              );
-              const totalSlides = Math.ceil(treatments.length / itemsPerView);
-              const carouselKey = `${bodyIndex}-${condIndex}`;
-              const currentIndex = currentIndices[carouselKey] || 0;
+        {selectedBodyParts.map((bodyPart, bodyIndex) =>
+          bodyPart.conditions.map((condition, condIndex) => {
+            const treatments = sortTreatmentsByTaxonomy(
+              condition.recommended_services || []
+            );
+            const totalSlides = Math.ceil(treatments.length / itemsPerView);
+            const carouselKey = `${bodyIndex}-${condIndex}`;
+            const currentIndex = currentIndices[carouselKey] || 0;
 
-              return (
-                <section key={condIndex} className="treatment-section">
-                  <div className="section-header">
-                    <h2 className="section-title">{condition.title}</h2>
-                  </div>
+            return (
+              <section key={condIndex} className="result-treatment-section">
+                <div className="result-section-header">
+                  <h2 className="result-section-title">{condition.title}</h2>
+                </div>
 
-                  {treatments.length > 0 ? (
-                    <div className="carousel-container">
-                      <button
-                        className="carousel-nav-button carousel-nav-prev"
-                        onClick={() =>
-                          scrollToIndex(
-                            carouselKey,
-                            currentIndex - 1,
-                            totalSlides
-                          )
-                        }
-                        disabled={currentIndex === 0}
-                      >
-                        <ArrowLeft size={20} color="black" />
-                      </button>
+                {treatments.length > 0 ? (
+                  <div className="result-carousel-container">
+                    <button
+                      className="result-carousel-nav-button carousel-nav-prev"
+                      onClick={() =>
+                        scrollToIndex(
+                          carouselKey,
+                          currentIndex - 1,
+                          totalSlides
+                        )
+                      }
+                      disabled={currentIndex === 0}
+                    >
+                      <ArrowLeft size={20} color="black" />
+                    </button>
 
-                      <div
-                        className="carousel-content"
-                        ref={(el) => {
-                          carouselRefs.current[carouselKey] = el;
-                        }}
-                        onScroll={() => handleScroll(carouselKey)}
-                      >
-                        {treatments.map((treatment, index) => (
-                          <div key={index} className="carousel-item">
-                            <div className="card">
-                              <div className="card-content">
-                                <span className="badge">
-                                  {treatment.taxonomy[0]?.name || "SERVICE"}
-                                </span>
-                                <h3 className="treatment-title">
-                                  {treatment.title}
-                                </h3>
-                                <p className="treatment-description">
-                                  {treatment.content}
-                                </p>
-                              </div>
+                    <div
+                      className="result-carousel-content"
+                      ref={(el) => {
+                        carouselRefs.current[carouselKey] = el;
+                      }}
+                      onScroll={() => handleScroll(carouselKey)}
+                    >
+                      {treatments.map((treatment) => (
+                        <div
+                          key={treatment.id}
+                          className="result-carousel-item"
+                        >
+                          <div className="result-card">
+                            <div className="result-card-content">
+                              <span className="result-badge">
+                                {treatment.taxonomy[0]?.name || "SERVICE"}
+                              </span>
+                              <h3 className="result-treatment-title">
+                                {treatment.title}
+                              </h3>
+                              <p className="result-treatment-description">
+                                {treatment.content}
+                              </p>
                             </div>
                           </div>
-                        ))}
-                      </div>
-
-                      <button
-                        className="carousel-nav-button carousel-nav-next"
-                        onClick={() =>
-                          scrollToIndex(
-                            carouselKey,
-                            currentIndex + 1,
-                            totalSlides
-                          )
-                        }
-                        disabled={currentIndex >= totalSlides - 1}
-                      >
-                        <ArrowRight size={20} color="black" />
-                      </button>
-
-                      <div className="carousel-dots">
-                        {[...Array(totalSlides)].map((_, idx) => (
-                          <button
-                            key={idx}
-                            className={`carousel-dot ${
-                              idx === currentIndex ? "carousel-dot-active" : ""
-                            }`}
-                            onClick={() =>
-                              scrollToIndex(carouselKey, idx, totalSlides)
-                            }
-                          />
-                        ))}
-                      </div>
+                        </div>
+                      ))}
                     </div>
-                  ) : (
-                    <p className="no-treatments">
-                      No treatments recommended for this condition
-                    </p>
-                  )}
-                </section>
-              );
-            })}
-          </div>
-        ))}
+
+                    <button
+                      className="result-carousel-nav-button carousel-nav-next"
+                      onClick={() =>
+                        scrollToIndex(
+                          carouselKey,
+                          currentIndex + 1,
+                          totalSlides
+                        )
+                      }
+                      disabled={currentIndex >= totalSlides - 1}
+                    >
+                      <ArrowRight size={20} color="black" />
+                    </button>
+
+                    <div className="result-carousel-dots">
+                      {[...Array(totalSlides)].map((_, idx) => (
+                        <button
+                          key={idx}
+                          className={`carousel-dot ${
+                            idx === currentIndex ? "carousel-dot-active" : ""
+                          }`}
+                          onClick={() =>
+                            scrollToIndex(carouselKey, idx, totalSlides)
+                          }
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <p className="result-no-treatments">
+                    No treatments recommended for this condition
+                  </p>
+                )}
+              </section>
+            );
+          })
+        )}
+
+        <footer>
+          <button className="result-quiz-link" onClick={resetQuiz}>
+            Take the quiz again
+          </button>
+          <a href="/appointment" className="result-appointment-link">
+            Book Appointment
+          </a>
+        </footer>
       </div>
     </main>
   );

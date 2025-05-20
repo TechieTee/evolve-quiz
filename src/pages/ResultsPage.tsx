@@ -133,7 +133,8 @@ const ResultsPage = () => {
         <header className="result-header">
           <h1 className="result-title">Your Recommendations Are In!</h1>
           <p className="result-subtitle">
-            Here is what we suggest based on your skin + body goals
+            Here is what we suggest based on your <br />
+            skin + body goals
           </p>
         </header>
 
