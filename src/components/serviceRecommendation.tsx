@@ -128,6 +128,7 @@ export const ServiceRecommendation = ({
                 readOnly
                 onClick={(e) => e.currentTarget.select()}
                 style={{
+                  display: "none",
                   flex: 1,
                   padding: "10px",
                   background: "#f9f9f9",
@@ -170,6 +171,14 @@ export const ServiceRecommendation = ({
             skin + body goals
           </p>
         </header>
+        <footer style={{ margin: "1rem 0 6rem 0" }}>
+          <button className="result-quiz-link" onClick={resetQuiz}>
+            Take the quiz again
+          </button>
+          <a href="/appointment" className="result-appointment-link">
+            Book Appointment
+          </a>
+        </footer>
 
         {selectedBodyParts.map((bodyPart, bodyIndex) =>
           bodyPart.conditions.map((condition, condIndex) => {
@@ -268,15 +277,6 @@ export const ServiceRecommendation = ({
             );
           })
         )}
-
-        <footer>
-          <button className="result-quiz-link" onClick={resetQuiz}>
-            Take the quiz again
-          </button>
-          <a href="/appointment" className="result-appointment-link">
-            Book Appointment
-          </a>
-        </footer>
       </div>
     </main>
   );
