@@ -27,7 +27,7 @@
 }
 
 .result-treatment-section {
-  margin-bottom: 60px;
+  /* margin-bottom: 30px; */
 }
 
 .result-section-header {
@@ -51,7 +51,7 @@
 
 .result-carousel-item {
   border-radius: 8px;
-  padding: 24px 24px 24px 0;
+  padding: 12px 24px 12px 0;
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.result-05); */
 }
 
