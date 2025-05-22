@@ -483,25 +483,25 @@ const BodyQuiz = () => {
                   required
                 >
                   <option value="">Select a location</option>
-                  <option value="New York">Bel Air, MD</option>
+                  <option value="Bel Air, MD">Bel Air, MD</option>
 
-                  <option value="New York">Bridgewater, NJ</option>
-                  <option value="New York">Denville, NJ</option>
+                  <option value="Bridgewater, NJ">Bridgewater, NJ</option>
+                  <option value="Denville, NJ">Denville, NJ</option>
 
-                  <option value="New York">Frederick, MD</option>
-                  <option value="New York">Hoboken, NJ</option>
-                  <option value="Los Angeles">Jersey City, NJ</option>
-                  <option value="Chicago">Lancaster, PA</option>
+                  <option value="Frederick, MD">Frederick, MD</option>
+                  <option value="Hoboken, NJ">Hoboken, NJ</option>
+                  <option value="Jersey City, NJ">Jersey City, NJ</option>
+                  <option value="Lancaster, PA">Lancaster, PA</option>
 
-                  <option value="New York">Montclair, NJ</option>
-                  <option value="New York">Old Bridge, NJ</option>
-                  <option value="Los Angeles">Red Bank, NJ</option>
-                  <option value="Chicago">Ridgewood, NJ</option>
+                  <option value="Montclair, NJ">Montclair, NJ</option>
+                  <option value="Old Bridge, NJ">Old Bridge, NJ</option>
+                  <option value="Red Bank, NJ">Red Bank, NJ</option>
+                  <option value="Ridgewood, NJ">Ridgewood, NJ</option>
 
-                  <option value="New York">Scarsdale, NY</option>
-                  <option value="New York">Short Hills, NJ</option>
-                  <option value="Los Angeles">Tribeca, NY</option>
-                  <option value="Chicago">Waldorf, MD</option>
+                  <option value="Scarsdale, NY">Scarsdale, NY</option>
+                  <option value="Short Hills, NJ">Short Hills, NJ</option>
+                  <option value="Tribeca, NY">Tribeca, NY</option>
+                  <option value="Waldorf, MD">Waldorf, MD</option>
                 </select>
               </div>
 
