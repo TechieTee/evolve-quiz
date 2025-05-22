@@ -228,7 +228,10 @@ const ResultsPage = () => {
           <a href="/quiz" className="result-quiz-link">
             Take the quiz again
           </a>
-          <a href="/appointment" className="result-appointment-link">
+          <a
+            href="https://evolvemedspa.zenoti.com/webstoreNew/services?utm_source=direct&utm_medium=quiz"
+            className="result-appointment-link"
+          >
             Book Appointment
           </a>
         </footer>

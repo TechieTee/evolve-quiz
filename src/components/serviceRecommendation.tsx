@@ -175,7 +175,10 @@ export const ServiceRecommendation = ({
           <button className="result-quiz-link" onClick={resetQuiz}>
             Take the quiz again
           </button>
-          <a href="/appointment" className="result-appointment-link">
+          <a
+            href="https://evolvemedspa.zenoti.com/webstoreNew/services?utm_source=direct&utm_medium=quiz"
+            className="result-appointment-link"
+          >
             Book Appointment
           </a>
         </footer>
