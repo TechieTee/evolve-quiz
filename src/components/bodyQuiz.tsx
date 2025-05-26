@@ -257,9 +257,15 @@ const BodyQuiz = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+
     const submissionDate = new Date().toLocaleString();
+    const conditionIds = selectedBodyParts
+      .flatMap((item) => item.conditions.map((c) => c.id))
+      .join("-");
+    const sharableUrl = `${window.location.origin}/results?qs=${conditionIds}`;
 
     const groupedData = selectedBodyParts.map((item) => ({
       bodyArea: item.area.name,
@@ -269,27 +275,55 @@ const BodyQuiz = () => {
       ),
     }));
 
-    setSubmittedData({
+    const submissionData = {
       ...formData,
       date: submissionDate,
       groupedData,
-    });
+    };
 
-    setShowForm(false);
-    setShowConsultationSummary(false);
-    const conditionIds = selectedBodyParts
-      .flatMap((item) => item.conditions.map((c) => c.id))
-      .join("-");
+    try {
+      const webhookPayload = {
+        ...formData,
+        submissionDate: submissionDate,
+        sharableUrl: sharableUrl,
+        conditionIds: conditionIds,
+        areas: formData.areas,
+        conditions: formData.conditions,
+        location: formData.location,
+        consent: formData.consent,
+      };
 
-    const sharableUrl = `${window.location.origin}/results?qs=${conditionIds}`;
+      const webhookResponse = await fetch(
+        "https://services.leadconnectorhq.com/hooks/sa2vfKXjYdEicIv59Fko/webhook-trigger/c8c9d523-0c31-4f8d-bccf-62cc383dff5f",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(webhookPayload),
+        }
+      );
 
-    console.log(sharableUrl, "sharableUrl");
+      if (!webhookResponse.ok) {
+        throw new Error("Failed to submit form data to webhook");
+      }
 
-    // const conditionIds = selectedBodyParts
-    //   .flatMap((item) => item.conditions.map((c) => c.id))
-    //   .join("-");
+      // Update state only after successful webhook submission
+      setSubmittedData(submissionData);
+      setShowForm(false);
+      setShowConsultationSummary(false);
 
-    // navigate(`/results?qs=${encodeURIComponent(conditionIds)}`);
+      console.log(
+        "Form submitted successfully with sharable URL:",
+        sharableUrl
+      );
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setError("There was an error submitting your form. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleConditionSelect = (condition: Condition) => {
