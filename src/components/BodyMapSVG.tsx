@@ -10,6 +10,7 @@ interface BodyMapSVGProps {
   showBackView: boolean;
   showFaceView: boolean;
   gender: "female" | "male";
+  onFaceViewTrigger?: () => void;
 }
 
 const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
@@ -17,6 +18,7 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
   selectedAreas,
   onAreaSelect,
   gender,
+  onFaceViewTrigger,
 }) => {
   const [hoveredArea, setHoveredArea] = useState<string | null>(null);
 
@@ -170,6 +172,29 @@ const BodyMapSVG: React.FC<BodyMapSVGProps> = ({
           >
             {hoveredArea}
           </text>
+        )}
+
+        {viewType !== "face" && (
+          <>
+            <circle
+              cx="93" // Horizontal center of 187px viewBox
+              cy="45" // Vertical position for head area
+              r="10"
+              className="body-area-path"
+              onClick={() => {
+                if (onFaceViewTrigger) onFaceViewTrigger(); // Trigger face view
+              }}
+            />
+            <text
+              x="93"
+              y="45"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="plus-icon"
+            >
+              +
+            </text>
+          </>
         )}
       </svg>
     </div>

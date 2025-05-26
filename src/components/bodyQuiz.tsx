@@ -391,25 +391,34 @@ const BodyQuiz = () => {
     </div>
   );
 
-  const renderBodyToggle = () => (
-    <div className="view-toggle-buttons">
-      {!showFrontView && (
-        <button onClick={() => toggleView("front")} className="flipper">
-          Front
-        </button>
-      )}
-      {!showBackView && (
-        <button onClick={() => toggleView("back")} className="flipper">
-          Back
-        </button>
-      )}
-      {!showFaceView && (
-        <button onClick={() => toggleView("face")} className="flipper">
-          Face
-        </button>
-      )}
-    </div>
-  );
+  const renderBodyToggle = () => {
+    const views = [
+      { key: "front", label: "Front" },
+      { key: "back", label: "Back" },
+      { key: "face", label: "Face" },
+    ];
+
+    // Determine current active view
+    const activeView = showFrontView ? "front" : showBackView ? "back" : "face";
+
+    // Filter out current view and keep only 2 buttons
+    const buttonsToShow = views.filter((v) => v.key !== activeView).slice(0, 2);
+
+    return (
+      <div className="view-toggle-buttons">
+        {buttonsToShow.map((v) => (
+          <button
+            key={v.key}
+            onClick={() => toggleView(v.key as "front" | "back" | "face")}
+            className="flipper"
+          >
+            {v.label}
+          </button>
+        ))}
+      </div>
+    );
+  };
+
   const renderSelectionPanelContent = () => {
     if (submittedData) return null;
 
@@ -691,6 +700,7 @@ const BodyQuiz = () => {
                 showBackView={showBackView}
                 showFaceView={showFaceView}
                 gender={gender}
+                onFaceViewTrigger={() => toggleView("face")}
               />
               {renderGenderToggle()}
               {selectedAreas.length === 0 && (
