@@ -97,73 +97,6 @@ export const ServiceRecommendation = ({
   return (
     <main className="result-recommendations">
       <div className="result-container">
-        {conditionIds && (
-          <div className="share-link-box" style={{ marginBottom: "3rem" }}>
-            <p style={{ fontWeight: "bold" }}>Your Sharable Result:</p>
-
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                flexWrap: "wrap",
-              }}
-            >
-              <a
-                href={`${window.location.origin}/#/results?qs=${conditionIds}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  color: "#70c1b3",
-                  textDecoration: "underline",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                View Result
-              </a>
-
-              <input
-                type="text"
-                value={`${window.location.origin}/#/results?qs=${conditionIds}`}
-                readOnly
-                onClick={(e) => e.currentTarget.select()}
-                style={{
-                  display: "none",
-                  flex: 1,
-                  padding: "10px",
-                  background: "#f9f9f9",
-                  border: "none",
-                  outline: "none",
-                  color: "#333",
-                  borderRadius: "50px",
-                  fontSize: "14px",
-                  minWidth: "300px",
-                }}
-              />
-
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(
-                    `${window.location.origin}/#/results?qs=${conditionIds}`
-                  );
-                  alert("Link copied to clipboard!");
-                }}
-                style={{
-                  padding: "10px 14px",
-                  backgroundColor: "#70C1B3",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "50px",
-                  cursor: "pointer",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Copy Link
-              </button>
-            </div>
-          </div>
-        )}
-
         <header className="result-header">
           <h1 className="result-title">Your Recommendations Are In!</h1>
           <p className="result-subtitle">
@@ -279,6 +212,81 @@ export const ServiceRecommendation = ({
               </section>
             );
           })
+        )}
+
+        {conditionIds && (
+          <div
+            className="share-link-box"
+            style={{
+              marginBottom: "3rem",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <p style={{ fontWeight: "bold" }}>Your Sharable Result:</p>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                flexWrap: "wrap",
+              }}
+            >
+              <a
+                href={`${window.location.origin}/#/results?qs=${conditionIds}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: "#70c1b3",
+                  textDecoration: "underline",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                View Result
+              </a>
+
+              <input
+                type="text"
+                value={`${window.location.origin}/#/results?qs=${conditionIds}`}
+                readOnly
+                onClick={(e) => e.currentTarget.select()}
+                style={{
+                  display: "none",
+                  flex: 1,
+                  padding: "10px",
+                  background: "#f9f9f9",
+                  border: "none",
+                  outline: "none",
+                  color: "#333",
+                  borderRadius: "50px",
+                  fontSize: "14px",
+                  minWidth: "300px",
+                }}
+              />
+
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    `${window.location.origin}/#/results?qs=${conditionIds}`
+                  );
+                  alert("Link copied to clipboard!");
+                }}
+                style={{
+                  padding: "10px 14px",
+                  backgroundColor: "#70C1B3",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "50px",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Copy Link
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </main>
