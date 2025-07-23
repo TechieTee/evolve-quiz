@@ -1,6 +1,6 @@
 # React + TypeScript + Vite
+## THIS IS A CUSTOM PLUGIN IMPLEMENTATION 
 
-THIS IS A WORDPRESS PLUGIN IMPLIMENTATION 
 React App Setup
 Vite for speed
 TypeScript for type safety
