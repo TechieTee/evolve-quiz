@@ -1,5 +1,6 @@
 # React + TypeScript + Vite
 
+THIS IS A WORDPRESS PLUGIN IMPLIMENTATION 
 React App Setup
 Vite for speed
 TypeScript for type safety
